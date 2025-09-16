@@ -1,4 +1,4 @@
-# Team Git Strategy - main · develop · feature
+# Team Git Strategy main · develop · feature
 
 ## Branch roles
 
