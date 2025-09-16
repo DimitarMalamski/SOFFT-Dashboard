@@ -1,4 +1,4 @@
-# Team Git Strategy — main · develop · feature
+# Team Git Strategy - main · develop · feature
 
 ## Branch roles
 
@@ -12,7 +12,7 @@
 
 ---
 
-## How it works
+## How it works?
 
 ### A) Normal flow
 
