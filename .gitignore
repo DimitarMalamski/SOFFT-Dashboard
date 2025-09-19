@@ -48,4 +48,4 @@ backend/src/main/resources/*.secrets.properties
 *.7z
 *.sql
 *.sqlite
-*.db
+*.db.DS_Store
