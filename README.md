@@ -2,13 +2,16 @@
 
 ## Branch roles
 
-| Branch      | Purpose                                                      |
-| ----------- | ------------------------------------------------------------ |
-| `main`      | Production-ready code; auto-deploy if you have it            |
-| `develop`   | Temporary **staging/integration** to batch multiple features |
-| `feature/*` | Short-lived branches for tasks/features                      |
+| Branch         | Purpose                                                      |
+| -------------- | ------------------------------------------------------------ |
+| `main`         | Production-ready code; auto-deploy if you have it            |
+| `dev`          | Temporary **staging/integration** to batch multiple features |
+| `frontend/dev` | Integration branch for front-end features                    |
+| `backend/dev`  | Integration branch for back-end features                     |
+| `feature/*`    | Short-lived branches for tasks/features                      |
 
-> We usually merge **feature → main** directly. Use `develop` only when we need a shared staging branch to test multiple features together.
+> We usually merge **feature → main** directly. Use `dev` only when we need a shared staging branch to test multiple features together.
+> Flow is: feature → frontend/dev / backend/dev → dev → main.
 
 ---
 
@@ -53,6 +56,10 @@ git fetch origin && git merge --ff-only origin/main && git push
 ## Branch naming
 
 - Features: `feature/<scope>` → `feature/search-filters`, `feature/login-ui`
+- Frontend `features: feature/frontend/<scope>`
+  feature/frontend/dashboard-ui, feature/frontend/navbar
+- Backend `features: feature/backend/<scope>`
+  feature/backend/auth-login, feature/backend/orders-api
 
 ---
 
@@ -90,7 +97,7 @@ git merge origin/main     # or origin/develop
 
 ## Team agreements
 
-- `main` is always green and deployable.
+- `main` is always green and deployable !!! **DO NOT push to MAIN, unless everything is working and there are NO CONFLICTS**
 - Prefer **feature → main**. Use `develop` only when we need shared staging.
 - Small MRs and fast reviews
 - **Keep `.gitignore` tidy (NO !!!`node_modules`!!!).**
