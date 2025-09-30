@@ -40,6 +40,9 @@ export default function Sidebar({ open = true, onClose = () => {} }) {
     const itemBase = "no-underline group flex items-center gap-3 outline-none";
     const itemPad  = "px-4 py-3";
     const rounding = collapsed ? "rounded-md" : "rounded-r-xl";
+    const itemHeight = "h-12";
+    const gapCollapsed = "my-1";
+    const gapExpanded = "my-1";
 
     return (
         <>
@@ -56,43 +59,61 @@ export default function Sidebar({ open = true, onClose = () => {} }) {
             <aside role="navigation" aria-label="Primary" className={asideClasses}>
                 {/* Header: logo + single toggle group */}
                 <header className="flex items-center border-b border-emerald-800/70 h-12 px-2">
-                    <div className="flex flex-1 items-center justify-center h-full translate-y-[4px]">
-                        <img
-                            src={logo}
-                            alt="BAS World logo"
-                            className="max-h-6 object-contain"
-                        />
-                    </div>
+                    {collapsed ? (
+                        // Collapsed: center the chevron
+                        <div className="w-full flex items-center justify-center">
+                            <button
+                                type="button"
+                                className="inline-flex items-center justify-center h-8 w-8 rounded-md border border-emerald-700/70 hover:bg-emerald-800/50"
+                                aria-label="Expand sidebar"
+                                aria-expanded={!collapsed}
+                                onClick={() => setCollapsed(c => !c)}
+                            >
+                                <ChevronsRight className="h-4 w-4" />
+                            </button>
+                        </div>
+                    ) : (
+                        // Expanded: logo centered, buttons on the right (unchanged behavior)
+                        <>
+                            <div className="flex flex-1 items-center justify-center h-full translate-y-[4px]">
+                                <img
+                                    src={logo}
+                                    alt="BAS World logo"
+                                    className="max-h-6 object-contain"
+                                />
+                            </div>
 
-                    <div className="ml-auto flex items-center gap-2">
-                        {/* Desktop collapse toggle (only one) */}
-                        <button
-                            type="button"
-                            className="hidden md:inline-flex items-center justify-center h-8 w-8 rounded-md border border-emerald-700/70 hover:bg-emerald-800/50"
-                            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-                            aria-expanded={!collapsed}
-                            onClick={() => setCollapsed(c => !c)}
-                        >
-                            {collapsed ? <ChevronsRight className="h-4 w-4" /> : <ChevronsLeft className="h-4 w-4" />}
-                        </button>
+                            <div className="ml-auto flex items-center gap-2">
+                                <button
+                                    type="button"
+                                    className="hidden md:inline-flex items-center justify-center h-8 w-8 rounded-md border border-emerald-700/70 hover:bg-emerald-800/50"
+                                    aria-label="Collapse sidebar"
+                                    aria-expanded={!collapsed}
+                                    onClick={() => setCollapsed(c => !c)}
+                                >
+                                    <ChevronsLeft className="h-4 w-4" />
+                                </button>
 
-                        {/* Mobile close button */}
-                        <button
-                            type="button"
-                            className="md:hidden inline-flex items-center justify-center h-8 w-8 rounded-md border border-emerald-700/70 hover:bg-emerald-800/50"
-                            aria-label="Close menu"
-                            onClick={onClose}
-                        >
-                            <X className="h-4 w-4" />
-                        </button>
-                    </div>
+                                <button
+                                    type="button"
+                                    className="md:hidden inline-flex items-center justify-center h-8 w-8 rounded-md border border-emerald-700/70 hover:bg-emerald-800/50"
+                                    aria-label="Close menu"
+                                    onClick={onClose}
+                                >
+                                    <X className="h-4 w-4" />
+                                </button>
+                            </div>
+                        </>
+                    )}
                 </header>
 
                 {/* Nav */}
-                <nav className="px-2 pt-2 pb-3 flex-1 space-y-1 overflow-y-auto">
+                <nav className="px-2 pt-2 pb-3 flex-1 overflow-y-auto">
                     {NAV.map(({ to, icon, label }) => {
                         const IconComp = icon;
-                        const collapsedLayout = collapsed ? "justify-center px-0" : itemPad;
+                        const collapsedLayout = collapsed
+                            ? `justify-center ${itemHeight} ${gapCollapsed} first:mt-0 last:mb-0 px-0`
+                            : `${itemPad} ${itemHeight} ${gapExpanded} first:mt-0 last:mb-0`;
 
                         return (
                             <NavLink
@@ -128,7 +149,7 @@ export default function Sidebar({ open = true, onClose = () => {} }) {
                 </nav>
 
                 {/* Settings pinned */}
-                <div className="px-2 pb-3 border-t border-emerald-800/80">
+                <div className="mt-auto border-t border-emerald-800/80 px-2 py-2">
                     <NavLink
                         to="/settings"
                         onClick={onClose}
@@ -137,7 +158,9 @@ export default function Sidebar({ open = true, onClose = () => {} }) {
                             [
                                 itemBase,
                                 rounding,
-                                collapsed ? "justify-center px-0 mt-3" : `${itemPad} mt-3`,
+                                collapsed
+                                    ? `w-full justify-center ${itemHeight} px-0`
+                                    : `w-full ${itemPad} ${itemHeight}`,
                                 "text-emerald-50/90 hover:text-white focus-visible:ring-2 focus-visible:ring-emerald-400/50",
                                 !collapsed && "border-l-4 border-transparent hover:bg-emerald-800/50",
                                 isActive && (collapsed
