@@ -4,9 +4,11 @@ import {
     BarChart3, Tag, CheckCircle, Flag, Activity,
     Settings as SettingsIcon, ChevronsLeft, ChevronsRight, X,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import logo from "../assets/BAS_logo.svg";
 
-/** Routes shown in the sidebar */
+const _MOTION_ = motion;
+
 const NAV = [
     { to: "/dashboard", icon: BarChart3,  label: "Overview" },
     { to: "/offers",    icon: Tag,        label: "Offers" },
@@ -15,11 +17,17 @@ const NAV = [
     { to: "/insights",  icon: Activity,   label: "Product insight" },
 ];
 
+const itemHeight = "h-12";
+const itemBase   = "no-underline group flex items-center gap-3 outline-none";
+const itemPad    = "px-4 py-3";
+
+// plain JS array (no `as const`)
+const easeOut = [0.2, 0.0, 0.2, 1];
+
 export default function Sidebar({ open = true, onClose = () => {} }) {
-    // collapsed = thin icon rail on desktop
     const [collapsed, setCollapsed] = useState(false);
 
-    // ESC closes on mobile
+    // ESC closes on mobile (no type annotation)
     useEffect(() => {
         if (!open) return;
         const onKey = (e) => e.key === "Escape" && onClose();
@@ -27,76 +35,84 @@ export default function Sidebar({ open = true, onClose = () => {} }) {
         return () => window.removeEventListener("keydown", onKey);
     }, [open, onClose]);
 
-    const asideClasses = [
-        "fixed md:relative z-30",
-        collapsed ? "md:w-[64px] w-[260px]" : "w-[260px]",
-        "h-[100dvh] md:h-screen top-0",
-        "bg-emerald-900 text-emerald-50 border-r border-emerald-800",
-        "flex flex-col",
-        "transition-transform duration-200 ease-out md:translate-x-0",
-        open ? "translate-x-0" : "-translate-x-full",
-    ].join(" ");
+    const labelVariants = {
+        hidden: { opacity: 0, x: -6 },
+        show:   { opacity: 1, x: 0, transition: { duration: 0.18, ease: easeOut } },
+        exit:   { opacity: 0, x: -6, transition: { duration: 0.12, ease: easeOut } },
+    };
 
-    const itemBase = "no-underline group flex items-center gap-3 outline-none";
-    const itemPad  = "px-4 py-3";
-    const rounding = collapsed ? "rounded-md" : "rounded-r-xl";
-    const itemHeight = "h-12";
-    const gapCollapsed = "my-1";
-    const gapExpanded = "my-1";
+    const rounding   = collapsed ? "rounded-md" : "rounded-r-xl";
+    const listGap    = "my-1";
+    const collapsedLayout = collapsed
+        ? `w-full ${itemHeight} py-0 px-0 justify-center ${listGap} first:mt-0 last:mb-0`
+        : `w-full ${itemHeight} ${itemPad} ${listGap} first:mt-0 last:mb-0`;
 
     return (
         <>
-            {/* Mobile backdrop */}
             <div
                 className={[
                     "fixed inset-0 z-20 bg-black/40 backdrop-blur-[1px] md:hidden transition-opacity",
                     open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
                 ].join(" ")}
+                role="presentation"
                 onClick={onClose}
                 aria-hidden
             />
 
-            <aside role="navigation" aria-label="Primary" className={asideClasses}>
-                {/* Header: logo + single toggle group */}
+            <motion.aside
+                id="sidebar"
+                role="navigation"
+                aria-label="Primary"
+                animate={{
+                    width: collapsed ? 64 : 260,
+                    x: open ? 0 : -320,
+                }}
+                initial={false}
+                transition={{ duration: 0.25, ease: easeOut }}
+                className={[
+                    "fixed md:relative z-30",
+                    "h-[100dvh] md:h-screen top-0",
+                    "bg-emerald-900 text-emerald-50",
+                    "outline outline-1 outline-emerald-800",
+                    "flex flex-col",
+                    "md:translate-x-0",
+                    "overflow-hidden will-change-[width,transform]",
+                    "[backface-visibility:hidden] translate-z-0"
+                ].join(" ")}
+            >
                 <header className="flex items-center border-b border-emerald-800/70 h-12 px-2">
                     {collapsed ? (
-                        // Collapsed: center the chevron
                         <div className="w-full flex items-center justify-center">
                             <button
                                 type="button"
-                                className="inline-flex items-center justify-center h-8 w-8 rounded-md border border-emerald-700/70 hover:bg-emerald-800/50"
+                                className="inline-flex items-center justify-center h-8 w-8 rounded-md border border-emerald-700/70 hover:bg-emerald-800/50 transition-colors"
                                 aria-label="Expand sidebar"
                                 aria-expanded={!collapsed}
                                 onClick={() => setCollapsed(c => !c)}
                             >
-                                <ChevronsRight className="h-4 w-4" />
+                                <ChevronsRight className="h-4 w-4 transition-transform" />
                             </button>
                         </div>
                     ) : (
-                        // Expanded: logo centered, buttons on the right (unchanged behavior)
                         <>
                             <div className="flex flex-1 items-center justify-center h-full translate-y-[4px]">
-                                <img
-                                    src={logo}
-                                    alt="BAS World logo"
-                                    className="max-h-6 object-contain"
-                                />
+                                <img src={logo} alt="BAS World logo" className="max-h-6 object-contain" />
                             </div>
 
                             <div className="ml-auto flex items-center gap-2">
                                 <button
                                     type="button"
-                                    className="hidden md:inline-flex items-center justify-center h-8 w-8 rounded-md border border-emerald-700/70 hover:bg-emerald-800/50"
+                                    className="hidden md:inline-flex items-center justify-center h-8 w-8 rounded-md border border-emerald-700/70 hover:bg-emerald-800/50 transition-colors"
                                     aria-label="Collapse sidebar"
                                     aria-expanded={!collapsed}
                                     onClick={() => setCollapsed(c => !c)}
                                 >
-                                    <ChevronsLeft className="h-4 w-4" />
+                                    <ChevronsLeft className="h-4 w-4 transition-transform duration-200" />
                                 </button>
 
                                 <button
                                     type="button"
-                                    className="md:hidden inline-flex items-center justify-center h-8 w-8 rounded-md border border-emerald-700/70 hover:bg-emerald-800/50"
+                                    className="md:hidden inline-flex items-center justify-center h-8 w-8 rounded-md border border-emerald-700/70 hover:bg-emerald-800/50 transition-colors"
                                     aria-label="Close menu"
                                     onClick={onClose}
                                 >
@@ -107,74 +123,116 @@ export default function Sidebar({ open = true, onClose = () => {} }) {
                     )}
                 </header>
 
-                {/* Nav */}
-                <nav className="px-2 pt-2 pb-3 flex-1 overflow-y-auto">
-                    {NAV.map(({ to, icon, label }) => {
-                        const IconComp = icon;
-                        const collapsedLayout = collapsed
-                            ? `justify-center ${itemHeight} ${gapCollapsed} first:mt-0 last:mb-0 px-0`
-                            : `${itemPad} ${itemHeight} ${gapExpanded} first:mt-0 last:mb-0`;
-
+                <motion.nav
+                    className="px-2 pt-2 pb-3 flex-1 overflow-y-auto"
+                    initial={false}
+                    animate={collapsed ? "collapsed" : "expanded"}
+                    variants={{
+                        expanded: { transition: { staggerChildren: 0.02, delayChildren: 0.02 } },
+                        collapsed: {},
+                    }}
+                >
+                    {NAV.map(({ to, icon: IconComp, label }) => {
+                        const _ICONCOMP_ = IconComp;
                         return (
                             <NavLink
                                 key={to}
                                 to={to}
                                 onClick={onClose}
                                 title={collapsed ? label : undefined}
-                                className={({ isActive }) =>
+                                className={({isActive}) =>
                                     [
                                         itemBase,
                                         rounding,
                                         collapsedLayout,
-                                        // Hover/focus styles
-                                        "text-emerald-50/90 hover:text-white focus-visible:ring-2 focus-visible:ring-emerald-400/50",
-                                        // Active: when expanded, show left rail; when collapsed, use background only
-                                        !collapsed && "border-l-4 border-transparent hover:bg-emerald-800/50",
-                                        isActive && (collapsed
-                                                ? "bg-emerald-800/70 font-semibold"
-                                                : "bg-emerald-800/60 border-emerald-300 font-semibold"
-                                        ),
+                                        "text-emerald-50/90 hover:text-white transition-colors",
+                                        "focus-visible:ring-2 focus-visible:ring-emerald-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-900",
+                                        collapsed && "gap-0",
+                                        !isActive && "hover:bg-emerald-800/50",
+                                        isActive && [
+                                            "bg-emerald-800/70 font-semibold",
+                                            "shadow-[inset_4px_0_0_0_rgba(110,231,183,1)]",
+                                        ],
                                     ].filter(Boolean).join(" ")
                                 }
                             >
-                                <IconComp className="h-5 w-5 shrink-0" aria-hidden />
-                                {!collapsed ? (
-                                    <span className="truncate">{label}</span>
-                                ) : (
-                                    <span className="sr-only">{label}</span>
-                                )}
-                            </NavLink>
+                            <span
+                                className={[
+                                    "flex items-center",
+                                    collapsed ? "w-full justify-center" : "w-full min-w-0",
+                                    ].join(" ")}
+                            >
+                                <span className="w-8 h-8 shrink-0 flex items-center justify-center">
+                                    <IconComp className="h-5 w-5 translate-z-0" aria-label />
+                                </span>
+
+                                <motion.span
+                                    className={[
+                                        "min-w-0 flex-1 truncate",
+                                        collapsed
+                                            ? "ml-0 max-w-0 opacity-0 -translate-x-1 overflow-hidden"
+                                            : "ml-2 max-w-full opacity-100 translate-x-0",
+                                    ].join(" ")}
+                                    initial={false}
+                                    animate={{}}
+                                    transition={{ duration: 0.18, ease: easeOut }}
+                                >
+                                    {label}
+                                </motion.span>
+                            </span>
+                        </NavLink>
                         );
                     })}
-                </nav>
+                </motion.nav>
 
-                {/* Settings pinned */}
                 <div className="mt-auto border-t border-emerald-800/80 px-2 py-2">
                     <NavLink
                         to="/settings"
                         onClick={onClose}
                         title={collapsed ? "Settings" : undefined}
-                        className={({ isActive }) =>
+                        className={({isActive}) =>
                             [
                                 itemBase,
                                 rounding,
-                                collapsed
-                                    ? `w-full justify-center ${itemHeight} px-0`
-                                    : `w-full ${itemPad} ${itemHeight}`,
-                                "text-emerald-50/90 hover:text-white focus-visible:ring-2 focus-visible:ring-emerald-400/50",
-                                !collapsed && "border-l-4 border-transparent hover:bg-emerald-800/50",
-                                isActive && (collapsed
-                                        ? "bg-emerald-800/70 font-semibold"
-                                        : "bg-emerald-800/60 border-emerald-300 font-semibold"
-                                ),
+                                collapsed ? `w-full ${itemHeight} py-0 px-0 justify-center`
+                                    : `w-full ${itemHeight} ${itemPad}`,
+                                "text-emerald-50/90 hover:text-white transition-colors",
+                                "focus-visible:ring-2 focus-visible:ring-emerald-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-900",
+                                collapsed && "gap-0",
+                                !isActive && "hover:bg-emerald-800/50",
+                                isActive && [
+                                    "bg-emerald-800/60 font-semibold",
+                                    "shadow-[inset_4px_0_0_0_rgba(110,231,183,1)]"
+                                ],
                             ].filter(Boolean).join(" ")
                         }
                     >
-                        <SettingsIcon className="h-5 w-5 shrink-0" aria-hidden />
-                        {!collapsed && <span className="truncate">Settings</span>}
+                    <span
+                        className={[
+                            "flex items-center",
+                            collapsed ? "w-full justify-center" : "w-full min-w-0",
+                        ].join(" ")}
+                    >
+                          <span className="w-8 h-8 shrink-0 flex items-center justify-center">
+                            <SettingsIcon className="h-5 w-5 translate-z-0" aria-hidden/>
+                          </span>
+                          <motion.span
+                              className={[
+                                  "min-w-0 flex-1 truncate",
+                                  collapsed
+                                      ? "ml-0 max-w-0 opacity-0 -translate-x-1 overflow-hidden"
+                                      : "ml-2 max-w-full opacity-100 translate-x-0",
+                              ].join(" ")}
+                              initial={false}
+                              animate={{}}
+                              transition={{duration: 0.18, ease: easeOut}}
+                          >
+                            Settings
+                          </motion.span>
+                    </span>
                     </NavLink>
                 </div>
-            </aside>
+            </motion.aside>
         </>
     );
 }

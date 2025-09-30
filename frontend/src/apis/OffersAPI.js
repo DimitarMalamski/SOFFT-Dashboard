@@ -3,7 +3,7 @@ import axios from "axios";
 const OFFERS_BASE_URL = "http://localhost:8080/offers";
 
 const OffersAPI = {
-    getOffers: (searchQuery = "") => 
+    getOffersBySearchQuery: (searchQuery = "") =>
         axios
             .get(OFFERS_BASE_URL, {params: {searchQuery}})
             .then(response => response.data.offers),
