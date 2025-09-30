@@ -10,7 +10,6 @@
 | `backend/dev`  | Integration branch for back-end features                     |
 | `feature/*`    | Short-lived branches for tasks/features                      |
 
-> We usually merge **feature → main** directly. Use `dev` only when we need a shared staging branch to test multiple features together.
 > Flow is: feature → frontend/dev / backend/dev → dev → main.
 
 ---
