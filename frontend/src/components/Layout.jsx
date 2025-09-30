@@ -1,19 +1,20 @@
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar.jsx";
+import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import Header from './Header.jsx';
+import Sidebar from './Sidebar.jsx';
 
 export default function Layout() {
-    const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(true);
 
-    return (
-        <div className="min-h-screen grid grid-cols-[260px_1fr] bg-emerald-950 text-state-100">
-            <Sidebar open={open} onClose={() => setOpen(false)} />
-            <div className="flex flex-col min-w-0">
-                {/* Top bar */}
-                <main className="p-4">
-                    <Outlet />
-                </main>
-            </div>
-        </div>
-    );
+  return (
+    <div className='min-h-screen grid grid-rows-[auto_1fr] grid-cols-[260px_1fr] bg-emerald-950 text-state-100'>
+      <div className='col-span-2'>
+        <Header title='OVERVIEW' userName='John Doe' />
+      </div>
+      <Sidebar open={open} onClose={() => setOpen(false)} />
+      <main id='main' className='p-4 min-w-0'>
+        <Outlet />
+      </main>
+    </div>
+  );
 }
