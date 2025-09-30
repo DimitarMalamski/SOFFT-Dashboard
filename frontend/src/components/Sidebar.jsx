@@ -35,12 +35,6 @@ export default function Sidebar({ open = true, onClose = () => {} }) {
         return () => window.removeEventListener("keydown", onKey);
     }, [open, onClose]);
 
-    const labelVariants = {
-        hidden: { opacity: 0, x: -6 },
-        show:   { opacity: 1, x: 0, transition: { duration: 0.18, ease: easeOut } },
-        exit:   { opacity: 0, x: -6, transition: { duration: 0.12, ease: easeOut } },
-    };
-
     const rounding   = collapsed ? "rounded-md" : "rounded-r-xl";
     const listGap    = "my-1";
     const collapsedLayout = collapsed
@@ -65,7 +59,6 @@ export default function Sidebar({ open = true, onClose = () => {} }) {
                 aria-label="Primary"
                 animate={{
                     width: collapsed ? 64 : 260,
-                    x: open ? 0 : -320,
                 }}
                 initial={false}
                 transition={{ duration: 0.25, ease: easeOut }}
