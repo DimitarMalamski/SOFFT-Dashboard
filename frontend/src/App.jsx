@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import LineChartType from './components/LineChartType';
 
 export default function App() {
   const [msg, setMsg] = useState('loading…');

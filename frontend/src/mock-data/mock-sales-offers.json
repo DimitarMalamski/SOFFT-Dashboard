@@ -1,0 +1,68 @@
+{
+  "data": [
+    {
+      "uuid": "1a2b3c4d-1111-2222-3333-444455556666",
+      "referenceId": 20001,
+      "status": 1,
+      "statusDescription": "Pending",
+      "customerCompany": { "id": 8001, "name": "Global Transport GmbH", "country": "DE" },
+      "salesPersons": [{ "id": 1010, "name": "Alice Example" }],
+      "createdAt": "2025-09-01 10:00:00",
+      "updatedAt": "2025-09-01 10:15:00",
+      "totalPriceExcludingVat": { "currency": "EUR", "amount": 55000 },
+      "salesOfferOrders": []
+    },
+    {
+      "uuid": "2b3c4d5e-1111-2222-3333-555566667777",
+      "referenceId": 20002,
+      "status": 2,
+      "statusDescription": "Accepted",
+      "customerCompany": { "id": 8002, "name": "Madrid Logistics S.L.", "country": "ES" },
+      "salesPersons": [{ "id": 2020, "name": "Bob Sample" }],
+      "createdAt": "2025-09-02 09:00:00",
+      "updatedAt": "2025-09-03 09:15:00",
+      "totalPriceExcludingVat": { "currency": "EUR", "amount": 72000 },
+      "salesOfferOrders": [
+        { "orderId": 50001, "createdAt": "2025-09-03 09:30:00" }
+      ]
+    },
+    {
+      "uuid": "3c4d5e6f-1111-2222-3333-666677778888",
+      "referenceId": 20003,
+      "status": 0,
+      "statusDescription": "Cancelled",
+      "customerCompany": { "id": 8003, "name": "Paris Trucks SARL", "country": "FR" },
+      "salesPersons": [{ "id": 1010, "name": "Alice Example" }],
+      "createdAt": "2025-09-04 14:00:00",
+      "updatedAt": "2025-09-04 15:00:00",
+      "totalPriceExcludingVat": { "currency": "EUR", "amount": 48000 },
+      "salesOfferOrders": []
+    },
+    {
+      "uuid": "4d5e6f7g-1111-2222-3333-777788889999",
+      "referenceId": 20004,
+      "status": 2,
+      "statusDescription": "Accepted",
+      "customerCompany": { "id": 8004, "name": "Warsaw Auto Sp. z o.o.", "country": "PL" },
+      "salesPersons": [{ "id": 3030, "name": "Charlie Test" }],
+      "createdAt": "2025-09-05 11:00:00",
+      "updatedAt": "2025-09-05 12:00:00",
+      "totalPriceExcludingVat": { "currency": "EUR", "amount": 99000 },
+      "salesOfferOrders": [
+        { "orderId": 50002, "createdAt": "2025-09-06 08:00:00" }
+      ]
+    },
+    {
+      "uuid": "5e6f7g8h-1111-2222-3333-888899990000",
+      "referenceId": 20005,
+      "status": 1,
+      "statusDescription": "Pending",
+      "customerCompany": { "id": 8005, "name": "Amsterdam Logistics BV", "country": "NL" },
+      "salesPersons": [{ "id": 2020, "name": "Bob Sample" }],
+      "createdAt": "2025-09-07 16:30:00",
+      "updatedAt": "2025-09-07 17:00:00",
+      "totalPriceExcludingVat": { "currency": "EUR", "amount": 30000 },
+      "salesOfferOrders": []
+    }
+  ]
+}
