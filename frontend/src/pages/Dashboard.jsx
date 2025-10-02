@@ -163,25 +163,30 @@ const [offers, setOffers] = useState([]);
             chartProps = {};
     }
 
-    return (
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-            <SalesTrendChart title='Orders (last 7 days)' points={demoTrend} />
+return (
+    <>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <SalesTrendChart title="Orders (last 7 days)" points={demoTrend} />
             <ConversionsCard
-                title='Conversion rate'
+                title="Conversion rate"
                 wins={demoConversions.wins}
                 total={demoConversions.total}
                 prevWins={demoConversions.prevWins}
                 prevTotal={demoConversions.prevTotal}
             />
             <TimeToSaleCard
-                title='Avg time to sale'
+                title="Avg time to sale"
                 points={demoTtsPoints}
                 prevAvg={prevAvgTts}
             />
-    </div>
+        </div>
+
         <div className="flex-1 bg-emerald-900 p-4 shadow-md rounded-md">
             <div className="mb-2">
-                <label htmlFor="chart-select" className="block mb-2 text-xs/5 text-emerald-100">
+                <label
+                    htmlFor="chart-select"
+                    className="block mb-2 text-xs/5 text-emerald-100"
+                >
                     Select chart:
                 </label>
                 <select
@@ -191,15 +196,22 @@ const [offers, setOffers] = useState([]);
                     className="bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2 shadow-sm"
                 >
                     {chartOptions.map((opt) => (
-                        <option key={opt.value} value={opt.value} className="bg-emerald-950 text-white">
+                        <option
+                            key={opt.value}
+                            value={opt.value}
+                            className="bg-emerald-950 text-white"
+                        >
                             {opt.label}
                         </option>
                     ))}
                 </select>
             </div>
+
             <div className="bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-[400px] flex items-center justify-center">
                 {chartData.length === 0 ? (
-                    <div className="text-emerald-100 text-xl text-center">No data to display for this chart.</div>
+                    <div className="text-emerald-100 text-xl text-center">
+                        No data to display for this chart.
+                    </div>
                 ) : chartConfig.chart === "line" ? (
                     <LineChartType {...chartProps} />
                 ) : (
@@ -207,6 +219,8 @@ const [offers, setOffers] = useState([]);
                 )}
             </div>
         </div>
-    );
+    </>
+);
+
 
 }
