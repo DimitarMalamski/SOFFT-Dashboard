@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MockOffersAPI from '../mock-apis/MockDataAPI';
 import LineChartType from '../components/LineChartType';
 import BarChartType from '../components/BarChartType';
+import Leaderboard from '../components/Leaderboard.jsx';
 
 const chartOptions = [
   {
@@ -205,41 +206,51 @@ export default function Dashboard() {
       </div>
 
       <div className='flex-1 bg-emerald-900 p-4 shadow-md rounded-md'>
-        <div className='mb-2'>
-          <label
-            htmlFor='chart-select'
-            className='block mb-2 text-xs/5 text-emerald-100'
-          >
-            Select chart:
-          </label>
-          <select
-            id='chart-select'
-            value={selectedChart}
-            onChange={(e) => setSelectedChart(e.target.value)}
-            className='bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2 shadow-sm'
-          >
-            {chartOptions.map((opt) => (
-              <option
-                key={opt.value}
-                value={opt.value}
-                className='bg-emerald-950 text-white'
+        <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
+          {/* Left: select + big chart (2/3 on lg+) */}
+          <section className='lg:col-span-2'>
+            <div className='mb-2'>
+              <label
+                htmlFor='chart-select'
+                className='block mb-2 text-xs/5 text-emerald-100'
               >
-                {opt.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-[400px] flex items-center justify-center'>
-          {chartData.length === 0 ? (
-            <div className='text-emerald-100 text-xl text-center'>
-              No data to display for this chart.
+                Select chart:
+              </label>
+              <select
+                id='chart-select'
+                value={selectedChart}
+                onChange={(e) => setSelectedChart(e.target.value)}
+                className='bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2 shadow-sm'
+              >
+                {chartOptions.map((opt) => (
+                  <option
+                    key={opt.value}
+                    value={opt.value}
+                    className='bg-emerald-950 text-white'
+                  >
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
             </div>
-          ) : chartConfig.chart === 'line' ? (
-            <LineChartType {...chartProps} />
-          ) : (
-            <BarChartType {...chartProps} />
-          )}
+
+            <div className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-[400px] flex items-center justify-center'>
+              {chartData.length === 0 ? (
+                <div className='text-emerald-100 text-xl text-center'>
+                  No data to display for this chart.
+                </div>
+              ) : chartConfig.chart === 'line' ? (
+                <LineChartType {...chartProps} />
+              ) : (
+                <BarChartType {...chartProps} />
+              )}
+            </div>
+          </section>
+
+          {/* Right: leaderboard (1/3 on lg+, below on mobile) */}
+          <aside className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5'>
+            <Leaderboard />
+          </aside>
         </div>
       </div>
     </>
