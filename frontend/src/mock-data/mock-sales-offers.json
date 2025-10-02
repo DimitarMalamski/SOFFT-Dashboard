@@ -22,9 +22,7 @@
       "createdAt": "2025-09-02 09:00:00",
       "updatedAt": "2025-09-03 09:15:00",
       "totalPriceExcludingVat": { "currency": "EUR", "amount": 72000 },
-      "salesOfferOrders": [
-        { "orderId": 50001, "createdAt": "2025-09-03 09:30:00" }
-      ]
+      "salesOfferOrders": [{ "orderId": 50001, "createdAt": "2025-09-03 09:30:00" }]
     },
     {
       "uuid": "3c4d5e6f-1111-2222-3333-666677778888",
@@ -48,9 +46,7 @@
       "createdAt": "2025-09-05 11:00:00",
       "updatedAt": "2025-09-05 12:00:00",
       "totalPriceExcludingVat": { "currency": "EUR", "amount": 99000 },
-      "salesOfferOrders": [
-        { "orderId": 50002, "createdAt": "2025-09-06 08:00:00" }
-      ]
+      "salesOfferOrders": [{ "orderId": 50002, "createdAt": "2025-09-06 08:00:00" }]
     },
     {
       "uuid": "5e6f7g8h-1111-2222-3333-888899990000",
@@ -62,6 +58,126 @@
       "createdAt": "2025-09-07 16:30:00",
       "updatedAt": "2025-09-07 17:00:00",
       "totalPriceExcludingVat": { "currency": "EUR", "amount": 30000 },
+      "salesOfferOrders": []
+    },
+    {
+      "uuid": "6f7g8h9i-1111-2222-3333-999900001111",
+      "referenceId": 20006,
+      "status": 2,
+      "statusDescription": "Accepted",
+      "customerCompany": { "id": 8006, "name": "Rome Freight SRL", "country": "IT" },
+      "salesPersons": [{ "id": 4040, "name": "Diana Demo" }],
+      "createdAt": "2025-09-08 10:00:00",
+      "updatedAt": "2025-09-09 10:30:00",
+      "totalPriceExcludingVat": { "currency": "EUR", "amount": 64000 },
+      "salesOfferOrders": [{ "orderId": 50003, "createdAt": "2025-09-09 11:00:00" }]
+    },
+    {
+      "uuid": "7g8h9i0j-1111-2222-3333-111122223333",
+      "referenceId": 20007,
+      "status": 0,
+      "statusDescription": "Cancelled",
+      "customerCompany": { "id": 8007, "name": "Zurich Cargo AG", "country": "CH" },
+      "salesPersons": [{ "id": 1010, "name": "Alice Example" }],
+      "createdAt": "2025-09-10 09:00:00",
+      "updatedAt": "2025-09-10 09:45:00",
+      "totalPriceExcludingVat": { "currency": "EUR", "amount": 81000 },
+      "salesOfferOrders": []
+    },
+    {
+      "uuid": "8h9i0j1k-1111-2222-3333-222233334444",
+      "referenceId": 20008,
+      "status": 1,
+      "statusDescription": "Pending",
+      "customerCompany": { "id": 8008, "name": "Vienna Movers GmbH", "country": "AT" },
+      "salesPersons": [{ "id": 3030, "name": "Charlie Test" }],
+      "createdAt": "2025-09-11 14:20:00",
+      "updatedAt": "2025-09-11 14:40:00",
+      "totalPriceExcludingVat": { "currency": "EUR", "amount": 47000 },
+      "salesOfferOrders": []
+    },
+    {
+      "uuid": "9i0j1k2l-1111-2222-3333-333344445555",
+      "referenceId": 20009,
+      "status": 2,
+      "statusDescription": "Accepted",
+      "customerCompany": { "id": 8009, "name": "Copenhagen Haulage A/S", "country": "DK" },
+      "salesPersons": [{ "id": 4040, "name": "Diana Demo" }],
+      "createdAt": "2025-09-12 08:30:00",
+      "updatedAt": "2025-09-13 09:00:00",
+      "totalPriceExcludingVat": { "currency": "EUR", "amount": 92000 },
+      "salesOfferOrders": [{ "orderId": 50004, "createdAt": "2025-09-13 09:20:00" }]
+    },
+    {
+      "uuid": "0j1k2l3m-1111-2222-3333-444455556666",
+      "referenceId": 20010,
+      "status": 1,
+      "statusDescription": "Pending",
+      "customerCompany": { "id": 8010, "name": "Oslo Transport AS", "country": "NO" },
+      "salesPersons": [{ "id": 2020, "name": "Bob Sample" }],
+      "createdAt": "2025-09-14 12:00:00",
+      "updatedAt": "2025-09-14 12:15:00",
+      "totalPriceExcludingVat": { "currency": "EUR", "amount": 36000 },
+      "salesOfferOrders": []
+    },
+    {
+      "uuid": "1k2l3m4n-1111-2222-3333-555566667777",
+      "referenceId": 20011,
+      "status": 2,
+      "statusDescription": "Accepted",
+      "customerCompany": { "id": 8011, "name": "Stockholm Trucks AB", "country": "SE" },
+      "salesPersons": [{ "id": 1010, "name": "Alice Example" }],
+      "createdAt": "2025-09-15 10:45:00",
+      "updatedAt": "2025-09-15 11:30:00",
+      "totalPriceExcludingVat": { "currency": "EUR", "amount": 73000 },
+      "salesOfferOrders": [{ "orderId": 50005, "createdAt": "2025-09-16 08:00:00" }]
+    },
+    {
+      "uuid": "2l3m4n5o-1111-2222-3333-666677778888",
+      "referenceId": 20012,
+      "status": 1,
+      "statusDescription": "Pending",
+      "customerCompany": { "id": 8012, "name": "Helsinki Freight Oy", "country": "FI" },
+      "salesPersons": [{ "id": 3030, "name": "Charlie Test" }],
+      "createdAt": "2025-09-16 09:00:00",
+      "updatedAt": "2025-09-16 09:30:00",
+      "totalPriceExcludingVat": { "currency": "EUR", "amount": 41000 },
+      "salesOfferOrders": []
+    },
+    {
+      "uuid": "3m4n5o6p-1111-2222-3333-777788889999",
+      "referenceId": 20013,
+      "status": 0,
+      "statusDescription": "Cancelled",
+      "customerCompany": { "id": 8013, "name": "Prague Logistics s.r.o.", "country": "CZ" },
+      "salesPersons": [{ "id": 4040, "name": "Diana Demo" }],
+      "createdAt": "2025-09-17 11:00:00",
+      "updatedAt": "2025-09-17 11:30:00",
+      "totalPriceExcludingVat": { "currency": "EUR", "amount": 65000 },
+      "salesOfferOrders": []
+    },
+    {
+      "uuid": "4n5o6p7q-1111-2222-3333-888899990000",
+      "referenceId": 20014,
+      "status": 2,
+      "statusDescription": "Accepted",
+      "customerCompany": { "id": 8014, "name": "Budapest Cargo Zrt.", "country": "HU" },
+      "salesPersons": [{ "id": 1010, "name": "Alice Example" }],
+      "createdAt": "2025-09-18 14:00:00",
+      "updatedAt": "2025-09-19 09:00:00",
+      "totalPriceExcludingVat": { "currency": "EUR", "amount": 87000 },
+      "salesOfferOrders": [{ "orderId": 50006, "createdAt": "2025-09-19 10:00:00" }]
+    },
+    {
+      "uuid": "5o6p7q8r-1111-2222-3333-999900001111",
+      "referenceId": 20015,
+      "status": 1,
+      "statusDescription": "Pending",
+      "customerCompany": { "id": 8015, "name": "Brussels Transport NV", "country": "BE" },
+      "salesPersons": [{ "id": 2020, "name": "Bob Sample" }],
+      "createdAt": "2025-09-20 10:30:00",
+      "updatedAt": "2025-09-20 11:00:00",
+      "totalPriceExcludingVat": { "currency": "EUR", "amount": 52000 },
       "salesOfferOrders": []
     }
   ]
