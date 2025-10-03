@@ -246,8 +246,6 @@ export default function Dashboard() {
               )}
             </div>
           </section>
-
-          {/* Right: leaderboard (1/3 on lg+, below on mobile) */}
           <aside className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-0'>
             <Leaderboard />
           </aside>
