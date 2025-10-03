@@ -41,7 +41,7 @@ export default function ConversionsCard({
         id: 1,
         label: 'Remaining',
         value: Math.max(0, total - wins),
-        color: 'rgba(255,255,255,0.08)', // subtle remainder
+        color: 'rgba(255,255,255,0.08)',
       },
     ],
     [wins, total, color]
@@ -74,7 +74,7 @@ export default function ConversionsCard({
             {
               data,
               innerRadius: 40,
-              cornerRadius: 0, // sharp edges
+              cornerRadius: 0,
               paddingAngle: 0,
               startAngle: -90,
               endAngle: 270,

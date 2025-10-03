@@ -188,7 +188,7 @@ export default function Dashboard() {
   }
 
   return (
-    <>
+    <div className='h-dvh max-h-dvh min-h-0 overflow-y-auto'>
       <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
         <SalesTrendChart title='Orders (last 7 days)' points={demoTrend} />
         <ConversionsCard
@@ -205,10 +205,10 @@ export default function Dashboard() {
         />
       </div>
 
-      <div className='flex-1 bg-emerald-900 p-4 shadow-md rounded-md'>
-        <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
+      <div className='bg-emerald-900 p-4 shadow-md rounded-md mt-4 min-h-0'>
+        <div className='grid grid-cols-1 lg:grid-cols-3 gap-4 min-h-0'>
           {/* Left: select + big chart (2/3 on lg+) */}
-          <section className='lg:col-span-2'>
+          <section className='lg:col-span-2 min-h-0'>
             <div className='mb-2'>
               <label
                 htmlFor='chart-select'
@@ -234,7 +234,7 @@ export default function Dashboard() {
               </select>
             </div>
 
-            <div className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-[400px] flex items-center justify-center'>
+            <div className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-[400px] flex items-center justify-center overflow-hidden'>
               {chartData.length === 0 ? (
                 <div className='text-emerald-100 text-xl text-center'>
                   No data to display for this chart.
@@ -248,11 +248,11 @@ export default function Dashboard() {
           </section>
 
           {/* Right: leaderboard (1/3 on lg+, below on mobile) */}
-          <aside className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5'>
+          <aside className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-0'>
             <Leaderboard />
           </aside>
         </div>
       </div>
-    </>
+    </div>
   );
 }

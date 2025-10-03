@@ -28,8 +28,6 @@ export default function Leaderboard({ className = '' }) {
       <h2 className='text-base sm:text-lg font-semibold mb-4 text-emerald-100'>
         Leaderboard
       </h2>
-
-      {/* Scrollable list */}
       <div className='overflow-y-auto max-h-[360px] pr-1'>
         <ol className='space-y-2'>
           {mockUsers.map((name, index) => (
@@ -37,7 +35,6 @@ export default function Leaderboard({ className = '' }) {
               key={index}
               className='flex items-center gap-4 p-2 rounded hover:bg-emerald-900 transition'
             >
-              {/* Rank */}
               <div
                 className={`text-lg font-bold w-6 text-center ${
                   medalColors[index] || 'text-white'
@@ -46,12 +43,10 @@ export default function Leaderboard({ className = '' }) {
                 {index + 1}
               </div>
 
-              {/* Avatar Circle */}
               <div className='w-8 h-8 rounded-full bg-emerald-800 text-white flex items-center justify-center text-sm font-semibold'>
                 {name[0]}
               </div>
 
-              {/* Name */}
               <span className='text-sm sm:text-base font-medium'>{name}</span>
             </li>
           ))}

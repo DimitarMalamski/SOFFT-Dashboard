@@ -10,7 +10,7 @@ export default function TimeToSaleCard({
     { label: 'D4', value: 11 },
     { label: 'D5', value: 10 },
   ],
-  prevAvg, // e.g., 13.2
+  prevAvg,
   color = '#10B981',
 }) {
   const dataset = points.map((p) => ({
@@ -37,7 +37,6 @@ export default function TimeToSaleCard({
       ? 'text-emerald-300 border-emerald-700 bg-emerald-900/30'
       : 'text-slate-300 border-slate-700 bg-slate-800/40';
 
-  // ensure chart width > 0
   const ref = useRef(null);
   const [width, setWidth] = useState(220);
   useEffect(() => {

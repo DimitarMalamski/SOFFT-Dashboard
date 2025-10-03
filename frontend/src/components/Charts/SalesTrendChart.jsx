@@ -21,7 +21,6 @@ export default function SalesTrendChart({
     y: Number(p.value ?? 0),
   }));
 
-  // Big number
   const lastVal = dataset.length ? dataset[dataset.length - 1].y : 0;
   const rawStat = stat ?? lastVal;
   const pretty =
