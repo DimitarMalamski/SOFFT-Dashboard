@@ -3,6 +3,9 @@ import MockOffersAPI from '../mock-apis/MockDataAPI';
 import LineChartType from '../components/LineChartType';
 import BarChartType from '../components/BarChartType';
 import Leaderboard from '../components/Leaderboard.jsx';
+import SalesTrendChart from '../components/Charts/SalesTrendChart.jsx';
+import ConversionsCard from '../components/Charts/ConversionsChart.jsx';
+import TimeToSaleCard from '../components/Charts/TimeToSaleChart.jsx';
 
 const chartOptions = [
   {
@@ -30,83 +33,97 @@ const chartOptions = [
 
 function transformData(raw, selected) {
   switch (selected) {
-    case 'offersPerSalesman': {
-      const counts = {};
-      raw.forEach((offer) => {
-        const name = offer.salesPersons[0]?.name ?? 'Unknown';
-        counts[name] = (counts[name] || 0) + 1;
-      });
-      return Object.entries(counts).map(([salesman, count]) => ({
-        salesman,
-        count,
-      }));
-    }
-    case 'offersPerCountry': {
-      const counts = {};
-      raw.forEach((offer) => {
-        const country = offer.customerCompany?.country ?? 'Unknown';
-        counts[country] = (counts[country] || 0) + 1;
-      });
-      return Object.entries(counts).map(([country, count]) => ({
-        country,
-        count,
-      }));
-    }
-    case 'totalValueOverTime': {
-      const byDate = {};
-      raw.forEach((offer) => {
-        const date = offer.updatedAt.split(' ')[0];
-        byDate[date] =
-          (byDate[date] || 0) + offer.totalPriceExcludingVat.amount;
-      });
-      return Object.entries(byDate).map(([date, total]) => ({
-        date,
-        total,
-      }));
-    }
-    case 'conversionRate': {
-      const byDate = {};
-      raw.forEach((offer) => {
-        const date = offer.updatedAt.split(' ')[0];
-        if (!byDate[date]) byDate[date] = { offers: 0, orders: 0 };
-        byDate[date].offers += 1;
-        if (
-          offer.statusDescription === 'Accepted' &&
-          offer.salesOfferOrders.length > 0
-        ) {
-          byDate[date].orders += 1;
+      case "offersPerSalesman":{
+        const counts = {};
+        raw.forEach((offer) => {
+          let name = "Unknown";
+          if (offer.salesPersons && offer.salesPersons.length > 0 && offer.salesPersons[0].name) {
+            name = offer.salesPersons[0].name;
+          }
+
+        if (!counts[name]) {
+          counts[name] = 0;
         }
-      });
-      return Object.entries(byDate).map(([date, stats]) => ({
-        date,
-        rate: stats.offers ? (stats.orders / stats.offers) * 100 : 0,
-      }));
-    }
-    case 'leadTimeAnalysis': {
-      return raw
-        .filter(
+        counts[name]++;
+          });
+
+        return Object.entries(counts).map(([salesman, count]) => ({ salesman, count }));
+      }
+
+      case "offersPerCountry": {
+        const counts = {};
+        raw.forEach((offer) => {
+          let country = "Unknown";
+          if (offer.customerCompany && offer.customerCompany.country) {
+            country = offer.customerCompany.country;
+          }
+
+          if (!counts[country]) {
+            counts[country] = 0;
+          }
+          counts[country]++;
+          });
+          return Object.entries(counts).map(([country, count]) => ({ country, count }));
+      }
+      case "totalValueOverTime": {
+        const totalsByDate = {};
+          raw.forEach((offer) => {
+          if (!offer.updatedAt || !offer.totalPriceExcludingVat) return;
+
+          const date = offer.updatedAt.split(" ")[0];
+          const amount = offer.totalPriceExcludingVat.amount || 0;
+
+          if (!totalsByDate[date]) {
+            totalsByDate[date] = 0;
+          }
+          totalsByDate[date] += amount;
+          });
+          return Object.entries(totalsByDate).map(([date, total]) => ({ date, total }));
+      }
+      case "conversionRate": {
+        const statsByDate = {};
+        raw.forEach((offer) => {
+          if (!offer.updatedAt) return;
+
+          const date = offer.updatedAt.split(" ")[0];
+            if (!statsByDate[date]) {
+              statsByDate[date] = { offers: 0, orders: 0 };
+            }
+            statsByDate[date].offers++;
+
+          const accepted = offer.statusDescription === "Accepted";
+          const hasOrders = offer.salesOfferOrders && offer.salesOfferOrders.length > 0;
+
+          if (accepted && hasOrders) {
+            statsByDate[date].orders++;
+          }
+          });
+          return Object.entries(statsByDate).map(([date, stats]) => {
+              const rate = stats.offers > 0 ? (stats.orders / stats.offers) * 100 : 0;
+              return { date, rate };
+          });
+      }
+      case "leadTimeAnalysis": {
+        const acceptedOffers = raw.filter(
           (offer) =>
-            offer.statusDescription === 'Accepted' &&
+            offer.statusDescription === "Accepted" &&
+            offer.salesOfferOrders &&
             offer.salesOfferOrders.length > 0
-        )
-        .map((offer) => {
+        );
+        return acceptedOffers.map((offer) => {
           const offerDate = new Date(offer.createdAt);
           const orderDate = new Date(offer.salesOfferOrders[0].createdAt);
-          const leadTime = (orderDate - offerDate) / (1000 * 60 * 60 * 24);
+          const leadTimeDays = (orderDate - offerDate) / (1000 * 60 * 60 * 24);
           return {
             referenceId: offer.referenceId,
-            leadTime: Number(leadTime.toFixed(2)),
+            leadTime: Number(leadTimeDays.toFixed(2)),
           };
         });
-    }
-    default:
-      return [];
+      }
+      default:
+        return [];
   }
 }
-
-import SalesTrendChart from '../components/Charts/SalesTrendChart.jsx';
-import ConversionsCard from '../components/Charts/ConversionsChart.jsx';
-import TimeToSaleCard from '../components/Charts/TimeToSaleChart.jsx';
 
 const demoTrend = [
   { label: 'Mon', value: 120 },
