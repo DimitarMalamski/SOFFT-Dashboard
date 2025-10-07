@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import nl.fontys.s3.my_app.models.SalesOfferLine;
 
 @Repository
-public interface SalesOfferLineRepository extends JpaRepository<SalesOfferLine, Long> {
+public interface SalesOfferLineRepo extends JpaRepository<SalesOfferLine, Long> {
 
 }

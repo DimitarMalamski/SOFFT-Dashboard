@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import nl.fontys.s3.my_app.models.Delivery;
 
 @Repository
-public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
+public interface DeliveryRepo extends JpaRepository<Delivery, Long> {
 
 }
