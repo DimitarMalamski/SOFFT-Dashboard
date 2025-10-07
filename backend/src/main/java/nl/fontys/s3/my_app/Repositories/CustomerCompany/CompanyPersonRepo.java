@@ -10,5 +10,5 @@ import nl.fontys.s3.my_app.models.CompanyPerson;
 
 @Repository
 public interface CompanyPersonRepo extends JpaRepository<CompanyPerson, Long> {
-    Optional<CompanyPersonRepo> findByCompany_Uuid(UUID companyUuid);
+    Optional<CompanyPerson> findByCompany_Uuid(UUID companyUuid);
 }

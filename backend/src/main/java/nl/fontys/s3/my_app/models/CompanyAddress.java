@@ -3,6 +3,7 @@ package nl.fontys.s3.my_app.models;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.UUID;
 
@@ -14,8 +15,9 @@ public class CompanyAddress {
     @Column(name = "uuid", nullable = false, columnDefinition = "uniqueidentifier")
     private UUID uuid;
 
+    @ManyToOne
     @Column(name = "company_uuid", columnDefinition = "uniqueidentifier")
-    private UUID companyUuid;
+    private CustomerCompany customerCompany;
 
     @Column(name = "company_name", length = 255)
     private String companyName;
@@ -50,12 +52,12 @@ public class CompanyAddress {
         this.uuid = uuid;
     }
 
-    public UUID getCompanyUuid() {
-        return companyUuid;
+    public CustomerCompany getCustomerCompany() {
+        return customerCompany;
     }
 
-    public void setCompanyUuid(UUID companyUuid) {
-        this.companyUuid = companyUuid;
+    public void setCustomerCompany(CustomerCompany customerCompany) {
+        this.customerCompany = customerCompany;
     }
 
     public String getCompanyName() {
