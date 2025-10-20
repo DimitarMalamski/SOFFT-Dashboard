@@ -7,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "sales_offer_order", schema = "dbo")
@@ -18,8 +17,8 @@ public class SalesOfferOrder {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "offer_uuid", columnDefinition = "uniqueidentifier")
-    private UUID offerUuid;
+    @Column(name = "offer_uuid", columnDefinition = "char(36)")
+    private String offerUuid;
 
     @Column(name = "order_id")
     private Integer orderId;
@@ -36,11 +35,11 @@ public class SalesOfferOrder {
         this.id = id;
     }
 
-    public UUID getOfferUuid() {
+    public String getOfferString() {
         return offerUuid;
     }
 
-    public void setOfferUuid(UUID offerUuid) {
+    public void setOfferString(String offerUuid) {
         this.offerUuid = offerUuid;
     }
 

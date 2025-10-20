@@ -4,15 +4,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.util.UUID;
 
 @Entity
 @Table(name = "customer_company", schema = "dbo")
 public class CustomerCompany {
 
     @Id
-    @Column(name = "uuid", nullable = false, columnDefinition = "uniqueidentifier")
-    private UUID uuid;
+    @Column(name = "uuid", nullable = false, columnDefinition = "char(36)")
+    private String uuid;
 
     @Column(name = "name", length = 255)
     private String name;
@@ -24,11 +23,11 @@ public class CustomerCompany {
     private Integer companyContactId;
 
     // Getters and Setters
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 

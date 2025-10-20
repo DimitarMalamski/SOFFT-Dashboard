@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Entity
 @Table(name = "product_seller", schema = "dbo")
@@ -33,8 +32,8 @@ public class ProductSeller {
     @Column(name = "is_allow_to_view")
     private Boolean isAllowToView;
 
-    @Column(name = "address_uuid", columnDefinition = "uniqueidentifier")
-    private UUID addressUuid;
+    @Column(name = "address_uuid", columnDefinition = "char(36)")
+    private String addressUuid;
 
     // Getters and Setters
     public Integer getProductId() {
@@ -93,11 +92,11 @@ public class ProductSeller {
         this.isAllowToView = isAllowToView;
     }
 
-    public UUID getAddressUuid() {
+    public String getAddressUuid() {
         return addressUuid;
     }
 
-    public void setAddressUuid(UUID addressUuid) {
+    public void setAddressUuid(String addressUuid) {
         this.addressUuid = addressUuid;
     }
 }

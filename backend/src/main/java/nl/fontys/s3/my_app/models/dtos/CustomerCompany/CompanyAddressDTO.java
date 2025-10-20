@@ -1,11 +1,10 @@
 package nl.fontys.s3.my_app.models.dtos.CustomerCompany;
 
-import java.util.UUID;
 
 import nl.fontys.s3.my_app.models.CompanyAddress;
 
 public class CompanyAddressDTO {
-    private UUID uuid;
+    private String uuid;
     private String companyName;
     private int contactAddressId;
     private String countryCode;
@@ -34,11 +33,11 @@ public class CompanyAddressDTO {
         return new CompanyAddressDTO(a);
     }
 
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 

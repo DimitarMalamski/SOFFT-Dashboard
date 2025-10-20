@@ -5,15 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Entity
 @Table(name = "delivery", schema = "dbo")
 public class Delivery {
 
     @Id
-    @Column(name = "uuid", nullable = false, columnDefinition = "uniqueidentifier")
-    private UUID uuid;
+    @Column(name = "uuid", nullable = false, columnDefinition = "char(36)")
+    private String uuid;
 
     @Column(name = "incoterm", length = 16)
     private String incoterm;
@@ -33,11 +32,11 @@ public class Delivery {
     @Column(name = "is_custom_address")
     private Boolean isCustomAddress;
 
-    @Column(name = "from_address_uuid", columnDefinition = "uniqueidentifier")
-    private UUID fromAddressUuid;
+    @Column(name = "from_address_uuid", columnDefinition = "char(36)")
+    private String fromAddressUuid;
 
-    @Column(name = "to_address_uuid", columnDefinition = "uniqueidentifier")
-    private UUID toAddressUuid;
+    @Column(name = "to_address_uuid", columnDefinition = "char(36)")
+    private String toAddressUuid;
 
     @Column(name = "shipping_loading_country_code", length = 4)
     private String shippingLoadingCountryCode;
@@ -64,11 +63,11 @@ public class Delivery {
     private String shippingDestZipCode;
 
     // Getters and Setters
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 
@@ -120,19 +119,19 @@ public class Delivery {
         this.isCustomAddress = isCustomAddress;
     }
 
-    public UUID getFromAddressUuid() {
+    public String getFromAddressUuid() {
         return fromAddressUuid;
     }
 
-    public void setFromAddressUuid(UUID fromAddressUuid) {
+    public void setFromAddressUuid(String fromAddressUuid) {
         this.fromAddressUuid = fromAddressUuid;
     }
 
-    public UUID getToAddressUuid() {
+    public String getToAddressUuid() {
         return toAddressUuid;
     }
 
-    public void setToAddressUuid(UUID toAddressUuid) {
+    public void setToAddressUuid(String toAddressUuid) {
         this.toAddressUuid = toAddressUuid;
     }
 

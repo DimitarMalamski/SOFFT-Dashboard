@@ -6,18 +6,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "sales_offer", schema = "dbo")
 public class SalesOffer {
 
     @Id
-    @Column(name = "uuid", nullable = false, columnDefinition = "uniqueidentifier")
-    private UUID uuid;
+    @Column(name = "uuid", nullable = false, columnDefinition = "char(36)")
+    private String Uuid;
 
-    @Column(name = "customer_uuid", columnDefinition = "uniqueidentifier")
-    private UUID customerUuid;
+    @Column(name = "customer_uuid", columnDefinition = "char(36)")
+    private String customerUuid;
 
     @Column(name = "reference_id", length = 64)
     private String referenceId;
@@ -65,19 +64,19 @@ public class SalesOffer {
     private BigDecimal taxAmt;
 
     // Getters and Setters
-    public UUID getUuid() {
-        return uuid;
+    public String getString() {
+        return Uuid;
     }
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
+    public void setString(String uuid) {
+        this.Uuid = uuid;
     }
 
-    public UUID getCustomerUuid() {
+    public String getCustomerString() {
         return customerUuid;
     }
 
-    public void setCustomerUuid(UUID customerUuid) {
+    public void setCustomerString(String customerUuid) {
         this.customerUuid = customerUuid;
     }
 

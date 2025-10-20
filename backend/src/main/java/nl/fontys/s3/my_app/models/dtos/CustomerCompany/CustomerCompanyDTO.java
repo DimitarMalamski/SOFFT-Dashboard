@@ -1,7 +1,6 @@
 package nl.fontys.s3.my_app.models.dtos.CustomerCompany;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 
@@ -9,7 +8,7 @@ import nl.fontys.s3.my_app.models.CustomerCompany;
 
 @JsonRootName("data")
 public class CustomerCompanyDTO {
-    private UUID uuid;
+    private String uuid;
     private String name;
     private String vatNumber;
     private int companyContactId;
@@ -29,11 +28,11 @@ public class CustomerCompanyDTO {
         this.persons = companyPersons;
     }
 
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 

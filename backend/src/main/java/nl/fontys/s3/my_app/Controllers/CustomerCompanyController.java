@@ -31,12 +31,12 @@ public class CustomerCompanyController {
         List<CustomerCompanyDTO> allCompanies = customerCompanyRepo.findAll()
                 .stream().map(cc -> new CustomerCompanyDTO(
                         cc,
-                        companyAddressRepo.findByCompany_Uuid(cc.getUuid())
+                        companyAddressRepo.findByCompanyUuid(cc.getUuid())
                                 .stream()
                                 .map(CompanyAddressDTO::fromEntity)
                                 .collect(Collectors.toList()),
 
-                        companyPersonRepo.findByCompany_Uuid(cc.getUuid())
+                        companyPersonRepo.findByCompanyUuid(cc.getUuid())
                                 .stream()
                                 .map(CompanyPersonDTO::fromEntity)
                                 .collect(Collectors.toList())))

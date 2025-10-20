@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.util.UUID;
 
 @Entity
 @Table(name = "depot", schema = "dbo")
@@ -20,8 +19,8 @@ public class Depot {
     @Column(name = "name", length = 255)
     private String name;
 
-    @Column(name = "address_uuid", columnDefinition = "uniqueidentifier")
-    private UUID addressUuid;
+    @Column(name = "address_uuid", columnDefinition = "char(36)")
+    private String addressUuid;
 
     // Getters and Setters
     public Integer getId() {
@@ -40,11 +39,11 @@ public class Depot {
         this.name = name;
     }
 
-    public UUID getAddressUuid() {
+    public String getAddressUuid() {
         return addressUuid;
     }
 
-    public void setAddressUuid(UUID addressUuid) {
+    public void setAddressUuid(String addressUuid) {
         this.addressUuid = addressUuid;
     }
 }

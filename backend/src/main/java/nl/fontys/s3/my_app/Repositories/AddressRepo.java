@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import nl.fontys.s3.my_app.models.Address;
 
 @Repository
-public interface AddressRepository extends JpaRepository<Address, Long> {
+public interface AddressRepo extends JpaRepository<Address, Long> {
 
 }

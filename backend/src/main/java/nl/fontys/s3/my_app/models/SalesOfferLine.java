@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "sales_offer_line", schema = "dbo")
@@ -19,17 +18,17 @@ public class SalesOfferLine {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "line_uuid", columnDefinition = "uniqueidentifier", unique = true)
-    private UUID lineUuid;
+    @Column(name = "line_uuid", columnDefinition = "char(36)", unique = true)
+    private String lineUuid;
 
-    @Column(name = "offer_uuid", columnDefinition = "uniqueidentifier")
-    private UUID offerUuid;
+    @Column(name = "offer_uuid", columnDefinition = "char(36)")
+    private String offerUuid;
 
     @Column(name = "product_id")
     private Integer productId;
 
-    @Column(name = "delivery_uuid", columnDefinition = "uniqueidentifier")
-    private UUID deliveryUuid;
+    @Column(name = "delivery_uuid", columnDefinition = "char(36)")
+    private String deliveryUuid;
 
     @Column(name = "status_code")
     private Integer statusCode;
@@ -70,20 +69,20 @@ public class SalesOfferLine {
         this.id = id;
     }
 
-    public UUID getLineUuid() {
+    public String getLineString() {
         return lineUuid;
     }
 
-    public void setLineUuid(UUID lineUuid) {
+    public void setLineString(String lineUuid) {
         this.lineUuid = lineUuid;
     }
 
-    public UUID getOfferUuid() {
+    public String getOfferString() {
         return offerUuid;
     }
 
-    public void setOfferUuid(UUID offerUuid) {
-        this.offerUuid = offerUuid;
+    public void setOfferString(String offferUuid) {
+        this.offerUuid = offferUuid;
     }
 
     public Integer getProductId() {
@@ -94,11 +93,11 @@ public class SalesOfferLine {
         this.productId = productId;
     }
 
-    public UUID getDeliveryUuid() {
+    public String getDeliveryString() {
         return deliveryUuid;
     }
 
-    public void setDeliveryUuid(UUID deliveryUuid) {
+    public void setDeliveryString(String deliveryUuid) {
         this.deliveryUuid = deliveryUuid;
     }
 
