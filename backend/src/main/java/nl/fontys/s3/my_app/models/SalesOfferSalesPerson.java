@@ -3,9 +3,11 @@ package nl.fontys.s3.my_app.models;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 
 @Entity
+@IdClass(SalesOfferSalesPersonId.class)
 @Table(name = "sales_offer_sales_person", schema = "dbo")
 public class SalesOfferSalesPerson {
 
@@ -15,7 +17,7 @@ public class SalesOfferSalesPerson {
 
     @Id
     @Column(name = "salesperson_uuid", nullable = false, columnDefinition = "char(36)")
-    private String salespersonUuid;
+    private String salesPersonUuid;
 
     // Getters and Setters
     public String getOfferUuid() {
@@ -27,11 +29,11 @@ public class SalesOfferSalesPerson {
     }
 
     public String getSalespersonUuid() {
-        return salespersonUuid;
+        return salesPersonUuid;
     }
 
-    public void setSalespersonUuid(String salespersonUuid) {
-        this.salespersonUuid = salespersonUuid;
+    public void setSalespersonUuid(String salesPersonUuid) {
+        this.salesPersonUuid = salesPersonUuid;
     }
 
 }

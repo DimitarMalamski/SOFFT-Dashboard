@@ -29,11 +29,11 @@ public class SalesPerson {
     private Integer type;
 
     // Getters and Setters
-    public String getString() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setString(String uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 

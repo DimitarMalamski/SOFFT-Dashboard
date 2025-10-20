@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import nl.fontys.s3.my_app.Repositories.CustomerCompany.*;
+import nl.fontys.s3.my_app.models.dtos.DataResponseDTO;
 import nl.fontys.s3.my_app.models.dtos.CustomerCompany.*;
 
 @RestController
-@RequestMapping("/CustomerCompanies")
+@RequestMapping("/api/CustomerCompanies")
 public class CustomerCompanyController {
 
     private final CompanyAddressRepo companyAddressRepo;
@@ -26,7 +27,7 @@ public class CustomerCompanyController {
     }
 
     @GetMapping
-    public List<CustomerCompanyDTO> getAll() {
+    public DataResponseDTO<CustomerCompanyDTO> getAll() {
 
         List<CustomerCompanyDTO> allCompanies = customerCompanyRepo.findAll()
                 .stream().map(cc -> new CustomerCompanyDTO(
@@ -42,6 +43,6 @@ public class CustomerCompanyController {
                                 .collect(Collectors.toList())))
                 .collect(Collectors.toList());
 
-        return allCompanies;
+        return new DataResponseDTO<CustomerCompanyDTO>(allCompanies);
     }
 }

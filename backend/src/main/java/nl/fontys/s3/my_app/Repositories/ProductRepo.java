@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import nl.fontys.s3.my_app.models.Product;
 
 @Repository
-public interface ProductRepo extends JpaRepository<Product, Long> {
-
+public interface ProductRepo extends JpaRepository<Product, Integer> {
+    
 }

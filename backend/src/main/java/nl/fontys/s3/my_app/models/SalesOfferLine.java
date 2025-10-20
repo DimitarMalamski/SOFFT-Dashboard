@@ -69,19 +69,19 @@ public class SalesOfferLine {
         this.id = id;
     }
 
-    public String getLineString() {
+    public String getLineUuid() {
         return lineUuid;
     }
 
-    public void setLineString(String lineUuid) {
+    public void setLineUuid(String lineUuid) {
         this.lineUuid = lineUuid;
     }
 
-    public String getOfferString() {
+    public String getOfferUuid() {
         return offerUuid;
     }
 
-    public void setOfferString(String offferUuid) {
+    public void setOfferUuid(String offferUuid) {
         this.offerUuid = offferUuid;
     }
 
@@ -93,11 +93,11 @@ public class SalesOfferLine {
         this.productId = productId;
     }
 
-    public String getDeliveryString() {
+    public String getDeliveryUuid() {
         return deliveryUuid;
     }
 
-    public void setDeliveryString(String deliveryUuid) {
+    public void setDeliveryUuid(String deliveryUuid) {
         this.deliveryUuid = deliveryUuid;
     }
 

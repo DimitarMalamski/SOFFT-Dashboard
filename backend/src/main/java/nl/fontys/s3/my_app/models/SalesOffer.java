@@ -64,19 +64,19 @@ public class SalesOffer {
     private BigDecimal taxAmt;
 
     // Getters and Setters
-    public String getString() {
+    public String getUuid() {
         return Uuid;
     }
 
-    public void setString(String uuid) {
+    public void setUuid(String uuid) {
         this.Uuid = uuid;
     }
 
-    public String getCustomerString() {
+    public String getCustomerUuid() {
         return customerUuid;
     }
 
-    public void setCustomerString(String customerUuid) {
+    public void setCustomerUuid(String customerUuid) {
         this.customerUuid = customerUuid;
     }
 
