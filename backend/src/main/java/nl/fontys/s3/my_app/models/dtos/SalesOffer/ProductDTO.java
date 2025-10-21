@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import nl.fontys.s3.my_app.models.Product;
-import nl.fontys.s3.my_app.models.dtos.SalesOffer.SellerDTO;
 
 public class ProductDTO {
     private long id;
@@ -50,57 +49,147 @@ public class ProductDTO {
     public ProductDTO() {
     }
 
-    public long getId() { return id; }
-    public void setId(long id) { this.id = id; }
+    public long getId() {
+        return id;
+    }
 
-    public long getTruckId() { return truckId; }
-    public void setTruckId(long truckId) { this.truckId = truckId; }
+    public void setId(long id) {
+        this.id = id;
+    }
 
-    public String getProductType() { return productType; }
-    public void setProductType(String productType) { this.productType = productType; }
+    public long getTruckId() {
+        return truckId;
+    }
 
-    public String getBrand() { return brand; }
-    public void setBrand(String brand) { this.brand = brand; }
+    public void setTruckId(long truckId) {
+        this.truckId = truckId;
+    }
 
-    public String getModel() { return model; }
-    public void setModel(String model) { this.model = model; }
+    public String getProductType() {
+        return productType;
+    }
 
-    public String getType() { return type; }
-    public void setType(String type) { this.type = type; }
+    public void setProductType(String productType) {
+        this.productType = productType;
+    }
 
-    public String getConfiguration() { return configuration; }
-    public void setConfiguration(String configuration) { this.configuration = configuration; }
+    public String getBrand() {
+        return brand;
+    }
 
-    public String getImageUrl() { return imageUrl; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
 
-    public int getStatus() { return status; }
-    public void setStatus(int status) { this.status = status; }
+    public String getModel() {
+        return model;
+    }
 
-    public String getColor() { return color; }
-    public void setColor(String color) { this.color = color; }
+    public void setModel(String model) {
+        this.model = model;
+    }
 
-    public LocalDate getFirstRegistrationDate() { return firstRegistrationDate; }
-    public void setFirstRegistrationDate(LocalDate firstRegistrationDate) { this.firstRegistrationDate = firstRegistrationDate; }
+    public String getType() {
+        return type;
+    }
 
-    public LocalDate getProductionDate() { return productionDate; }
-    public void setProductionDate(LocalDate productionDate) { this.productionDate = productionDate; }
+    public void setType(String type) {
+        this.type = type;
+    }
 
-    public int getMileage() { return mileage; }
-    public void setMileage(int mileage) { this.mileage = mileage; }
+    public String getConfiguration() {
+        return configuration;
+    }
 
-    public BigDecimal getEnginePower() { return enginePower; }
-    public void setEnginePower(BigDecimal enginePower) { this.enginePower = enginePower; }
+    public void setConfiguration(String configuration) {
+        this.configuration = configuration;
+    }
 
-    public String getLicensePlate() { return licensePlate; }
-    public void setLicensePlate(String licensePlate) { this.licensePlate = licensePlate; }
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
-    public String getVin() { return vin; }
-    public void setVin(String vin) { this.vin = vin; }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
-    public SellerDTO getSeller() { return seller; }
-    public void setSeller(SellerDTO seller) { this.seller = seller; }
+    public int getStatus() {
+        return status;
+    }
 
-    public LocationDTO getLocation() { return location; }
-    public void setLocation(LocationDTO location) { this.location = location; }
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public LocalDate getFirstRegistrationDate() {
+        return firstRegistrationDate;
+    }
+
+    public void setFirstRegistrationDate(LocalDate firstRegistrationDate) {
+        this.firstRegistrationDate = firstRegistrationDate;
+    }
+
+    public LocalDate getProductionDate() {
+        return productionDate;
+    }
+
+    public void setProductionDate(LocalDate productionDate) {
+        this.productionDate = productionDate;
+    }
+
+    public int getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(int mileage) {
+        this.mileage = mileage;
+    }
+
+    public BigDecimal getEnginePower() {
+        return enginePower;
+    }
+
+    public void setEnginePower(BigDecimal enginePower) {
+        this.enginePower = enginePower;
+    }
+
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+
+    public void setLicensePlate(String licensePlate) {
+        this.licensePlate = licensePlate;
+    }
+
+    public String getVin() {
+        return vin;
+    }
+
+    public void setVin(String vin) {
+        this.vin = vin;
+    }
+
+    public SellerDTO getSeller() {
+        return seller;
+    }
+
+    public void setSeller(SellerDTO seller) {
+        this.seller = seller;
+    }
+
+    public LocationDTO getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationDTO location) {
+        this.location = location;
+    }
 }
