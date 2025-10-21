@@ -6,6 +6,7 @@ import Leaderboard from '../components/Leaderboard.jsx';
 import SalesTrendChart from '../components/Charts/SalesTrendChart.jsx';
 import ConversionsCard from '../components/Charts/ConversionsChart.jsx';
 import TimeToSaleCard from '../components/Charts/TimeToSaleChart.jsx';
+import SalesOffersAPI from '../apis/SalesOffersAPI';
 
 const chartOptions = [
   {
@@ -151,7 +152,9 @@ export default function Dashboard() {
   const [selectedChart, setSelectedChart] = useState(chartOptions[0].value);
 
   useEffect(() => {
-    MockOffersAPI.getOffers().then((data) => setOffers(data));
+    // MockOffersAPI.getOffers().then((data) => setOffers(data));
+    SalesOffersAPI.getSalesOffers().then((data) => setOffers(data));
+    console.log('Fetched offers:', offers);
   }, []);
 
   const chartConfig = chartOptions.find((opt) => opt.value === selectedChart);
