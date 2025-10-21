@@ -13,7 +13,7 @@ public class SalesOffer {
 
     @Id
     @Column(name = "uuid", nullable = false, columnDefinition = "char(36)")
-    private String Uuid;
+    private String uuid;
 
     @Column(name = "customer_uuid", columnDefinition = "char(36)")
     private String customerUuid;
@@ -65,11 +65,11 @@ public class SalesOffer {
 
     // Getters and Setters
     public String getUuid() {
-        return Uuid;
+        return uuid;
     }
 
     public void setUuid(String uuid) {
-        this.Uuid = uuid;
+        this.uuid = uuid;
     }
 
     public String getCustomerUuid() {

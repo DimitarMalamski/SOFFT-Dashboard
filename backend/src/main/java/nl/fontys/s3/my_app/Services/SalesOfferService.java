@@ -15,6 +15,7 @@ import nl.fontys.s3.my_app.Repositories.SalesOfferSalesPersonRepo;
 import nl.fontys.s3.my_app.Repositories.SalesPersonRepo;
 import nl.fontys.s3.my_app.models.Address;
 import nl.fontys.s3.my_app.models.Delivery;
+import nl.fontys.s3.my_app.models.SalesOffer;
 import nl.fontys.s3.my_app.models.dtos.SalesOffer.AddressDTO;
 import nl.fontys.s3.my_app.models.dtos.SalesOffer.CompanyDTO;
 import nl.fontys.s3.my_app.models.dtos.SalesOffer.DeliveryDTO;
@@ -63,68 +64,73 @@ public class SalesOfferService {
     public List<SalesOfferDTO> getAllSalesOffersDTO() {
         List<SalesOfferDTO> dtos = salesOfferRepo.findAll()
                 .stream()
-                .map(so -> {
-                    // 1 The DiscountDTO (always TEMP_PRICEDTO for now)
-                    // 2 the CompanyDTO
-                    DiscountDTO discount = new DiscountDTO(TEMP_PRICEDTO);
-                    CompanyDTO company = new CompanyDTO(
-                            so.getCustomerUuid() == null ? null : so.getCustomerUuid());
-                    System.out.println("Processing SalesOffer UUID: " + so.getUuid());
-                    // 2) Lines (List<SalesOfferLineDTO>), not a Stream
-                    List<SalesOfferLineDTO> lines = salesOfferLineRepo.findByOfferUuid(so.getUuid())
-                            .stream()
-                            .map(sol -> {
-                                Delivery delivery = deliveryRepo
-                                        .findByUuid(sol.getDeliveryUuid())
-                                        .orElse(null);
-                                Address fromAddress = (delivery == null) ? null
-                                        : addressRepo.findByUuid(delivery
-                                                .getFromAddressUuid())
-                                                .orElse(null);
-                                Address toAddress = (delivery == null) ? null
-                                        : addressRepo.findByUuid(delivery
-                                                .getToAddressUuid())
-                                                .orElse(null);
-                                System.out.println("delivery: " + delivery.getUuid());
-                                System.out.println("fromAddress: " + fromAddress);
-                                System.out.println("toAddress: " + toAddress);
-                                return new SalesOfferLineDTO(
-                                        sol,
-                                        new ProductDTO(
-                                                productRepo.findById(sol
-                                                        .getProductId())
-                                                        .orElse(null),
-                                                TEMP_SELLERDTO,
-                                                new LocationDTO(true,
-                                                        true,
-                                                        new AddressDTO(fromAddress == null
-                                                                ? null
-                                                                : fromAddress))),
-                                        TEMP_PRODUCTPRICEDTO,
-                                        new DeliveryDTO(delivery,
-                                                new AddressDTO(fromAddress == null
-                                                        ? null
-                                                        : fromAddress),
-                                                new AddressDTO(toAddress == null
-                                                        ? null
-                                                        : toAddress),
-                                                false));
-                            })
-                            .toList();
-                    System.out.println(so.getUuid() + " has " + lines.size() + " linesTemp.");
-                    // 3) Sales persons (List<SalesPersonDTO>) with Optional unwrapped
-                    List<SalesPersonDTO> people = salesOfferSalesPersonRepo
-                            .findByOfferUuid(so.getUuid())
-                            .stream()
-                            .map(link -> salesPersonRepo
-                                    .findByUuid(link.getSalespersonUuid())) // Optional<SalesPerson>
-                            .flatMap(Optional::stream) // Stream<SalesPerson>
-                            .map(sp -> new SalesPersonDTO(sp))
-                            .toList();
-                    // 4) Build the SalesOfferDTO (ensure this constructor exists)
-                    return new SalesOfferDTO(so, discount, company, lines, people);
-                })
+                .map(this::mapSalesOfferDTO)
                 .toList();
         return dtos;
+    }
+
+    public SalesOfferDTO getSalesOfferByUuid(String uuid) {
+        SalesOffer salesOffer = salesOfferRepo.findByUuid(uuid).orElse(null);
+
+        return this.mapSalesOfferDTO(salesOffer);
+    }
+
+    public List<SalesOfferLineDTO> getSalesOfferLinesDTOByOfferUuid(SalesOffer so) {
+        List<SalesOfferLineDTO> lines = salesOfferLineRepo.findByOfferUuid(so.getUuid())
+                .stream()
+                .map(sol -> {
+                    Delivery delivery = deliveryRepo
+                            .findByUuid(sol.getDeliveryUuid())
+                            .orElse(null);
+                    Address fromAddress = (delivery == null) ? null
+                            : addressRepo.findByUuid(delivery
+                                    .getFromAddressUuid())
+                                    .orElse(null);
+                    Address toAddress = (delivery == null) ? null
+                            : addressRepo.findByUuid(delivery
+                                    .getToAddressUuid())
+                                    .orElse(null);
+                    return new SalesOfferLineDTO(
+                            sol,
+                            new ProductDTO(
+                                    productRepo.findById(sol
+                                            .getProductId())
+                                            .orElse(null),
+                                    TEMP_SELLERDTO,
+                                    new LocationDTO(true,
+                                            true,
+                                            new AddressDTO(fromAddress == null
+                                                    ? null
+                                                    : fromAddress))),
+                            TEMP_PRODUCTPRICEDTO,
+                            new DeliveryDTO(delivery,
+                                    new AddressDTO(fromAddress == null
+                                            ? null
+                                            : fromAddress),
+                                    new AddressDTO(toAddress == null
+                                            ? null
+                                            : toAddress),
+                                    false));
+                })
+                .toList();
+        return lines;
+    }
+
+    private SalesOfferDTO mapSalesOfferDTO(SalesOffer salesOffers) {
+
+        DiscountDTO discount = new DiscountDTO(TEMP_PRICEDTO);
+        CompanyDTO company = new CompanyDTO(
+                salesOffers.getCustomerUuid() == null ? null : salesOffers.getCustomerUuid());
+        List<SalesOfferLineDTO> lines = getSalesOfferLinesDTOByOfferUuid(salesOffers);
+        List<SalesPersonDTO> people = salesOfferSalesPersonRepo
+                .findByOfferUuid(salesOffers.getUuid())
+                .stream()
+                .map(link -> salesPersonRepo.findByUuid(link.getSalespersonUuid()))
+                .flatMap(Optional::stream)
+                .map(sp -> new SalesPersonDTO(sp))
+                .toList();
+
+        return new SalesOfferDTO(salesOffers, discount, company, lines, people);
+
     }
 }
