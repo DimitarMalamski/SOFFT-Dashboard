@@ -12,7 +12,7 @@ import nl.fontys.s3.my_app.models.dtos.DataResponseDTO;
 import nl.fontys.s3.my_app.models.dtos.CustomerCompany.*;
 
 @RestController
-@RequestMapping("/api/CustomerCompanies")
+@RequestMapping("/api/customercompanies")
 public class CustomerCompanyController {
 
     private final CompanyAddressRepo companyAddressRepo;
