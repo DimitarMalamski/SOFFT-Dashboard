@@ -150,15 +150,70 @@ const prevAvgTts = 12.8;
 export default function Dashboard() {
   const [offers, setOffers] = useState([]);
   const [selectedChart, setSelectedChart] = useState(chartOptions[0].value);
+  const [filters, setFilters] = useState({
+      dateRange: '',
+      productGroup: '',
+      salesman: '',
+      incoterm: '',
+  });
+
+  const [filteredOffers, setFilteredOffers] = useState([]);
 
   useEffect(() => {
-    // MockOffersAPI.getOffers().then((data) => setOffers(data));
-    SalesOffersAPI.getSalesOffers().then((data) => setOffers(data));
-    console.log('Fetched offers:', offers);
+      MockOffersAPI.getOffers().then((data) => {
+          setOffers(data);
+          setFilteredOffers(data);
+          console.log('Fetched mock offers:', data);
+      });
+
+      // SalesOffersAPI.getSalesOffers().then((data) => {
+      //     setOffers(data);
+      //     setFilteredOffers(data);
+      // });
   }, []);
 
+  const handleApplyFilters = () => {
+      const filtered = offers.filter((offer) => {
+          const matchesSalesman =
+              !filters.salesman ||
+              (offer.salesPersons?.[0]?.name || '').includes(filters.salesman);
+
+          const matchesProductGroup =
+              !filters.productGroup ||
+              (offer.productGroup?.name || '').includes(filters.productGroup);
+
+          const matchesIncoterm =
+              !filters.incoterm ||
+              (offer.incoterm?.code || '').includes(filters.incoterm);
+
+          let matchesDate = true;
+          if (filters.dateRange) {
+              const offerDate = new Date(offer.updatedAt);
+              const now = new Date();
+              const days = parseInt(filters.dateRange.replace('d', ''), 10);
+              const cutoff = new Date(now.setDate(now.getDate() - days));
+              matchesDate = offerDate >= cutoff;
+          }
+
+          return (
+              matchesSalesman &&
+              matchesProductGroup &&
+              matchesIncoterm &&
+              matchesDate
+          );
+      });
+
+      setFilteredOffers(filtered);
+  }
+
+  // useEffect(() => {
+  //   MockOffersAPI.getOffers().then((data) => setOffers(data));
+  //   SalesOffersAPI.getSalesOffers().then((data) => setOffers(data));
+  //   console.log('Fetched offers:', offers);
+  // }, []);
+
   const chartConfig = chartOptions.find((opt) => opt.value === selectedChart);
-  const chartData = transformData(offers, selectedChart);
+  const chartData = transformData(filteredOffers, selectedChart);
   console.log('Chart:', selectedChart, 'Transformed Data:', chartData);
 
   let chartProps = {};
@@ -251,26 +306,57 @@ export default function Dashboard() {
                 {/* --- Filter bar (dropdowns + Apply button) --- */}
                 <div className='flex flex-wrap items-center gap-3 mb-4'>
                     <div className='flex-1'>
-                        <select className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'>
-                            <option>Date Range</option>
+                        <select
+                            value={filters.dateRange}
+                            onChange={(e) => setFilters({...filters, dateRange: e.target.value})}
+                            className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'
+                        >
+                            <option>All Dates</option>
+                            <option value='7d'>Last 7 days</option>
+                            <option value='30d'>Last 30 days</option>
+                            <option value='90d'>Last 90 days</option>
                         </select>
                     </div>
                     <div className='flex-1'>
-                        <select className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'>
-                            <option>Product Group</option>
+                        <select
+                            value={filters.productGroup}
+                            onChange={(e) => setFilters({...filters, productGroup: e.target.value})}
+                            className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'
+                        >
+                            <option value=''>All Products</option>
+                            <option value='Trucks'>Trucks</option>
+                            <option value='Vans'>Vans</option>
+                            <option value='Parts'>Parts</option>
                         </select>
                     </div>
                     <div className='flex-1'>
-                        <select className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'>
-                            <option>Salesman</option>
+                        <select
+                            value={filters.salesman}
+                            onChange={(e) => setFilters({...filters, salesman: e.target.value})}
+                            className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'
+                        >
+                            <option value=''>All Salesmen</option>
+                            <option value='John Doe'>John Doe</option>
+                            <option value='Jane Smith'>Jane Smith</option>
+                            <option value='Bob Sample'>Bob Sample</option>
                         </select>
                     </div>
                     <div className='flex-1'>
-                        <select className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'>
-                            <option>Incoterm</option>
+                        <select
+                            value={filters.incoterm}
+                            onChange={(e) => setFilters({...filters, incoterm: e.target.value})}
+                            className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'
+                        >
+                            <option value=''>All Incoterms</option>
+                            <option value='FOB'>FOB</option>
+                            <option value='CIF'>CIF</option>
+                            <option value='DAP'>DAP</option>
                         </select>
                     </div>
-                    <button className='bg-emerald-700 text-white px-3 py-2 rounded-md hover:bg-emerald-600 transition'>
+                    <button
+                        onClick={handleApplyFilters}
+                        className='bg-emerald-700 text-white px-3 py-2 rounded-md hover:bg-emerald-600 transition'
+                    >
                         Apply
                     </button>
                 </div>
