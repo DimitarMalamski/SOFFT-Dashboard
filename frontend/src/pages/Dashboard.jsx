@@ -7,8 +7,10 @@ import SalesTrendChart from '../components/Charts/SalesTrendChart.jsx';
 import ConversionsCard from '../components/Charts/ConversionsChart.jsx';
 import TimeToSaleCard from '../components/Charts/TimeToSaleChart.jsx';
 import SalesOffersAPI from '../apis/SalesOffersAPI';
-import mockDataAPI from "../mock-apis/MockDataAPI";
-import error from "eslint-plugin-react/lib/util/error.js";
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css';
+// import mockDataAPI from "../mock-apis/MockDataAPI";
+// import error from "eslint-plugin-react/lib/util/error.js";
 
 const chartOptions = [
   {
@@ -57,8 +59,12 @@ function transformData(raw, selected) {
         const counts = {};
         raw.forEach((offer) => {
           let country = "Unknown";
-          if (offer.customerCompany && offer.customerCompany.country) {
-            country = offer.customerCompany.country;
+          if (
+              offer.salesOfferLine &&
+              offer.salesOfferLine.length > 0 &&
+              offer.salesOfferLine[0].delivery &&
+              offer.salesOfferLine[0].delivery.destinationCountryCode) {
+            country = offer.salesOfferLine[0].delivery.destinationCountryCode;
           }
 
           if (!counts[country]) {
@@ -71,15 +77,17 @@ function transformData(raw, selected) {
       case "totalValueOverTime": {
         const totalsByDate = {};
           raw.forEach((offer) => {
-          if (!offer.updatedAt || !offer.totalPriceExcludingVat) return;
+              const date = offer.expiresAt ? offer.expiresAt.split("T")[0] : "Unknown";
+              let total = 0;
+              if (offer.salesOfferLine && offer.salesOfferLine.length > 0) {
+                  total = offer.salesOfferLine.reduce(
+                      (sum, line) => sum + (line.productPrice?.amount || 0),
+                      0
+                  );
+              }
 
-          const date = offer.updatedAt.split(" ")[0];
-          const amount = offer.totalPriceExcludingVat.amount || 0;
-
-          if (!totalsByDate[date]) {
-            totalsByDate[date] = 0;
-          }
-          totalsByDate[date] += amount;
+              if (!totalsByDate[date]) totalsByDate[date] = 0;
+              totalsByDate[date] += total;
           });
           return Object.entries(totalsByDate).map(([date, total]) => ({ date, total }));
       }
@@ -155,15 +163,20 @@ export default function Dashboard() {
 
   const [filters, setFilters] = useState({
       dateRange: '',
-      productGroup: '',
+      startDate: null,
+      endDate: null,
+      productType: '',
+      brand: '',
       salesman: '',
       incoterm: '',
+      country: '',
   });
 
   const [salesmen, setSalesmen] = useState([]);
-  const [productGroups, setProductGroups] = useState([]);
+  const [productTypes, setProductTypes] = useState([]);
+  const [productBrands, setProductBrands] = useState([]);
   const [incoterms, setIncoterms] = useState([]);
-
+  const [countries, setCountries] = useState([]);
   const [filteredOffers, setFilteredOffers] = useState([]);
 
   // -- MockApi useEffect hoock
@@ -187,26 +200,36 @@ export default function Dashboard() {
                 setFilteredOffers(data);
 
                 const salesmenSet = new Set();
-                const productGroupSet = new Set();
+                const productTypesSet = new Set();
+                const brandSet = new Set();
                 const incotermSet = new Set();
+                const countrySet = new Set();
 
                 data.forEach((offer) => {
                     if (offer.salesPersons && offer.salesPersons.length > 0) {
                         salesmenSet.add(offer.salesPersons[0].name);
                     }
 
-                    if (offer.productGroup && offer.productGroup.name) {
-                        productGroupSet.add(offer.productGroup.name);
+                    if (offer.salesOfferLine?.[0]?.delivery?.destinationCountryCode) {
+                        countrySet.add(offer.salesOfferLine[0].delivery.destinationCountryCode);
                     }
 
-                    if (offer.incoterm && offer.incoterm.code) {
-                        incotermSet.add(offer.incoterm.code);
+                    if (offer.salesOfferLine?.[0]?.product?.productType) {
+                        productTypesSet.add(offer.salesOfferLine[0].product.productType.toUpperCase());
+                    }
+                    if (offer.salesOfferLine?.[0]?.product?.brand) {
+                        brandSet.add(offer.salesOfferLine[0].product.brand.toUpperCase());
+                    }
+                    if (offer.salesOfferLine?.[0]?.delivery?.incoterm) {
+                        incotermSet.add(offer.salesOfferLine[0].delivery.incoterm.toUpperCase());
                     }
                 });
 
                 setSalesmen([...salesmenSet]);
-                setProductGroups([...productGroupSet]);
+                setProductTypes([...productTypesSet]);
+                setProductBrands([...brandSet]);
                 setIncoterms([...incotermSet]);
+                setCountries([...countrySet]);
             })
             .catch((error) => {
                 console.error('Error fetching offers from API:', error);
@@ -214,23 +237,78 @@ export default function Dashboard() {
 
     }, []);
 
+    useEffect(() => {
+        if (offers.length === 0) return;
+
+        if (!filters.productType) {
+            const allBrands = new Set();
+            offers.forEach((offer) => {
+                const line = offer.salesOfferLine?.[0];
+                if (line?.product?.brand) {
+                    allBrands.add(line.product.brand);
+                }
+            });
+            setProductBrands([...allBrands]);
+        }
+        else {
+            const filteredBrands = new Set();
+            offers.forEach((offer) => {
+                const line = offer.salesOfferLine?.[0];
+                if (
+                    line?.product?.productType?.toLowerCase() ===
+                        filters.productType.toLowerCase() &&
+                    line?.product?.brand
+                ) {
+                    filteredBrands.add(line.product.brand);
+                }
+            });
+            setProductBrands([...filteredBrands]);
+        }
+    }, [filters.productType, offers]);
+
+    useEffect(() => {
+        setFilters((prev) => ({...prev, brand: ''}));
+    }, [filters.productType]);
+
   const handleApplyFilters = () => {
       const filtered = offers.filter((offer) => {
           const matchesSalesman =
               !filters.salesman ||
-              (offer.salesPersons?.[0]?.name || '').includes(filters.salesman);
+              (offer.salesPersons?.[0]?.name || '')
+                  .includes(filters.salesman);
 
-          const matchesProductGroup =
-              !filters.productGroup ||
-              (offer.productGroup?.name || '').includes(filters.productGroup);
+          const matchesProductType =
+              !filters.productType ||
+              (offer.salesOfferLine?.[0]?.product?.productType || '')
+                  .toLowerCase()
+                  .includes(filters.productType.toLowerCase());
+
+          const matchesBrand =
+              !filters.brand ||
+              (offer.salesOfferLine?.[0]?.product?.brand || '')
+                  .toLowerCase()
+                  .includes(filters.brand.toLowerCase());
 
           const matchesIncoterm =
               !filters.incoterm ||
-              (offer.incoterm?.code || '').includes(filters.incoterm);
+              (offer.salesOfferLine?.[0]?.delivery?.incoterm || '')
+                  .toUpperCase()
+                  .includes(filters.incoterm.toUpperCase());
+
+          const matchesCountry =
+              !filters.country ||
+              (offer.salesOfferLine?.[0]?.delivery?.destinationCountryCode || '')
+                  .toUpperCase()
+                  .includes(filters.country.toUpperCase());
 
           let matchesDate = true;
-          if (filters.dateRange) {
-              const offerDate = new Date(offer.updatedAt);
+          const offerDate = offer.expiresAt ? new Date(offer.expiresAt) : null;
+
+          if (filters.startDate && filters.endDate && offerDate) {
+              matchesDate =
+                  offerDate >= new Date(filters.startDate) &&
+                  offerDate <= new Date(filters.endDate);
+          } else if (filters.dateRange && offerDate) {
               const now = new Date();
               const days = parseInt(filters.dateRange.replace('d', ''), 10);
               const cutoff = new Date(now.setDate(now.getDate() - days));
@@ -239,8 +317,10 @@ export default function Dashboard() {
 
           return (
               matchesSalesman &&
-              matchesProductGroup &&
+              matchesProductType &&
+              matchesBrand &&
               matchesIncoterm &&
+              matchesCountry &&
               matchesDate
           );
       });
@@ -347,27 +427,65 @@ export default function Dashboard() {
 
                 {/* --- Filter bar (dropdowns + Apply button) --- */}
                 <div className='flex flex-wrap items-center gap-3 mb-4'>
+                    <div className='flex items-center gap-2 flex-1'>
+                        <DatePicker
+                            selected={filters.startDate}
+                            onChange={(date) => setFilters({ ...filters, startDate: date })}
+                            selectsStart
+                            startDate={filters.startDate}
+                            endDate={filters.endDate}
+                            placeholderText='Start date'
+                            className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'
+                        />
+                        <DatePicker
+                            selected={filters.endDate}
+                            onChange={(date) => setFilters({ ...filters, endDate: date })}
+                            selectsEnd
+                            startDate={filters.startDate}
+                            endDate={filters.endDate}
+                            minDate={filters.startDate}
+                            placeholderText='End date'
+                            className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'
+                        />
+                    </div>
                     <div className='flex-1'>
                         <select
-                            value={filters.dateRange}
-                            onChange={(e) => setFilters({...filters, dateRange: e.target.value})}
+                            value={filters.country}
+                            onChange={(e) => setFilters({ ...filters, country: e.target.value })}
                             className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'
                         >
-                            <option value=''>All Dates</option>
-                            <option value='7d'>Last 7 days</option>
-                            <option value='30d'>Last 30 days</option>
-                            <option value='90d'>Last 90 days</option>
+                            <option value=''>All Countries</option>
+                            {countries.map((c) => (
+                                <option key={c} value={c}>{c}</option>
+                            ))}
                         </select>
                     </div>
                     <div className='flex-1'>
                         <select
-                            value={filters.productGroup}
-                            onChange={(e) => setFilters({...filters, productGroup: e.target.value})}
+                            value={filters.productType}
+                            onChange={(e) => setFilters({...filters, productType: e.target.value})}
                             className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'
                         >
-                            <option value=''>All Products</option>
-                            {productGroups.map((g) => (
-                                <option key={g} value={g}>{g}</option>
+                            <option value=''>All Types</option>
+                            {productTypes.map((t) => (
+                                <option key={t} value={t}>{t}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className='flex-1'>
+                        <select
+                            disabled={!filters.productType && productBrands.length === 0}
+                            value={filters.brand}
+                            onChange={(e) => setFilters({...filters, brand: e.target.value})}
+                            className={`w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2 ${
+                                !filters.productType && productBrands.length === 0
+                                    ? 'opacity-50 cursor-not-allowed'
+                                    : ''
+                            }`}
+                        >
+                            <option value=''>All Brands</option>
+                            {productBrands.map((b) => (
+                                <option key={b} value={b}>{b}</option>
                             ))}
                         </select>
                     </div>
