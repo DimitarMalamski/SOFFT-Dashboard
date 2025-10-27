@@ -311,7 +311,7 @@ export default function Dashboard() {
                             onChange={(e) => setFilters({...filters, dateRange: e.target.value})}
                             className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'
                         >
-                            <option>All Dates</option>
+                            <option value=''>All Dates</option>
                             <option value='7d'>Last 7 days</option>
                             <option value='30d'>Last 30 days</option>
                             <option value='90d'>Last 90 days</option>
