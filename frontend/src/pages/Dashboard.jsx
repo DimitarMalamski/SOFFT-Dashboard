@@ -228,44 +228,66 @@ export default function Dashboard() {
       <div className='bg-emerald-900 p-4 shadow-md rounded-md mt-4 min-h-0'>
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-4 min-h-0'>
           {/* Left: select + big chart (2/3 on lg+) */}
-          <section className='lg:col-span-2 min-h-0'>
-            <div className='mb-2'>
-              <label
-                htmlFor='chart-select'
-                className='block mb-2 text-xs/5 text-emerald-100'
-              >
-                Select chart:
-              </label>
-              <select
-                id='chart-select'
-                value={selectedChart}
-                onChange={(e) => setSelectedChart(e.target.value)}
-                className='bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2 shadow-sm'
-              >
-                {chartOptions.map((opt) => (
-                  <option
-                    key={opt.value}
-                    value={opt.value}
-                    className='bg-emerald-950 text-white'
-                  >
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-[400px] flex items-center justify-center overflow-hidden'>
-              {chartData.length === 0 ? (
-                <div className='text-emerald-100 text-xl text-center'>
-                  No data to display for this chart.
+            <section className='lg:col-span-2 min-h-0'>
+                {/* --- Chart selector --- */}
+                <div className='mb-2'>
+                    <label htmlFor='chart-select' className='block mb-2 text-xs/5 text-emerald-100'>
+                        Select chart:
+                    </label>
+                    <select
+                        id='chart-select'
+                        value={selectedChart}
+                        onChange={(e) => setSelectedChart(e.target.value)}
+                        className='bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2 shadow-sm'
+                    >
+                        {chartOptions.map((opt) => (
+                            <option key={opt.value} value={opt.value} className='bg-emerald-950 text-white'>
+                                {opt.label}
+                            </option>
+                        ))}
+                    </select>
                 </div>
-              ) : chartConfig.chart === 'line' ? (
-                <LineChartType {...chartProps} />
-              ) : (
-                <BarChartType {...chartProps} />
-              )}
-            </div>
-          </section>
+
+                {/* --- Filter bar (dropdowns + Apply button) --- */}
+                <div className='flex flex-wrap items-center gap-3 mb-4'>
+                    <div className='flex-1'>
+                        <select className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'>
+                            <option>Date Range</option>
+                        </select>
+                    </div>
+                    <div className='flex-1'>
+                        <select className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'>
+                            <option>Product Group</option>
+                        </select>
+                    </div>
+                    <div className='flex-1'>
+                        <select className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'>
+                            <option>Salesman</option>
+                        </select>
+                    </div>
+                    <div className='flex-1'>
+                        <select className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'>
+                            <option>Incoterm</option>
+                        </select>
+                    </div>
+                    <button className='bg-emerald-700 text-white px-3 py-2 rounded-md hover:bg-emerald-600 transition'>
+                        Apply
+                    </button>
+                </div>
+
+                {/* --- Chart container --- */}
+                <div className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-[400px] flex items-center justify-center overflow-hidden'>
+                    {chartData.length === 0 ? (
+                        <div className='text-emerald-100 text-xl text-center'>
+                            No data to display for this chart.
+                        </div>
+                    ) : chartConfig.chart === 'line' ? (
+                        <LineChartType {...chartProps} />
+                    ) : (
+                        <BarChartType {...chartProps} />
+                    )}
+                </div>
+            </section>
           <aside className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-0'>
             <Leaderboard />
           </aside>
