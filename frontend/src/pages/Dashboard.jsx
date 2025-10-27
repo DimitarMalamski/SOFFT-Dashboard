@@ -7,6 +7,8 @@ import SalesTrendChart from '../components/Charts/SalesTrendChart.jsx';
 import ConversionsCard from '../components/Charts/ConversionsChart.jsx';
 import TimeToSaleCard from '../components/Charts/TimeToSaleChart.jsx';
 import SalesOffersAPI from '../apis/SalesOffersAPI';
+import mockDataAPI from "../mock-apis/MockDataAPI";
+import error from "eslint-plugin-react/lib/util/error.js";
 
 const chartOptions = [
   {
@@ -150,6 +152,7 @@ const prevAvgTts = 12.8;
 export default function Dashboard() {
   const [offers, setOffers] = useState([]);
   const [selectedChart, setSelectedChart] = useState(chartOptions[0].value);
+
   const [filters, setFilters] = useState({
       dateRange: '',
       productGroup: '',
@@ -157,20 +160,59 @@ export default function Dashboard() {
       incoterm: '',
   });
 
+  const [salesmen, setSalesmen] = useState([]);
+  const [productGroups, setProductGroups] = useState([]);
+  const [incoterms, setIncoterms] = useState([]);
+
   const [filteredOffers, setFilteredOffers] = useState([]);
 
-  useEffect(() => {
-      MockOffersAPI.getOffers().then((data) => {
-          setOffers(data);
-          setFilteredOffers(data);
-          console.log('Fetched mock offers:', data);
-      });
+  // -- MockApi useEffect hoock
+  // useEffect(() => {
+  //     MockOffersAPI.getOffers().then((data) => {
+  //         setOffers(data);
+  //         setFilteredOffers(data);
+  //         console.log('Fetched mock offers:', data);
+  //     });
+  //
+  //     // SalesOffersAPI.getSalesOffers().then((data) => {
+  //     //     setOffers(data);
+  //     //     setFilteredOffers(data);
+  //     // });
+  // }, []);
 
-      // SalesOffersAPI.getSalesOffers().then((data) => {
-      //     setOffers(data);
-      //     setFilteredOffers(data);
-      // });
-  }, []);
+    useEffect(() => {
+        SalesOffersAPI.getSalesOffers()
+            .then((data) => {
+                setOffers(data);
+                setFilteredOffers(data);
+
+                const salesmenSet = new Set();
+                const productGroupSet = new Set();
+                const incotermSet = new Set();
+
+                data.forEach((offer) => {
+                    if (offer.salesPersons && offer.salesPersons.length > 0) {
+                        salesmenSet.add(offer.salesPersons[0].name);
+                    }
+
+                    if (offer.productGroup && offer.productGroup.name) {
+                        productGroupSet.add(offer.productGroup.name);
+                    }
+
+                    if (offer.incoterm && offer.incoterm.code) {
+                        incotermSet.add(offer.incoterm.code);
+                    }
+                });
+
+                setSalesmen([...salesmenSet]);
+                setProductGroups([...productGroupSet]);
+                setIncoterms([...incotermSet]);
+            })
+            .catch((error) => {
+                console.error('Error fetching offers from API:', error);
+            })
+
+    }, []);
 
   const handleApplyFilters = () => {
       const filtered = offers.filter((offer) => {
@@ -324,9 +366,9 @@ export default function Dashboard() {
                             className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'
                         >
                             <option value=''>All Products</option>
-                            <option value='Trucks'>Trucks</option>
-                            <option value='Vans'>Vans</option>
-                            <option value='Parts'>Parts</option>
+                            {productGroups.map((g) => (
+                                <option key={g} value={g}>{g}</option>
+                            ))}
                         </select>
                     </div>
                     <div className='flex-1'>
@@ -336,9 +378,9 @@ export default function Dashboard() {
                             className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'
                         >
                             <option value=''>All Salesmen</option>
-                            <option value='John Doe'>John Doe</option>
-                            <option value='Jane Smith'>Jane Smith</option>
-                            <option value='Bob Sample'>Bob Sample</option>
+                            {salesmen.map((s) => (
+                                <option key={s} value={s}>{s}</option>
+                            ))}
                         </select>
                     </div>
                     <div className='flex-1'>
@@ -348,9 +390,9 @@ export default function Dashboard() {
                             className='w-full bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2'
                         >
                             <option value=''>All Incoterms</option>
-                            <option value='FOB'>FOB</option>
-                            <option value='CIF'>CIF</option>
-                            <option value='DAP'>DAP</option>
+                            {incoterms.map((i) => (
+                                <option key={i} value={i}>{i}</option>
+                            ))}
                         </select>
                     </div>
                     <button
