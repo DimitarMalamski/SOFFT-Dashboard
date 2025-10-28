@@ -1,6 +1,5 @@
 package nl.fontys.s3.my_app.Controllers;
 
-import java.util.stream.Collectors;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
