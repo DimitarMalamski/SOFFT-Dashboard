@@ -11,9 +11,11 @@ import nl.fontys.s3.my_app.Services.SalesOfferService;
 import nl.fontys.s3.my_app.models.dtos.DataResponseDTO;
 import nl.fontys.s3.my_app.models.dtos.SingleDataResponseDTO;
 import nl.fontys.s3.my_app.models.dtos.SalesOffer.SalesOfferDTO;
+import nl.fontys.s3.my_app.models.dtos.SalesOffer.SalesOfferLineDTO;
+import nl.fontys.s3.my_app.models.dtos.SalesOffer.SalesOffersPerCountryDTO;
 
 @RestController
-@RequestMapping("/api/SalesOffers")
+@RequestMapping("/api/salesoffers")
 public class SalesOfferController {
 
     private final SalesOfferService salesOfferService;
@@ -30,10 +32,25 @@ public class SalesOfferController {
         return new DataResponseDTO<SalesOfferDTO>(dtos);
     }
 
+    @GetMapping("/per-country")
+    public DataResponseDTO<SalesOffersPerCountryDTO> getSalesOffersCountPerCountry()
+    {
+        List<SalesOffersPerCountryDTO> dtos = salesOfferService.getSalesOffersCountPerCountry();
+        return new DataResponseDTO<SalesOffersPerCountryDTO>(dtos);
+    }
+
     @GetMapping("/{uuid}")
     public SingleDataResponseDTO<SalesOfferDTO> getByUuid(@PathVariable String uuid) {
-        SalesOfferDTO dtos = salesOfferService.getSalesOfferByUuid(uuid);
-        return new SingleDataResponseDTO<SalesOfferDTO>(dtos);
+        SalesOfferDTO dto = salesOfferService.getSalesOfferByUuid(uuid);
+        return new SingleDataResponseDTO<SalesOfferDTO>(dto);
     }
+
+    @GetMapping("/line/{uuid}")
+    public SingleDataResponseDTO<SalesOfferLineDTO> getLineByUuid(@PathVariable String uuid) {
+        SalesOfferLineDTO dto = salesOfferService.getSalesOfferLineByUuid(uuid);
+        return new SingleDataResponseDTO<SalesOfferLineDTO>(dto);
+    }
+
+
 
 }
