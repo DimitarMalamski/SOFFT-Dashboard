@@ -10,4 +10,5 @@ import nl.fontys.s3.my_app.models.SalesOffer;
 @Repository
 public interface SalesOfferRepo extends JpaRepository<SalesOffer, Long> {
     Optional<SalesOffer> findByUuid(String uuid);
+    Long countByCustomerUuid(String customerUuid);
 }
