@@ -1,26 +1,41 @@
-import { MapContainer, TileLayer } from 'react-leaflet';
-import HeatmapLayer from './HeatmapLayer';
+import { useEffect, useState } from "react";
+import { MapContainer, TileLayer } from "react-leaflet";
+import HeatmapLayer from "./HeatmapLayer.jsx";
+import SalesOffersAPI from "../../apis/SalesOffersAPI.js";
+import { transformHeatmapData } from "../../utils/transformHeatmapData.js";
 
 function DashboardMap() {
-    // Mock Data
-    const heatData = [
-        [51.505, -0.09, 0.8],
-        [48.8566, 2.3522, 0.6],
-        [52.3676, 4.9041, 0.9],
-    ];
+    const [heatData, setHeatData] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const data = await SalesOffersAPI.getSalesOffersPerCountry();
+
+                const transformed = transformHeatmapData(data, "country");
+
+                setHeatData(transformed);
+            } catch (error) {
+                console.error("Error leading heatmap data: ", error);
+            }
+        }
+
+        fetchData();
+    }, []);
 
     return (
-        <div style={{ height: '600px', width: '100%' }}>
+        <div style={{ height: "600px", width: "100%" }}>
             <MapContainer
                 center={[50, 5]}
-                zoom={5}
-                style={{ height: '100%', width: '100%' }}
+                zoom={4}
+                style={{ height: "100%", width: "100%" }}
             >
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
                     url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                 />
-                <HeatmapLayer points={heatData} />
+
+                {heatData.length > 0 && <HeatmapLayer points={heatData} />}
             </MapContainer>
         </div>
     );
