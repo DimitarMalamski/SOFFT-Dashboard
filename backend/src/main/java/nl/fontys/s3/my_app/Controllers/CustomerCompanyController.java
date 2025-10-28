@@ -4,45 +4,34 @@ import java.util.stream.Collectors;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import nl.fontys.s3.my_app.Repositories.CustomerCompany.*;
+import nl.fontys.s3.my_app.Services.CustomerCompanyService;
 import nl.fontys.s3.my_app.models.dtos.DataResponseDTO;
+import nl.fontys.s3.my_app.models.dtos.SingleDataResponseDTO;
 import nl.fontys.s3.my_app.models.dtos.CustomerCompany.*;
 
 @RestController
 @RequestMapping("/api/customercompanies")
 public class CustomerCompanyController {
 
-    private final CompanyAddressRepo companyAddressRepo;
-    private final CompanyPersonRepo companyPersonRepo;
-    private final CustomerCompanyRepo customerCompanyRepo;
+    private final CustomerCompanyService customerCompanyService;
 
-    public CustomerCompanyController(CompanyAddressRepo companyAddressRepo, CompanyPersonRepo companyPersonRepo,
-            CustomerCompanyRepo customerCompanyRepo) {
-        this.companyAddressRepo = companyAddressRepo;
-        this.companyPersonRepo = companyPersonRepo;
-        this.customerCompanyRepo = customerCompanyRepo;
+    public CustomerCompanyController(CustomerCompanyService customerCompanyService) {
+        this.customerCompanyService = customerCompanyService;
     }
-
+   
     @GetMapping
     public DataResponseDTO<CustomerCompanyDTO> getAll() {
-
-        List<CustomerCompanyDTO> allCompanies = customerCompanyRepo.findAll()
-                .stream().map(cc -> new CustomerCompanyDTO(
-                        cc,
-                        companyAddressRepo.findByCompanyUuid(cc.getUuid())
-                                .stream()
-                                .map(CompanyAddressDTO::fromEntity)
-                                .collect(Collectors.toList()),
-
-                        companyPersonRepo.findByCompanyUuid(cc.getUuid())
-                                .stream()
-                                .map(CompanyPersonDTO::fromEntity)
-                                .collect(Collectors.toList())))
-                .collect(Collectors.toList());
-
+        List <CustomerCompanyDTO> allCompanies = customerCompanyService.getAll();
         return new DataResponseDTO<CustomerCompanyDTO>(allCompanies);
+    }
+
+    @GetMapping("/{uuid}")
+    public SingleDataResponseDTO<CustomerCompanyDTO> getByUuid(@PathVariable String uuid) {
+        CustomerCompanyDTO customerCompanyDTO = customerCompanyService.getByUuid(uuid);
+        return new SingleDataResponseDTO<CustomerCompanyDTO>(customerCompanyDTO);
     }
 }
