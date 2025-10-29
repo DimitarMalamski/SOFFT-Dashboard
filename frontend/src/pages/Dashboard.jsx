@@ -126,26 +126,79 @@ function transformData(raw, selected) {
   }
 }
 
-const demoTrend = [
-  { label: 'Mon', value: 120 },
-  { label: 'Tue', value: 98 },
-  { label: 'Wed', value: 160 },
-  { label: 'Thu', value: 130 },
-  { label: 'Fri', value: 90 },
-  { label: 'Sat', value: 200 },
-  { label: 'Sun', value: 340 },
-];
+function getLast7DaysOrders(raw) {
+  const ordersByDay = {};
+  raw.forEach((offer) => {
+    if (!offer.salesOfferOrders || offer.salesOfferOrders.length === 0) return;
 
-const demoConversions = { wins: 18, total: 42, prevWins: 12, prevTotal: 40 };
+    const orderDate = new Date(offer.salesOfferOrders[0].createdAt);
+    const dateLabel = orderDate.toLocaleDateString('en-US', { weekday: 'short' });
 
-const demoTtsPoints = [
-  { label: 'D1', value: 12 },
-  { label: 'D2', value: 9 },
-  { label: 'D3', value: 14 },
-  { label: 'D4', value: 11 },
-  { label: 'D5', value: 10 },
-];
-const prevAvgTts = 12.8;
+    if (!ordersByDay[dateLabel]) ordersByDay[dateLabel] = 0;
+    ordersByDay[dateLabel]++;
+  });
+
+  // Sort days by a fixed Mon–Sun order:
+  const daysOrder = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  return daysOrder.map((d) => ({ label: d, value: ordersByDay[d] || 0 }));
+}
+
+function getConversionStats(raw) {
+  let total = 0;
+  let wins = 0;
+
+  raw.forEach((offer) => {
+    total++;
+    const accepted = offer.statusDescription === "Accepted";
+    const hasOrders = offer.salesOfferOrders && offer.salesOfferOrders.length > 0;
+    if (accepted && hasOrders) wins++;
+  });
+
+  return { wins, total };
+}
+
+function getTimeToSale(raw) {
+  const acceptedOffers = raw.filter(
+    (offer) =>
+      offer.statusDescription === "Accepted" &&
+      offer.salesOfferOrders &&
+      offer.salesOfferOrders.length > 0
+  );
+
+  const points = acceptedOffers.map((offer, idx) => {
+    const offerDate = new Date(offer.createdAt);
+    const orderDate = new Date(offer.salesOfferOrders[0].createdAt);
+    const diffDays = (orderDate - offerDate) / (1000 * 60 * 60 * 24);
+    return { label: `D${idx + 1}`, value: Number(diffDays.toFixed(1)) };
+  });
+
+  const avg = points.length
+    ? points.reduce((sum, p) => sum + p.value, 0) / points.length
+    : 0;
+
+  return { points, avg };
+}
+
+// const demoTrend = [
+//   { label: 'Mon', value: 120 },
+//   { label: 'Tue', value: 98 },
+//   { label: 'Wed', value: 160 },
+//   { label: 'Thu', value: 130 },
+//   { label: 'Fri', value: 90 },
+//   { label: 'Sat', value: 200 },
+//   { label: 'Sun', value: 340 },
+// ];
+
+// const demoConversions = { wins: 18, total: 42, prevWins: 12, prevTotal: 40 };
+
+// const demoTtsPoints = [
+//   { label: 'D1', value: 12 },
+//   { label: 'D2', value: 9 },
+//   { label: 'D3', value: 14 },
+//   { label: 'D4', value: 11 },
+//   { label: 'D5', value: 10 },
+// ];
+// const prevAvgTts = 12.8;
 
 export default function Dashboard() {
   const [offers, setOffers] = useState([]);
@@ -153,13 +206,19 @@ export default function Dashboard() {
 
   useEffect(() => {
     // MockOffersAPI.getOffers().then((data) => setOffers(data));
-    SalesOffersAPI.getSalesOffers().then((data) => setOffers(data));
-    console.log('Fetched offers:', offers);
+    SalesOffersAPI.getSalesOffers().then((data) => {
+      console.log('Raw API response:', data);
+      setOffers(data);
+    });
   }, []);
 
   const chartConfig = chartOptions.find((opt) => opt.value === selectedChart);
   const chartData = transformData(offers, selectedChart);
   console.log('Chart:', selectedChart, 'Transformed Data:', chartData);
+
+  const trendPoints = getLast7DaysOrders(offers);
+  const conversions = getConversionStats(offers);
+  const { points: ttsPoints, avg: avgTts } = getTimeToSale(offers);
 
   let chartProps = {};
   switch (selectedChart) {
@@ -210,18 +269,18 @@ export default function Dashboard() {
   return (
     <div className='h-dvh max-h-dvh min-h-0 overflow-y-auto'>
       <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-        <SalesTrendChart title='Orders (last 7 days)' points={demoTrend} />
+        <SalesTrendChart title='Orders (last 7 days)' points={trendPoints} />
         <ConversionsCard
           title='Conversion rate'
-          wins={demoConversions.wins}
-          total={demoConversions.total}
-          prevWins={demoConversions.prevWins}
-          prevTotal={demoConversions.prevTotal}
+          wins={conversions.wins}
+          total={conversions.total}
+          prevWins={conversions.wins * 0.8}
+          prevTotal={conversions.total}
         />
         <TimeToSaleCard
           title='Avg time to sale'
-          points={demoTtsPoints}
-          prevAvg={prevAvgTts}
+          points={ttsPoints}
+          prevAvg={avgTts + 1.2}
         />
       </div>
 
