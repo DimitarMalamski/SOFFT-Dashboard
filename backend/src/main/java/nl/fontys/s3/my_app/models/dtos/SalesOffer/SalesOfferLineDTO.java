@@ -8,13 +8,13 @@ import nl.fontys.s3.my_app.models.SalesOfferLine;
 
 public class SalesOfferLineDTO {
     private String uuid;
-    private int status;
+    private Integer status;
     private LocalDateTime reservedUntil;
-    private int financingType;
-    private boolean isProductSeenPhysically;
+    private Integer financingType;
+    private Boolean isProductSeenPhysically;
     private Integer leasingCompanyId;
     private BigDecimal vatRatePercent;
-    private boolean isDepositApplicable;
+    private Boolean isDepositApplicable;
     private ProductDTO product;
     private ProductPriceDTO productPrice;
     private DeliveryDTO delivery;
