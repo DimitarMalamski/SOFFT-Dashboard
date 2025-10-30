@@ -334,6 +334,26 @@ export default function Dashboard() {
   //   console.log('Fetched offers:', offers);
   // }, []);
 
+  const transformSalesMan = (offers) => {
+  const counts = {};
+        offers.forEach((offer) => {
+          let name = "Unknown";
+          if (offer.salesPersons && offer.salesPersons.length > 0 && offer.salesPersons[0].name) {
+            name = offer.salesPersons[0].name;
+          }
+
+        if (!counts[name]) {
+          counts[name] = 0;
+        }
+        counts[name]++;
+          });
+        
+        let offersPerSalesman = Object.entries(counts).map(([salesman, count]) => ({ salesman, count }));
+        console.log('transformed offersPerSalesman:', offersPerSalesman);
+
+        return offersPerSalesman;
+}
+
   const chartConfig = chartOptions.find((opt) => opt.value === selectedChart);
   const chartData = transformData(filteredOffers, selectedChart);
   console.log('Chart:', selectedChart, 'Transformed Data:', chartData);
@@ -535,7 +555,7 @@ export default function Dashboard() {
                 </div>
             </section>
           <aside className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-0'>
-            <Leaderboard />
+            <Leaderboard salesmanData={transformSalesMan(offers)} />
           </aside>
         </div>
       </div>
