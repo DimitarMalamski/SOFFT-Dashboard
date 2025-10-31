@@ -11,6 +11,7 @@ import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 // import mockDataAPI from "../mock-apis/MockDataAPI";
 // import error from "eslint-plugin-react/lib/util/error.js";
+import normalizeSalesOffers from '../utils/normalizeSalesOffers.js';
 
 const chartOptions = [
   {
@@ -249,8 +250,11 @@ export default function Dashboard() {
     useEffect(() => {
         SalesOffersAPI.getSalesOffers()
             .then((data) => {
-                setOffers(data);
-                setFilteredOffers(data);
+                const normalized = normalizeSalesOffers(data);
+                setOffers(normalized);
+                setFilteredOffers(normalized);
+                console.log('Fetched offers from API:', data);
+                console.log('Normalized offers:', normalized);
 
                 const salesmenSet = new Set();
                 const productTypesSet = new Set();
