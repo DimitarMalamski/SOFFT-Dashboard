@@ -52,7 +52,10 @@ function transformData(raw, selected) {
         counts[name]++;
           });
 
-        return Object.entries(counts).map(([salesman, count]) => ({ salesman, count }));
+          let offersPerSalesman = Object.entries(counts).map(([salesman, count]) => ({ salesman, count }));
+          offersPerSalesman.sort((a, b) => b.count - a.count);
+
+        return offersPerSalesman;
       }
 
       case "offersPerCountry": {
@@ -72,7 +75,11 @@ function transformData(raw, selected) {
           }
           counts[country]++;
           });
-          return Object.entries(counts).map(([country, count]) => ({ country, count }));
+
+          let offersPerCountry = Object.entries(counts).map(([country, count]) => ({ country, count }));
+          offersPerCountry.sort((a, b) => b.count - a.count);
+
+          return offersPerCountry;
       }
       case "totalValueOverTime": {
         const totalsByDate = {};
@@ -402,6 +409,8 @@ export default function Dashboard() {
         
         let offersPerSalesman = Object.entries(counts).map(([salesman, count]) => ({ salesman, count }));
         console.log('transformed offersPerSalesman:', offersPerSalesman);
+
+        offersPerSalesman.sort((a, b) => b.count - a.count);
 
         return offersPerSalesman;
 }
