@@ -3,6 +3,7 @@ import useOffersData from "../hooks/useOffersData.js";
 import FilterBar from "../components/Dashboard/FilterBar.jsx";
 import ChartSection from "../components/Dashboard/ChartSection.jsx";
 import { chartOptions } from "../config/chartOptions.js";
+import ChartSelector from "../components/Dashboard/ChartSelector.jsx";
 import {
     transformData,
     getLast7DaysOrders,
@@ -52,26 +53,12 @@ export default function Dashboard() {
 
       <div className='bg-emerald-900 p-4 shadow-md rounded-md mt-4 min-h-0'>
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-4 min-h-0'>
-          {/* Left: select + big chart (2/3 on lg+) */}
             <section className='lg:col-span-2 min-h-0'>
-                {/* --- Chart selector --- */}
-                <div className='mb-2'>
-                    <label htmlFor='chart-select' className='block mb-2 text-xs/5 text-emerald-100'>
-                        Select chart:
-                    </label>
-                    <select
-                        id='chart-select'
-                        value={selectedChart}
-                        onChange={(e) => setSelectedChart(e.target.value)}
-                        className='bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2 shadow-sm'
-                    >
-                        {chartOptions.map((opt) => (
-                            <option key={opt.value} value={opt.value} className='bg-emerald-950 text-white'>
-                                {opt.label}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                <ChartSelector
+                    selectedChart={selectedChart}
+                    setSelectedChart={setSelectedChart}
+                    chartOptions={chartOptions}
+                />
 
                 <FilterBar
                     filters={filters}
