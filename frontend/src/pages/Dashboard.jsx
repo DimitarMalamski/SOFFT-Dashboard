@@ -26,7 +26,28 @@ export default function Dashboard() {
         setFilters,
         options,
         applyFilters,
+        loading,
+        error
     } = useOffersData();
+
+    // --- Loading & Error States ---
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-dvh">
+                <div className="w-12 h-12 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="flex items-center justify-center h-dvh">
+                <div className="text-red-400 text-lg">
+                    Failed to load data. Please try again later.
+                </div>
+            </div>
+        );
+    }
 
     const chartData = transformData(filteredOffers, selectedChart);
   const trendPoints = getLast7DaysOrders(offers);
