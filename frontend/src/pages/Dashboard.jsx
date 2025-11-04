@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useOffersData from "../hooks/useOffersData.js";
 import FilterBar from "../components/Dashboard/FilterBar.jsx";
 import ChartSection from "../components/Dashboard/ChartSection.jsx";
+import { chartOptions } from "../config/chartOptions.js";
 import {
     transformData,
     getLast7DaysOrders,
@@ -13,15 +14,6 @@ import Leaderboard from '../components/Leaderboard.jsx';
 import SalesTrendChart from '../components/Charts/SalesTrendChart.jsx';
 import ConversionsCard from '../components/Charts/ConversionsChart.jsx';
 import TimeToSaleCard from '../components/Charts/TimeToSaleChart.jsx';
-import 'react-datepicker/dist/react-datepicker.css';
-
-const chartOptions = [
-    { label: "Offers created per salesman", value: "offersPerSalesman", chart: "bar" },
-    { label: "Offers per country", value: "offersPerCountry", chart: "bar" },
-    { label: "Total value of offers over time", value: "totalValueOverTime", chart: "line" },
-    { label: "Conversion rate from offer to order", value: "conversionRate", chart: "line" },
-    { label: "Lead time analysis (from offer to acceptance)", value: "leadTimeAnalysis", chart: "line" },
-];
 
 export default function Dashboard() {
     const [selectedChart, setSelectedChart] = useState(chartOptions[0].value);
