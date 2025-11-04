@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import useOffersData from "../hooks/useOffersData.js";
 import FilterBar from "../components/Dashboard/FilterBar.jsx";
+import ChartSection from "../components/Dashboard/ChartSection.jsx";
 import {
     transformData,
     getLast7DaysOrders,
@@ -8,37 +9,18 @@ import {
     getTimeToSale,
     transformSalesMan,
 } from '../utils/offerTransformations';
-import LineChartType from '../components/LineChartType';
-import BarChartType from '../components/BarChartType';
 import Leaderboard from '../components/Leaderboard.jsx';
 import SalesTrendChart from '../components/Charts/SalesTrendChart.jsx';
 import ConversionsCard from '../components/Charts/ConversionsChart.jsx';
 import TimeToSaleCard from '../components/Charts/TimeToSaleChart.jsx';
-import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 
 const chartOptions = [
-  {
-    label: 'Offers created per salesman',
-    value: 'offersPerSalesman',
-    chart: 'bar',
-  },
-  { label: 'Offers per country', value: 'offersPerCountry', chart: 'bar' },
-  {
-    label: 'Total value of offers over time',
-    value: 'totalValueOverTime',
-    chart: 'line',
-  },
-  {
-    label: 'Conversion rate from offer to order',
-    value: 'conversionRate',
-    chart: 'line',
-  },
-  {
-    label: 'Lead time analysis (from offer to acceptance)',
-    value: 'leadTimeAnalysis',
-    chart: 'line',
-  },
+    { label: "Offers created per salesman", value: "offersPerSalesman", chart: "bar" },
+    { label: "Offers per country", value: "offersPerCountry", chart: "bar" },
+    { label: "Total value of offers over time", value: "totalValueOverTime", chart: "line" },
+    { label: "Conversion rate from offer to order", value: "conversionRate", chart: "line" },
+    { label: "Lead time analysis (from offer to acceptance)", value: "leadTimeAnalysis", chart: "line" },
 ];
 
 export default function Dashboard() {
@@ -53,58 +35,10 @@ export default function Dashboard() {
         applyFilters,
     } = useOffersData();
 
-  const chartConfig = chartOptions.find((opt) => opt.value === selectedChart);
-  const chartData = transformData(filteredOffers, selectedChart);
-
+    const chartData = transformData(filteredOffers, selectedChart);
   const trendPoints = getLast7DaysOrders(offers);
   const conversions = getConversionStats(offers);
   const { points: ttsPoints, avg: avgTts } = getTimeToSale(offers);
-
-  let chartProps = {};
-  switch (selectedChart) {
-    case 'offersPerSalesman':
-      chartProps = {
-        data: chartData,
-        xKey: 'salesman',
-        yKey: 'count',
-        label: 'Offers',
-      };
-      break;
-    case 'offersPerCountry':
-      chartProps = {
-        data: chartData,
-        xKey: 'country',
-        yKey: 'count',
-        label: 'Offers',
-      };
-      break;
-    case 'totalValueOverTime':
-      chartProps = {
-        data: chartData,
-        xKey: 'date',
-        yKey: 'total',
-        label: 'Total Value',
-      };
-      break;
-    case 'conversionRate':
-      chartProps = {
-        data: chartData,
-        xKey: 'date',
-        yKey: 'rate',
-        label: 'Conversion Rate (%)',
-      };
-      break;
-    case 'leadTimeAnalysis':
-      chartProps = {
-        data: chartData,
-        xKey: 'referenceId',
-        yKey: 'leadTime',
-        label: 'Lead Time (days)',
-      };
-      break;
-    default:
-      chartProps = {};
-  }
 
   return (
     <div className='h-dvh max-h-dvh min-h-0 overflow-y-auto'>
@@ -154,18 +88,11 @@ export default function Dashboard() {
                     applyFilters={applyFilters}
                 />
 
-                {/* --- Chart container --- */}
-                <div className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-[400px] flex items-center justify-center overflow-hidden'>
-                    {chartData.length === 0 ? (
-                        <div className='text-emerald-100 text-xl text-center'>
-                            No data to display for this chart.
-                        </div>
-                    ) : chartConfig.chart === 'line' ? (
-                        <LineChartType {...chartProps} />
-                    ) : (
-                        <BarChartType {...chartProps} />
-                    )}
-                </div>
+                <ChartSection
+                    selectedChart={selectedChart}
+                    chartOptions={chartOptions}
+                    chartData={chartData}
+                />
             </section>
           <aside className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-0'>
             <Leaderboard salesmanData={transformSalesMan(offers)} />
