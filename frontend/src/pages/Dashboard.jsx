@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import MockOffersAPI from '../mock-apis/MockDataAPI';
+import {
+    transformData,
+    getLast7DaysOrders,
+    getConversionStats,
+    getTimeToSale,
+    transformSalesMan,
+} from '../utils/offerTransformations';
 import LineChartType from '../components/LineChartType';
 import BarChartType from '../components/BarChartType';
 import Leaderboard from '../components/Leaderboard.jsx';
@@ -9,8 +15,6 @@ import TimeToSaleCard from '../components/Charts/TimeToSaleChart.jsx';
 import SalesOffersAPI from '../apis/SalesOffersAPI';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
-// import mockDataAPI from "../mock-apis/MockDataAPI";
-// import error from "eslint-plugin-react/lib/util/error.js";
 
 const chartOptions = [
   {
@@ -36,165 +40,165 @@ const chartOptions = [
   },
 ];
 
-function transformData(raw, selected) {
-  switch (selected) {
-      case "offersPerSalesman":{
-        const counts = {};
-        raw.forEach((offer) => {
-          let name = "Unknown";
-          if (offer.salesPersons && offer.salesPersons.length > 0 && offer.salesPersons[0].name) {
-            name = offer.salesPersons[0].name;
-          }
+// function transformData(raw, selected) {
+//   switch (selected) {
+//       case "offersPerSalesman":{
+//         const counts = {};
+//         raw.forEach((offer) => {
+//           let name = "Unknown";
+//           if (offer.salesPersons && offer.salesPersons.length > 0 && offer.salesPersons[0].name) {
+//             name = offer.salesPersons[0].name;
+//           }
+//
+//         if (!counts[name]) {
+//           counts[name] = 0;
+//         }
+//         counts[name]++;
+//           });
+//
+//           let offersPerSalesman = Object.entries(counts).map(([salesman, count]) => ({ salesman, count }));
+//           offersPerSalesman.sort((a, b) => b.count - a.count);
+//
+//         return offersPerSalesman;
+//       }
+//
+//       case "offersPerCountry": {
+//         const counts = {};
+//         raw.forEach((offer) => {
+//           let country = "Unknown";
+//           if (
+//               offer.salesOfferLine &&
+//               offer.salesOfferLine.length > 0 &&
+//               offer.salesOfferLine[0].delivery &&
+//               offer.salesOfferLine[0].delivery.destinationCountryCode) {
+//             country = offer.salesOfferLine[0].delivery.destinationCountryCode;
+//           }
+//
+//           if (!counts[country]) {
+//             counts[country] = 0;
+//           }
+//           counts[country]++;
+//           });
+//
+//           let offersPerCountry = Object.entries(counts).map(([country, count]) => ({ country, count }));
+//           offersPerCountry.sort((a, b) => b.count - a.count);
+//
+//           return offersPerCountry;
+//       }
+//       case "totalValueOverTime": {
+//         const totalsByDate = {};
+//           raw.forEach((offer) => {
+//               const date = offer.expiresAt ? offer.expiresAt.split("T")[0] : "Unknown";
+//               let total = 0;
+//               if (offer.salesOfferLine && offer.salesOfferLine.length > 0) {
+//                   total = offer.salesOfferLine.reduce(
+//                       (sum, line) => sum + (line.productPrice?.amount || 0),
+//                       0
+//                   );
+//               }
+//
+//               if (!totalsByDate[date]) totalsByDate[date] = 0;
+//               totalsByDate[date] += total;
+//           });
+//           return Object.entries(totalsByDate).map(([date, total]) => ({ date, total }));
+//       }
+//       case "conversionRate": {
+//         const statsByDate = {};
+//         raw.forEach((offer) => {
+//           if (!offer.updatedAt) return;
+//
+//           const date = offer.updatedAt.split(" ")[0];
+//             if (!statsByDate[date]) {
+//               statsByDate[date] = { offers: 0, orders: 0 };
+//             }
+//             statsByDate[date].offers++;
+//
+//           const accepted = offer.statusDescription === "Accepted";
+//           const hasOrders = offer.salesOfferOrders && offer.salesOfferOrders.length > 0;
+//
+//           if (accepted && hasOrders) {
+//             statsByDate[date].orders++;
+//           }
+//           });
+//           return Object.entries(statsByDate).map(([date, stats]) => {
+//               const rate = stats.offers > 0 ? (stats.orders / stats.offers) * 100 : 0;
+//               return { date, rate };
+//           });
+//       }
+//       case "leadTimeAnalysis": {
+//         const acceptedOffers = raw.filter(
+//           (offer) =>
+//             offer.statusDescription === "Accepted" &&
+//             offer.salesOfferOrders &&
+//             offer.salesOfferOrders.length > 0
+//         );
+//         return acceptedOffers.map((offer) => {
+//           const offerDate = new Date(offer.createdAt);
+//           const orderDate = new Date(offer.salesOfferOrders[0].createdAt);
+//           const leadTimeDays = (orderDate - offerDate) / (1000 * 60 * 60 * 24);
+//           return {
+//             referenceId: offer.referenceId,
+//             leadTime: Number(leadTimeDays.toFixed(2)),
+//           };
+//         });
+//       }
+//       default:
+//         return [];
+//   }
+// }
 
-        if (!counts[name]) {
-          counts[name] = 0;
-        }
-        counts[name]++;
-          });
+// function getLast7DaysOrders(raw) {
+//   const ordersByDay = {};
+//   raw.forEach((offer) => {
+//     if (!offer.salesOfferOrders || offer.salesOfferOrders.length === 0) return;
+//
+//     const orderDate = new Date(offer.salesOfferOrders[0].createdAt);
+//     const dateLabel = orderDate.toLocaleDateString('en-US', { weekday: 'short' });
+//
+//     if (!ordersByDay[dateLabel]) ordersByDay[dateLabel] = 0;
+//     ordersByDay[dateLabel]++;
+//   });
+//
+//   // Sort days by a fixed Mon–Sun order:
+//   const daysOrder = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+//   return daysOrder.map((d) => ({ label: d, value: ordersByDay[d] || 0 }));
+// }
 
-          let offersPerSalesman = Object.entries(counts).map(([salesman, count]) => ({ salesman, count }));
-          offersPerSalesman.sort((a, b) => b.count - a.count);
+// function getConversionStats(raw) {
+//   let total = 0;
+//   let wins = 0;
+//
+//   raw.forEach((offer) => {
+//     total++;
+//     const accepted = offer.statusDescription === "Accepted";
+//     const hasOrders = offer.salesOfferOrders && offer.salesOfferOrders.length > 0;
+//     if (accepted && hasOrders) wins++;
+//   });
+//
+//   return { wins, total };
+// }
 
-        return offersPerSalesman;
-      }
-
-      case "offersPerCountry": {
-        const counts = {};
-        raw.forEach((offer) => {
-          let country = "Unknown";
-          if (
-              offer.salesOfferLine &&
-              offer.salesOfferLine.length > 0 &&
-              offer.salesOfferLine[0].delivery &&
-              offer.salesOfferLine[0].delivery.destinationCountryCode) {
-            country = offer.salesOfferLine[0].delivery.destinationCountryCode;
-          }
-
-          if (!counts[country]) {
-            counts[country] = 0;
-          }
-          counts[country]++;
-          });
-
-          let offersPerCountry = Object.entries(counts).map(([country, count]) => ({ country, count }));
-          offersPerCountry.sort((a, b) => b.count - a.count);
-
-          return offersPerCountry;
-      }
-      case "totalValueOverTime": {
-        const totalsByDate = {};
-          raw.forEach((offer) => {
-              const date = offer.expiresAt ? offer.expiresAt.split("T")[0] : "Unknown";
-              let total = 0;
-              if (offer.salesOfferLine && offer.salesOfferLine.length > 0) {
-                  total = offer.salesOfferLine.reduce(
-                      (sum, line) => sum + (line.productPrice?.amount || 0),
-                      0
-                  );
-              }
-
-              if (!totalsByDate[date]) totalsByDate[date] = 0;
-              totalsByDate[date] += total;
-          });
-          return Object.entries(totalsByDate).map(([date, total]) => ({ date, total }));
-      }
-      case "conversionRate": {
-        const statsByDate = {};
-        raw.forEach((offer) => {
-          if (!offer.updatedAt) return;
-
-          const date = offer.updatedAt.split(" ")[0];
-            if (!statsByDate[date]) {
-              statsByDate[date] = { offers: 0, orders: 0 };
-            }
-            statsByDate[date].offers++;
-
-          const accepted = offer.statusDescription === "Accepted";
-          const hasOrders = offer.salesOfferOrders && offer.salesOfferOrders.length > 0;
-
-          if (accepted && hasOrders) {
-            statsByDate[date].orders++;
-          }
-          });
-          return Object.entries(statsByDate).map(([date, stats]) => {
-              const rate = stats.offers > 0 ? (stats.orders / stats.offers) * 100 : 0;
-              return { date, rate };
-          });
-      }
-      case "leadTimeAnalysis": {
-        const acceptedOffers = raw.filter(
-          (offer) =>
-            offer.statusDescription === "Accepted" &&
-            offer.salesOfferOrders &&
-            offer.salesOfferOrders.length > 0
-        );
-        return acceptedOffers.map((offer) => {
-          const offerDate = new Date(offer.createdAt);
-          const orderDate = new Date(offer.salesOfferOrders[0].createdAt);
-          const leadTimeDays = (orderDate - offerDate) / (1000 * 60 * 60 * 24);
-          return {
-            referenceId: offer.referenceId,
-            leadTime: Number(leadTimeDays.toFixed(2)),
-          };
-        });
-      }
-      default:
-        return [];
-  }
-}
-
-function getLast7DaysOrders(raw) {
-  const ordersByDay = {};
-  raw.forEach((offer) => {
-    if (!offer.salesOfferOrders || offer.salesOfferOrders.length === 0) return;
-
-    const orderDate = new Date(offer.salesOfferOrders[0].createdAt);
-    const dateLabel = orderDate.toLocaleDateString('en-US', { weekday: 'short' });
-
-    if (!ordersByDay[dateLabel]) ordersByDay[dateLabel] = 0;
-    ordersByDay[dateLabel]++;
-  });
-
-  // Sort days by a fixed Mon–Sun order:
-  const daysOrder = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  return daysOrder.map((d) => ({ label: d, value: ordersByDay[d] || 0 }));
-}
-
-function getConversionStats(raw) {
-  let total = 0;
-  let wins = 0;
-
-  raw.forEach((offer) => {
-    total++;
-    const accepted = offer.statusDescription === "Accepted";
-    const hasOrders = offer.salesOfferOrders && offer.salesOfferOrders.length > 0;
-    if (accepted && hasOrders) wins++;
-  });
-
-  return { wins, total };
-}
-
-function getTimeToSale(raw) {
-  const acceptedOffers = raw.filter(
-    (offer) =>
-      offer.statusDescription === "Accepted" &&
-      offer.salesOfferOrders &&
-      offer.salesOfferOrders.length > 0
-  );
-
-  const points = acceptedOffers.map((offer, idx) => {
-    const offerDate = new Date(offer.createdAt);
-    const orderDate = new Date(offer.salesOfferOrders[0].createdAt);
-    const diffDays = (orderDate - offerDate) / (1000 * 60 * 60 * 24);
-    return { label: `D${idx + 1}`, value: Number(diffDays.toFixed(1)) };
-  });
-
-  const avg = points.length
-    ? points.reduce((sum, p) => sum + p.value, 0) / points.length
-    : 0;
-
-  return { points, avg };
-}
+// function getTimeToSale(raw) {
+//   const acceptedOffers = raw.filter(
+//     (offer) =>
+//       offer.statusDescription === "Accepted" &&
+//       offer.salesOfferOrders &&
+//       offer.salesOfferOrders.length > 0
+//   );
+//
+//   const points = acceptedOffers.map((offer, idx) => {
+//     const offerDate = new Date(offer.createdAt);
+//     const orderDate = new Date(offer.salesOfferOrders[0].createdAt);
+//     const diffDays = (orderDate - offerDate) / (1000 * 60 * 60 * 24);
+//     return { label: `D${idx + 1}`, value: Number(diffDays.toFixed(1)) };
+//   });
+//
+//   const avg = points.length
+//     ? points.reduce((sum, p) => sum + p.value, 0) / points.length
+//     : 0;
+//
+//   return { points, avg };
+// }
 
 // const demoTrend = [
 //   { label: 'Mon', value: 120 },
@@ -393,27 +397,27 @@ export default function Dashboard() {
   //   console.log('Fetched offers:', offers);
   // }, []);
 
-  const transformSalesMan = (offers) => {
-  const counts = {};
-        offers.forEach((offer) => {
-          let name = "Unknown";
-          if (offer.salesPersons && offer.salesPersons.length > 0 && offer.salesPersons[0].name) {
-            name = offer.salesPersons[0].name;
-          }
-
-        if (!counts[name]) {
-          counts[name] = 0;
-        }
-        counts[name]++;
-          });
-        
-        let offersPerSalesman = Object.entries(counts).map(([salesman, count]) => ({ salesman, count }));
-        console.log('transformed offersPerSalesman:', offersPerSalesman);
-
-        offersPerSalesman.sort((a, b) => b.count - a.count);
-
-        return offersPerSalesman;
-}
+//   const transformSalesMan = (offers) => {
+//   const counts = {};
+//         offers.forEach((offer) => {
+//           let name = "Unknown";
+//           if (offer.salesPersons && offer.salesPersons.length > 0 && offer.salesPersons[0].name) {
+//             name = offer.salesPersons[0].name;
+//           }
+//
+//         if (!counts[name]) {
+//           counts[name] = 0;
+//         }
+//         counts[name]++;
+//           });
+//
+//         let offersPerSalesman = Object.entries(counts).map(([salesman, count]) => ({ salesman, count }));
+//         console.log('transformed offersPerSalesman:', offersPerSalesman);
+//
+//         offersPerSalesman.sort((a, b) => b.count - a.count);
+//
+//         return offersPerSalesman;
+// }
 
   const chartConfig = chartOptions.find((opt) => opt.value === selectedChart);
   const chartData = transformData(filteredOffers, selectedChart);
