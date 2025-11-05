@@ -90,13 +90,15 @@ export default function useOffersData() {
     // --- Apply filters ---
     const applyFilters = () => {
         const filtered = filterOffers(offers, filters);
-        setFilters(filtered);
+        setFilteredOffers(filtered);
     };
+
+    const { productType } = filters;
 
     // --- handle brand reset when productType changes ---
     useEffect(() => {
         setFilters((prev) => ({ ...prev, brand: "" }));
-    }, [filters.productType]);
+    }, [productType]);
 
     return {
         offers,

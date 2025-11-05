@@ -4,11 +4,13 @@ export function transformData(raw, selected) {
         case "offersPerSalesman": {
             const counts = {};
             raw.forEach((offer) => {
-                let name = "Unknown";
-                if (offer.salesPersons?.[0]?.name) {
-                    name = offer.salesPersons[0].name;
+                if (offer.salesPersons?.length) {
+                    offer.salesPersons.forEach((p) => {
+                        const name = p?.name?.trim();
+                        if (!name) return;
+                        counts[name] = (counts[name] || 0) + 1;
+                    });
                 }
-                counts[name] = (counts[name] || 0) + 1;
             });
 
             return Object.entries(counts)
@@ -19,7 +21,8 @@ export function transformData(raw, selected) {
         case "offersPerCountry": {
             const counts = {};
             raw.forEach((offer) => {
-                let country = offer.salesOfferLine?.[0]?.delivery?.destinationCountryCode || "Unknown";
+                const country = offer.salesOfferLine?.[0]?.delivery?.destinationCountryCode?.trim();
+                if (!country) return;
                 counts[country] = (counts[country] || 0) + 1;
             });
             return Object.entries(counts)
@@ -128,9 +131,15 @@ export function getTimeToSale(raw) {
 export function transformSalesMan(offers) {
     const counts = {};
     offers.forEach((offer) => {
-        const name = offer.salesPersons?.[0]?.name || "Unknown";
-        counts[name] = (counts[name] || 0) + 1;
+        if (offer.salesPersons?.length) {
+            offer.salesPersons.forEach((p) => {
+                if (!p.name) return;
+                const name = p.name.trim();
+                counts[name] = (counts[name] || 0) + 1;
+            });
+        }
     });
+
     return Object.entries(counts)
         .map(([salesman, count]) => ({ salesman, count }))
         .sort((a, b) => b.count - a.count);
