@@ -1,25 +1,33 @@
-import React from "react";
+import React, { useMemo, useRef, useEffect, useState } from "react";
 import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer } from "recharts";
 
 export default function ChartSalesByDepot({ data }) {
-    const totals = data.reduce((acc, sale) => {
-        const name = sale.depotName || "Unknown";
-        acc[name] = (acc[name] || 0) + sale.totalPrice;
-        return acc;
-    }, {});
+    const colors = ["#34d399", "#10b981", "#059669", "#047857", "#065f46"];
 
-    const chartData = Object.entries(totals).map(([name, total]) => ({
-        name,
-        value: total,
-    }));
+    const chartData = useMemo(() => {
+        const totals = data.reduce((acc, sale) => {
+            const name = sale.depotName || "Unknown";
+            acc[name] = (acc[name] || 0) + sale.totalPrice;
+            return acc;
+        }, {});
 
-    const colors = [
-        "#34d399",
-        "#10b981",
-        "#059669",
-        "#047857",
-        "#065f46",
-    ];
+        return Object.entries(totals)
+            .map(([name, total]) => ({ name, value: total }))
+            .sort((a, b) => b.value - a.value)
+            .slice(0, 5);
+    }, [data]);
+
+    const [animateOnce, setAnimateOnce] = useState(true);
+    const didAnimate = useRef(false);
+
+    useEffect(() => {
+        if (!didAnimate.current && chartData.length > 0) {
+            didAnimate.current = true;
+            setAnimateOnce(true);
+            const timer = setTimeout(() => setAnimateOnce(false), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [chartData]);
 
     return (
         <div className="bg-emerald-800/40 border border-emerald-800 rounded-xl p-4 flex-1">
@@ -35,6 +43,7 @@ export default function ChartSalesByDepot({ data }) {
                         outerRadius={100}
                         fill="#10b981"
                         label={({ name }) => name}
+                        isAnimationActive={animateOnce}
                     >
                         {chartData.map((_, i) => (
                             <Cell key={i} fill={colors[i % colors.length]} />

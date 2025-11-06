@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import mockData from "../mock-data/salesData.json";
 
 export function useSalesData() {
     const [sales, setSales] = useState([]);
-    const [filtered, setFiltered] = useState([]);
     const [filters, setFilters] = useState({
         status: "All",
         salesperson: "All",
@@ -11,30 +10,33 @@ export function useSalesData() {
     });
 
     useEffect(() => {
-        setTimeout(() => {
-            setSales(mockData);
-            setFiltered(mockData);
-        }, 500);
+        const timer = setTimeout(() => setSales(mockData), 500);
+        return () => clearTimeout(timer);
     }, []);
 
-    const applyFilters = () => {
+    const filtered = useMemo(() => {
         let result = [...sales];
-        if (filters.status !== "All")
+        if (filters.status !== "All") {
             result = result.filter((s) => s.status === filters.status);
-        if (filters.salesperson !== "All")
-            result = result.filter((s) => s.salesPersonName === filters.salesperson);
-        if (filters.depot !== "All")
+        }
+        if (filters.salesperson !== "All") {
+            result = result.filter(
+                (s) => s.salesPersonName === filters.salesperson
+            );
+        }
+        if (filters.depot !== "All") {
             result = result.filter((s) => s.depotName === filters.depot);
-        setFiltered(result);
-    };
+        }
+        return result;
+    }, [sales, filters]);
 
+    const applyFilters = () => {};
     const resetFilters = () => {
         setFilters({
             status: "All",
             salesperson: "All",
             depot: "All"
         });
-        setFiltered(sales);
     };
 
     return {

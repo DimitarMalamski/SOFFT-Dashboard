@@ -10,16 +10,18 @@ import {
 } from "recharts";
 
 export default function ChartSalesByPerson({ data }) {
+    // Calculate total by salesmen
     const totals = data.reduce((acc, sale) => {
         const name = sale.salesPersonName || "Unknown";
         acc[name] = (acc[name] || 0) + sale.totalPrice;
         return acc;
     }, {});
 
-    const chartData = Object.entries(totals).map(([name, total]) => ({
-        name,
-        total
-    }));
+    // Showcase only the top 5 salesmen
+    const chartData = Object.entries(totals)
+        .map(([name, total]) => ({ name, total }))
+        .sort((a, b) => b.total - a.total)
+        .slice(0, 5);
 
     return (
         <div className="bg-emerald-800/40 border border-emerald-800 rounded-xl p-4 flex-1">

@@ -1,6 +1,12 @@
 import React from "react";
 
-export default function SalesTable({ data }) {
+export default function SalesTable({
+   data,
+   currentPage,
+   totalPages,
+   onNext,
+   onPrev,
+}) {
     return (
         <div className="bg-emerald-800/40 border border-emerald-800 rounded-xl shadow-md overflow-x-auto">
             <table className="min-w-full border-collapse text-sm text-emerald-50">
@@ -54,9 +60,36 @@ export default function SalesTable({ data }) {
                 </tbody>
             </table>
 
-            {data.length === 0 && (
-                <div className="p-6 text-center text-emerald-300">
-                    Loading sales data...
+            {/* Pagination Controls */}
+            {data.length > 0 && (
+                <div className="flex justify-between items-center p-3 border-t border-emerald-800 text-emerald-100 text-sm">
+                    <button
+                        onClick={onPrev}
+                        disabled={currentPage === 1}
+                        className={`px-3 py-1 rounded-md border border-emerald-700 transition ${
+                            currentPage === 1
+                                ? "opacity-40 cursor-not-allowed"
+                                : "hover:bg-emerald-700/40"
+                        }`}
+                    >
+                        ← Prev
+                    </button>
+
+                    <span>
+            Page {currentPage} of {totalPages}
+          </span>
+
+                    <button
+                        onClick={onNext}
+                        disabled={currentPage === totalPages}
+                        className={`px-3 py-1 rounded-md border border-emerald-700 transition ${
+                            currentPage === totalPages
+                                ? "opacity-40 cursor-not-allowed"
+                                : "hover:bg-emerald-700/40"
+                        }`}
+                    >
+                        Next →
+                    </button>
                 </div>
             )}
         </div>
