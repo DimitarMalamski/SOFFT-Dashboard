@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import StatsBar from "../components/Offers/StatsBar.jsx";
-import ChartsSection from "../components/Offers/ChartsSection.jsx";
+import ChartsSection from "../components/Offers/ChartsSection/ChartsSection.jsx";
 import OffersGrid from "../components/Offers/OffersGrid.jsx";
 import FilterBar from "../components/Offers/FilterBar/FilterBar.jsx";
 import mockData from "../mock-data/mockOffersData.json";
