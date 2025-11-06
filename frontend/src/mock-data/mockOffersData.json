@@ -1,0 +1,54 @@
+[
+  {
+    "uuid": "abc-1",
+    "referenceId": 10007502,
+    "status": "Pending",
+    "customer": "Mock Industries Ltd.",
+    "salesperson": "Alice Example",
+    "depot": "Dortmund",
+    "createdAt": "2025-09-01T12:00:00",
+    "expiresAt": "2025-09-10T12:00:00",
+    "totalPrice": 45000,
+    "discount": 5000,
+    "tax": 9000
+  },
+  {
+    "uuid": "abc-2",
+    "referenceId": 10007503,
+    "status": "Approved",
+    "customer": "Sample Corp",
+    "salesperson": "Bob Sample",
+    "depot": "Veghel",
+    "createdAt": "2025-09-05T12:00:00",
+    "expiresAt": "2025-09-15T12:00:00",
+    "totalPrice": 60000,
+    "discount": 0,
+    "tax": 12000
+  },
+  {
+    "uuid": "abc-3",
+    "referenceId": 10007504,
+    "status": "Cancelled",
+    "customer": "Delta Logistics",
+    "salesperson": "Alice Example",
+    "depot": "Dortmund",
+    "createdAt": "2025-09-08T09:00:00",
+    "expiresAt": "2025-09-18T09:00:00",
+    "totalPrice": 40000,
+    "discount": 2000,
+    "tax": 8000
+  },
+  {
+    "uuid": "abc-4",
+    "referenceId": 10007505,
+    "status": "Pending",
+    "customer": "TransCargo BV",
+    "salesperson": "Charlie Green",
+    "depot": "Veghel",
+    "createdAt": "2025-09-10T09:00:00",
+    "expiresAt": "2025-09-20T09:00:00",
+    "totalPrice": 55000,
+    "discount": 1000,
+    "tax": 11000
+  }
+]
