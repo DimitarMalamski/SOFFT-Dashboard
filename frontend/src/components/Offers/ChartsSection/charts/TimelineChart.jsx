@@ -19,11 +19,19 @@ export default function TimelineChart({ data }) {
                 <LineChart data={data}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#064e3b" />
                     <XAxis dataKey="date" stroke="#a7f3d0" />
-                    <YAxis stroke="#a7f3d0" />
-                    <Tooltip />
+                    <YAxis
+                        stroke="#a7f3d0"
+                        label={{
+                            value: "Offers",
+                            angle: -90,
+                            position: "insideLeft",
+                            fill: "#a7f3d0",
+                        }}
+                    />
+                    <Tooltip formatter={(value) => [`${value}`, "Offers"]} />
                     <Line
                         type="monotone"
-                        dataKey="count"
+                        dataKey="offers"
                         stroke="#34d399"
                         strokeWidth={2}
                         dot={{ r: 3 }}

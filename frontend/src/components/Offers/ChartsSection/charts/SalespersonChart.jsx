@@ -18,10 +18,10 @@ export default function SalespersonChart({ data }) {
             <ResponsiveContainer width="100%" height={250}>
                 <BarChart data={data}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#064e3b" />
-                    <XAxis dataKey="name" stroke="#a7f3d0" />
-                    <YAxis stroke="#a7f3d0" />
-                    <Tooltip />
-                    <Bar dataKey="count" fill="#10b981" radius={[4, 4, 0, 0]} />
+                    <XAxis dataKey="offers" stroke="#a7f3d0" />
+                    <YAxis stroke="#a7f3d0" label={{ value: "Offers", angle: -90, position: "insideLeft", fill: "#a7f3d0" }} />
+                    <Tooltip formatter={(value) => [`${value}`, "Offers"]} />
+                    <Bar dataKey="offers" fill="#10b981" radius={[4, 4, 0, 0]} />
                 </BarChart>
             </ResponsiveContainer>
         </div>

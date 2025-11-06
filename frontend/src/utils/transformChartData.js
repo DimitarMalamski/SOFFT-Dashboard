@@ -11,7 +11,7 @@ export function transformChartData(offers) {
             acc[o.salesperson] = (acc[o.salesperson] || 0) + 1;
             return acc;
         }, {})
-    ).map(([name, count]) => ({ name, count }));
+    ).map(([name, count]) => ({ name, offers: count }));
 
     // By timeline
     const offersByDate = Object.entries(
@@ -22,7 +22,7 @@ export function transformChartData(offers) {
         }, {})
     )
         .sort(([a], [b]) => new Date(a) - new Date(b))
-        .map(([date, count]) => ({ date, count }));
+        .map(([date, count]) => ({ date, offers: count }));
 
     return { statusCounts, salesByPerson, offersByDate };
 }

@@ -8,7 +8,7 @@ import mockData from "../mock-data/mockOffersData.json";
 export default function OffersDashboard() {
     const [offers, setOffers] = useState([]);
     const [filteredOffers, setFilteredOffers] = useState([]);
-    const [layout, setLayout] = useState("charts"); // 👈 default to charts mode
+    const [layout, setLayout] = useState("charts");
 
     useEffect(() => {
         setOffers(mockData);
