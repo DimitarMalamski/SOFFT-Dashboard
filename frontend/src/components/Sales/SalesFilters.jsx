@@ -64,12 +64,6 @@ export default function SalesFilters({
             {/* Buttons */}
             <div className="flex items-end gap-2 ml-auto">
                 <button
-                    className="px-4 py-2 bg-emerald-700 hover:bg-emerald-600 rounded-md"
-                    onClick={applyFilters}
-                >
-                    Apply
-                </button>
-                <button
                     className="px-4 py-2 border border-emerald-600 text-emerald-300 rounded-md hover:bg-emerald-800/60"
                     onClick={resetFilters}
                 >

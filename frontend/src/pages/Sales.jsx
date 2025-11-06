@@ -40,8 +40,8 @@ export default function SalesPage() {
             />
 
             <div className="flex flex-col lg:flex-row gap-6">
-                <ChartSalesByPerson data={filtered} />
-                <ChartSalesByDepot data={filtered} />
+                <ChartSalesByPerson data={sales} />
+                <ChartSalesByDepot data={sales} />
             </div>
         </div>
     );
