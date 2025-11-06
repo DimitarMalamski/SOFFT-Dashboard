@@ -18,7 +18,12 @@ export default function TimelineChart({ data }) {
             <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={data}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#064e3b" />
-                    <XAxis dataKey="date" stroke="#a7f3d0" />
+                    <XAxis
+                        dataKey="date"
+                        stroke="#a7f3d0"
+                        interval="preserveStartEnd"
+                        tick={{ fontSize: 12 }}
+                    />
                     <YAxis
                         stroke="#a7f3d0"
                         label={{

@@ -24,9 +24,9 @@ export default function OfferCard({ offer }) {
 
             {/* Info */}
             <div className="text-emerald-100 text-sm space-y-1 mb-4">
-                <p>💼 Salesperson: {offer.salesperson}</p>
-                <p>🏢 Depot: {offer.depot}</p>
-                <p>🕓 Expires: {offer.expiresAt.split("T")[0]}</p>
+                <p>Salesperson: {offer.salesperson}</p>
+                <p>Depot: {offer.depot}</p>
+                <p>Expires: {offer.expiresAt.split("T")[0]}</p>
             </div>
 
             {/* Footer */}

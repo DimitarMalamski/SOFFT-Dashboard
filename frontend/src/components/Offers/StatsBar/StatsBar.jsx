@@ -10,32 +10,32 @@ export default function StatsBar({ offers }) {
         {
             label: "Total Offers",
             value: stats.total,
-            icon: <BarChart3 className="w-6 h-6 text-emerald-300" />,
-            color: "from-emerald-800 to-emerald-700",
+            icon: <BarChart3 className="w-6 h-6 text-emerald-400" />,
+            color: "from-neutral-900 to-emerald-800",
         },
         {
             label: "Pending",
             value: stats.pending,
-            icon: <Clock className="w-6 h-6 text-amber-300" />,
-            color: "from-amber-700 to-amber-600",
+            icon: <Clock className="w-6 h-6 text-emerald-300" />,
+            color: "from-neutral-900 to-emerald-800",
         },
         {
             label: "Approved",
             value: stats.approved,
             icon: <CheckCircle className="w-6 h-6 text-emerald-300" />,
-            color: "from-emerald-600 to-emerald-500",
+            color: "from-neutral-900 to-emerald-800",
         },
         {
             label: "Cancelled",
             value: stats.cancelled,
-            icon: <XCircle className="w-6 h-6 text-rose-300" />,
-            color: "from-rose-700 to-rose-600",
+            icon: <XCircle className="w-6 h-6 text-gray-300" />,
+            color: "from-neutral-900 to-emerald-800",
         },
         {
             label: "Total Value (€)",
             value: `€${stats.totalValue.toLocaleString()}`,
-            icon: <Euro className="w-6 h-6 text-emerald-300" />,
-            color: "from-emerald-700 to-emerald-600",
+            icon: <Euro className="w-6 h-6 text-emerald-400" />,
+            color: "from-neutral-900 to-emerald-800",
         },
     ];
 
