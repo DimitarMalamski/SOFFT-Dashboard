@@ -1,0 +1,47 @@
+[
+  {
+    "uuid": "abcdef12-3456-7890-abcd-1234567890ab",
+    "referenceId": 10007502,
+    "ticketId": 6430012,
+    "status": "Pending",
+    "customerCompanyName": "Mock Industries Ltd.",
+    "salesPersonName": "Alice Example",
+    "depotName": "Dortmund",
+    "currency": "EUR",
+    "totalPrice": 45000,
+    "discount": 5000,
+    "tax": 9000,
+    "createdAt": "2025-09-09 12:00:00",
+    "expiresAt": "2025-09-16 12:05:00"
+  },
+  {
+    "uuid": "fedcba98-7654-3210-fedc-ba9876543210",
+    "referenceId": 10007503,
+    "ticketId": 6430013,
+    "status": "Cancelled",
+    "customerCompanyName": "Sample Corp",
+    "salesPersonName": "Bob Sample",
+    "depotName": "Veghel",
+    "currency": "EUR",
+    "totalPrice": 60000,
+    "discount": 0,
+    "tax": 12000,
+    "createdAt": "2025-09-09 13:00:00",
+    "expiresAt": null
+  },
+  {
+    "uuid": "1234abcd-5678-efgh-ijkl-9876mnopqrst",
+    "referenceId": 10007504,
+    "ticketId": 6430014,
+    "status": "Completed",
+    "customerCompanyName": "LogiTrade BV",
+    "salesPersonName": "Clara Jensen",
+    "depotName": "Eindhoven",
+    "currency": "EUR",
+    "totalPrice": 52000,
+    "discount": 1500,
+    "tax": 10400,
+    "createdAt": "2025-10-01 10:00:00",
+    "expiresAt": "2025-10-15 10:00:00"
+  }
+]
