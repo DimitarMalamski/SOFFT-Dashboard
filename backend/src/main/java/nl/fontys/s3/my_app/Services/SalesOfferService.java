@@ -2,7 +2,12 @@ package nl.fontys.s3.my_app.Services;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 
@@ -17,8 +22,11 @@ import nl.fontys.s3.my_app.Repositories.CustomerCompany.CompanyAddressRepo;
 import nl.fontys.s3.my_app.models.Address;
 import nl.fontys.s3.my_app.models.CompanyAddress;
 import nl.fontys.s3.my_app.models.Delivery;
+import nl.fontys.s3.my_app.models.Product;
 import nl.fontys.s3.my_app.models.SalesOffer;
 import nl.fontys.s3.my_app.models.SalesOfferLine;
+import nl.fontys.s3.my_app.models.SalesOfferSalesPerson;
+import nl.fontys.s3.my_app.models.SalesPerson;
 import nl.fontys.s3.my_app.models.dtos.SalesOffer.AddressDTO;
 import nl.fontys.s3.my_app.models.dtos.SalesOffer.CompanyDTO;
 import nl.fontys.s3.my_app.models.dtos.SalesOffer.DeliveryDTO;
@@ -32,6 +40,11 @@ import nl.fontys.s3.my_app.models.dtos.SalesOffer.SalesOfferLineDTO;
 import nl.fontys.s3.my_app.models.dtos.SalesOffer.SalesOffersPerCountryDTO;
 import nl.fontys.s3.my_app.models.dtos.SalesOffer.SalesPersonDTO;
 import nl.fontys.s3.my_app.models.dtos.SalesOffer.SellerDTO;
+import nl.fontys.s3.my_app.models.dtos.SalesOfferSimple.DeliverySimpleDTO;
+import nl.fontys.s3.my_app.models.dtos.SalesOfferSimple.ProductSimpleDTO;
+import nl.fontys.s3.my_app.models.dtos.SalesOfferSimple.SalesOfferLineSimpleDTO;
+import nl.fontys.s3.my_app.models.dtos.SalesOfferSimple.SalesOfferSimpleDTO;
+import nl.fontys.s3.my_app.models.dtos.SalesOfferSimple.SalesPersonSimpleDTO;
 
 @Service
 public class SalesOfferService {
@@ -71,11 +84,9 @@ public class SalesOfferService {
 
     // Get all SalesOffer DTOs
     public List<SalesOfferDTO> getAllSalesOffersDTO() {
-        List<SalesOfferDTO> dtos = salesOfferRepo.findAll()
-                .stream()
-                .map(this::mapSalesOfferDTO)
-                .toList();
-        return dtos;
+        List<SalesOffer> salesOffers = salesOfferRepo.findAll();
+
+        return this.mapSalesOffersDTO(salesOffers);
     }
 
     // Get SalesOffer DTO by UUID
@@ -85,75 +96,269 @@ public class SalesOfferService {
         return this.mapSalesOfferDTO(salesOffer);
     }
 
-    // Get SalesOfferLine DTO by UUID
-    public SalesOfferLineDTO getSalesOfferLineByUuid(String uuid) {
-        SalesOfferLine salesOfferLine = salesOfferLineRepo.findByLineUuid(uuid).orElse(null);
-        return this.mapSalesOfferLineDTO(salesOfferLine);
+    public List<SalesOfferSimpleDTO> getAllSalesOffersSimpleDTO() {
+        List<SalesOffer> salesOffers = salesOfferRepo.findAll();
+        return this.mapSalesOfferSimpleDTOs(salesOffers); 
     }
 
+    // // Get SalesOfferLine DTO by UUID
+    // public SalesOfferLineDTO getSalesOfferLineByUuid(String uuid) {
+    // SalesOfferLine salesOfferLine =
+    // salesOfferLineRepo.findByLineUuid(uuid).orElse(null);
+    // return this.mapSalesOfferLineDTO(salesOfferLine);
+    // }
+
     // Get SalesOfferLines DTOs by SalesOffer UUID
-    public List<SalesOfferLineDTO> getSalesOfferLinesDTOByOfferUuid(SalesOffer so) {
-        List<SalesOfferLineDTO> lines = salesOfferLineRepo.findByOfferUuid(so.getUuid())
-                .stream()
-                .map(this::mapSalesOfferLineDTO)
-                .toList();
-        return lines;
-    }   
+    public List<SalesOfferLineDTO> getSalesOfferLinesDTOByOfferUuid(String soUuid) {
+        return this.mapSalesOfferLinesDTO(salesOfferLineRepo.findByOfferUuid(soUuid));
+    }
 
     // Get count of SalesOffers per country
     public List<SalesOffersPerCountryDTO> getSalesOffersCountPerCountry() {
 
         List<SalesOffersPerCountryDTO> addresses = CompanyAddressRepo.findAll()
-        .stream()
-        .map(ca -> {
-            Long count = salesOfferRepo.countByCustomerUuid(ca.getCompanyUuid());
-            return new SalesOffersPerCountryDTO(ca.getCountryCode(), count);
-        })
-        .toList();
+                .stream()
+                .map(ca -> {
+                    Long count = salesOfferRepo.countByCustomerUuid(ca.getCompanyUuid());
+                    return new SalesOffersPerCountryDTO(ca.getCountryCode(), count);
+                })
+                .toList();
 
         return addresses;
     }
 
-    // Map SalesOffer to SalesOfferDTO
-    private SalesOfferDTO mapSalesOfferDTO(SalesOffer salesOffers) {
-
-        DiscountDTO discount = new DiscountDTO(TEMP_PRICEDTO);
-        CompanyDTO company = new CompanyDTO(
-                salesOffers.getCustomerUuid() == null ? null : salesOffers.getCustomerUuid());
-        List<SalesOfferLineDTO> lines = getSalesOfferLinesDTOByOfferUuid(salesOffers);
-        List<SalesPersonDTO> people = salesOfferSalesPersonRepo
-                .findByOfferUuid(salesOffers.getUuid())
-                .stream()
-                .map(link -> salesPersonRepo.findByUuid(link.getSalespersonUuid()))
-                .flatMap(Optional::stream)
-                .map(sp -> new SalesPersonDTO(sp))
-                .toList();
-
-        return new SalesOfferDTO(salesOffers, discount, company, lines, people);
-
+    private SalesOfferDTO mapSalesOfferDTO(SalesOffer offer) {
+        if (offer == null)
+            return null;
+        return mapSalesOffersDTO(List.of(offer)).get(0);
     }
 
-    // Map SalesOfferLine to SalesOfferLineDTO
-    private SalesOfferLineDTO mapSalesOfferLineDTO(SalesOfferLine salesOfferLine) {
+    // Service method: map many offers at once (fast path)
+    public List<SalesOfferSimpleDTO> mapSalesOfferSimpleDTOs(List<SalesOffer> offers) {
+        if (offers == null || offers.isEmpty())
+            return List.of();
 
-        Delivery delivery = deliveryRepo.findByUuid(salesOfferLine.getDeliveryUuid()).orElse(null);
-        Address fromAddress = (delivery == null) ? null
-                : addressRepo.findByUuid(delivery.getFromAddressUuid()).orElse(null);
-        Address toAddress = (delivery == null) ? null
-                : addressRepo.findByUuid(delivery.getToAddressUuid()).orElse(null);
-        ProductDTO productDTO = new ProductDTO(productRepo.findById(salesOfferLine.getProductId()).orElse(null),
-                TEMP_SELLERDTO,
-                new LocationDTO(true, true, new AddressDTO(fromAddress == null ? null : fromAddress)));
+        // 1) Collect offer UUIDs
+        Set<String> offerUuids = offers.stream()
+                .map(SalesOffer::getUuid)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
 
-        SalesOfferLineDTO salesOfferLineDTO = new SalesOfferLineDTO(
-                salesOfferLine,
-                productDTO,
-                TEMP_PRODUCTPRICEDTO,
-                new DeliveryDTO(delivery, new AddressDTO(fromAddress == null ? null : fromAddress),
-                        new AddressDTO(toAddress == null ? null : toAddress),
-                        false));
+        // 2) Preload all lines for these offers
+        List<SalesOfferLine> allLines = salesOfferLineRepo.findAllByOfferUuidIn(offerUuids);
+        Map<String, List<SalesOfferLine>> linesByOffer = allLines.stream()
+                .collect(Collectors.groupingBy(SalesOfferLine::getOfferUuid));
 
-        return salesOfferLineDTO;
+        // 3) Preload offer–salesperson links and group by offer
+        List<SalesOfferSalesPerson> allLinks = salesOfferSalesPersonRepo.findAllByOfferUuidIn(offerUuids);
+        Map<String, List<SalesOfferSalesPerson>> linksByOffer = allLinks.stream()
+                .collect(Collectors.groupingBy(SalesOfferSalesPerson::getOfferUuid));
+
+        // 4) Preload SalesPersons
+        Set<String> salesPersonUuids = allLinks.stream()
+                .map(SalesOfferSalesPerson::getSalespersonUuid)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+        Map<String, SalesPerson> spByUuid = salesPersonUuids.isEmpty() ? Map.of()
+                : salesPersonRepo.findAllByUuidIn(salesPersonUuids).stream()
+                        .collect(Collectors.toMap(SalesPerson::getUuid, sp -> sp));
+
+        // 5) From lines, collect ProductIds + DeliveryUuids
+        Set<Integer> productIds = allLines.stream()
+                .map(SalesOfferLine::getProductId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+        Set<String> deliveryUuids = allLines.stream()
+                .map(SalesOfferLine::getDeliveryUuid)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        // 6) Preload Products & Deliveries
+        Map<Integer, Product> productById = productIds.isEmpty() ? Map.of()
+                : productRepo.findAllByIdIn(productIds).stream()
+                        .collect(Collectors.toMap(Product::getId, p -> p));
+
+        Map<String, Delivery> deliveryByUuid = deliveryUuids.isEmpty() ? Map.of()
+                : deliveryRepo.findAllByUuidIn(deliveryUuids).stream()
+                        .collect(Collectors.toMap(Delivery::getUuid, d -> d));
+
+        // 7) Collect destination address UUIDs (toAddress) and preload Addresses
+        Set<String> toAddressUuids = deliveryByUuid.values().stream()
+                .map(Delivery::getToAddressUuid)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        Map<String, Address> addressByUuid = toAddressUuids.isEmpty() ? Map.of()
+                : addressRepo.findAllByUuidIn(toAddressUuids).stream()
+                        .collect(Collectors.toMap(a -> a.getUuid().toString(), a -> a)); // adapt if your Address.uuid
+                                                                                         // is String
+
+        // 8) Build DTOs (no more DB hits)
+        return offers.stream().map(offer -> {
+            // 8a) SalesPersons
+            List<SalesPersonSimpleDTO> salesPersonDtos = linksByOffer
+                    .getOrDefault(offer.getUuid(), List.of()).stream()
+                    .map(link -> spByUuid.get(link.getSalespersonUuid()))
+                    .filter(Objects::nonNull)
+                    .map(sp -> new SalesPersonSimpleDTO(sp.getName())) // or just name
+                    .toList();
+
+            // 8b) Lines -> product + delivery snippets
+            List<SalesOfferLineSimpleDTO> lineDtos = linesByOffer
+                    .getOrDefault(offer.getUuid(), List.of()).stream()
+                    .map(line -> {
+                        Product p = line.getProductId() == null ? null : productById.get(line.getProductId());
+                        Delivery d = line.getDeliveryUuid() == null ? null : deliveryByUuid.get(line.getDeliveryUuid());
+                        Address to = (d == null || d.getToAddressUuid() == null)
+                                ? null
+                                : addressByUuid.get(d.getToAddressUuid());
+
+                        ProductSimpleDTO productDto = new ProductSimpleDTO(
+                                p == null ? null : p.getBrand(),
+                                p == null ? null : p.getProductType());
+
+                        DeliverySimpleDTO deliveryDto = new DeliverySimpleDTO(
+                                d == null ? null : d.getIncoterm(),
+                                to == null ? null : to.getCountryCode());
+
+                        return new SalesOfferLineSimpleDTO(productDto, deliveryDto);
+                    })
+                    .toList();
+
+            // 8c) Offer shell
+            SalesOfferSimpleDTO dto = new SalesOfferSimpleDTO();
+            dto.setUuid(offer.getUuid());
+            dto.setStatus(offer.getStatusCode());
+            dto.setReferenceId(offer.getReferenceId());
+            dto.setExpiresAt(offer.getExpiresAt());
+            dto.setCreatedAt(offer.getCreatedAt());
+            dto.setUpdatedAt(offer.getUpdatedAt());
+            dto.setSalesPerson(salesPersonDtos);
+            dto.setSalesOfferLine(lineDtos);
+            return dto;
+        }).toList();
+    }
+
+    // Service: map a *list* of offers efficiently
+    private List<SalesOfferDTO> mapSalesOffersDTO(List<SalesOffer> offers) {
+        if (offers == null || offers.isEmpty())
+            return List.of();
+
+        // 1) Keys
+        Set<String> offerUuids = offers.stream()
+                .map(SalesOffer::getUuid)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        // 2) Preload lines for all offers in one go
+        List<SalesOfferLine> allLines = salesOfferLineRepo.findAllByOfferUuidIn(offerUuids);
+
+        // 3) Group lines by offer
+        Map<String, List<SalesOfferLine>> linesByOffer = allLines.stream()
+                .collect(Collectors.groupingBy(SalesOfferLine::getOfferUuid));
+
+        // 4) Preload offer↔salesperson links once
+        List<SalesOfferSalesPerson> allLinks = salesOfferSalesPersonRepo.findAllByOfferUuidIn(offerUuids);
+        Map<String, List<SalesOfferSalesPerson>> linksByOffer = allLinks.stream()
+                .collect(Collectors.groupingBy(SalesOfferSalesPerson::getOfferUuid));
+
+        // 5) Preload all salespeople referenced
+        Set<String> salespersonUuids = allLinks.stream()
+                .map(SalesOfferSalesPerson::getSalespersonUuid)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        Map<String, SalesPerson> spByUuid = salespersonUuids.isEmpty() ? Map.of()
+                : salesPersonRepo.findAllByUuidIn(salespersonUuids).stream()
+                        .collect(Collectors.toMap(SalesPerson::getUuid, sp -> sp));
+
+        // 6) (Optional) Preload Delivery/Address/Product for all lines once,
+        // then map lines -> DTOs without I/O (reusing the fast mapper from earlier)
+        // Example assumes you have: mapSalesOfferLinesDTO(List<SalesOfferLine>)
+
+        return offers.stream().map(offer -> {
+            DiscountDTO discount = new DiscountDTO(TEMP_PRICEDTO);
+            CompanyDTO company = new CompanyDTO(
+                    offer.getCustomerUuid() == null ? null : offer.getCustomerUuid());
+
+            List<SalesOfferLine> lines = linesByOffer.getOrDefault(offer.getUuid(), List.of());
+            List<SalesOfferLineDTO> lineDtos = mapSalesOfferLinesDTO(lines); // uses preloaded caches internally
+
+            List<SalesPersonDTO> people = linksByOffer
+                    .getOrDefault(offer.getUuid(), List.of()).stream()
+                    .map(link -> spByUuid.get(link.getSalespersonUuid()))
+                    .filter(Objects::nonNull)
+                    .map(SalesPersonDTO::new)
+                    .toList();
+
+            return new SalesOfferDTO(offer, discount, company, lineDtos, people);
+        }).toList();
+    }
+
+    // Service method: map a *list* of lines in one pass
+    private List<SalesOfferLineDTO> mapSalesOfferLinesDTO(List<SalesOfferLine> lines) {
+        if (lines.isEmpty())
+            return List.of();
+
+        // 1) Collect keys
+        Set<String> deliveryUuids = lines.stream()
+                .map(SalesOfferLine::getDeliveryUuid)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        Map<String, Delivery> deliveryByUuid = deliveryUuids.isEmpty() ? Map.of()
+                : deliveryRepo.findAllByUuidIn(deliveryUuids).stream()
+                        .collect(Collectors.toMap(Delivery::getUuid, d -> d));
+
+        // 2) Collect address UUIDs from deliveries
+        Set<String> addressUuids = deliveryByUuid.values().stream()
+                .flatMap(d -> Stream.of(d.getFromAddressUuid(), d.getToAddressUuid()))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        Map<String, Address> addressByUuid = addressUuids.isEmpty() ? Map.of()
+                : addressRepo.findAllByUuidIn(addressUuids).stream()
+                        .collect(Collectors.toMap(a -> a.getUuid().toString(), a -> a)); // adapt
+                                                                                         // getter/type
+
+        // 3) Collect product ids
+        Set<Integer> productIds = lines.stream()
+                .map(SalesOfferLine::getProductId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        Map<Integer, Product> productById = productIds.isEmpty() ? Map.of()
+                : productRepo.findAllByIdIn(productIds).stream()
+                        .collect(Collectors.toMap(Product::getId, p -> p));
+
+        // 4) Build DTOs without more DB calls
+        return lines.stream().map(sol -> {
+            Delivery delivery = sol.getDeliveryUuid() == null ? null
+                    : deliveryByUuid.get(sol.getDeliveryUuid());
+            Address fromAddress = (delivery == null || delivery.getFromAddressUuid() == null)
+                    ? null
+                    : addressByUuid.get(delivery.getFromAddressUuid());
+            Address toAddress = (delivery == null || delivery.getToAddressUuid() == null)
+                    ? null
+                    : addressByUuid.get(delivery.getToAddressUuid());
+            Product product = sol.getProductId() == null ? null : productById.get(sol.getProductId());
+
+            ProductDTO productDTO = new ProductDTO(
+                    product,
+                    TEMP_SELLERDTO,
+                    new LocationDTO(true, true,
+                            new AddressDTO(fromAddress == null ? null : fromAddress)));
+
+            return new SalesOfferLineDTO(
+                    sol,
+                    productDTO,
+                    TEMP_PRODUCTPRICEDTO,
+                    new DeliveryDTO(
+                            delivery,
+                            new AddressDTO(fromAddress == null ? null : fromAddress),
+                            new AddressDTO(toAddress == null ? null : toAddress),
+                            false));
+        }).toList();
     }
 
 }
