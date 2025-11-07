@@ -16,11 +16,26 @@ export default function SalespersonChart({ data }) {
                 Offers per Salesperson
             </h2>
             <ResponsiveContainer width="100%" height={250}>
-                <BarChart data={data}>
+                <BarChart data={data} margin={{ top: 10, right: 20, bottom: 40, left: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#064e3b" />
-                    <XAxis dataKey="offers" stroke="#a7f3d0" />
-                    <YAxis stroke="#a7f3d0" label={{ value: "Offers", angle: -90, position: "insideLeft", fill: "#a7f3d0" }} />
-                    <Tooltip formatter={(value) => [`${value}`, "Offers"]} />
+                    <XAxis
+                        dataKey="name"
+                        stroke="#a7f3d0"
+                        tick={{ fill: "#a7f3d0", fontSize: 12 }}
+                        interval={0}
+                        angle={-30}
+                        textAnchor="end"
+                    />
+                    <YAxis
+                        stroke="#a7f3d0"
+                        label={{
+                            value: "Offers",
+                            angle: -90,
+                            position: "insideLeft",
+                            fill: "#a7f3d0",
+                        }}
+                    />
+                    <Tooltip formatter={(v) => [`${v}`, "Offers"]} />
                     <Bar dataKey="offers" fill="#10b981" radius={[4, 4, 0, 0]} />
                 </BarChart>
             </ResponsiveContainer>

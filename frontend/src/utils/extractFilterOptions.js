@@ -1,7 +1,7 @@
 export function extractFilterOptions(offers) {
-    return {
-        statuses: [...new Set(offers.map((o) => o.status))],
-        salespeople: [...new Set(offers.map((o) => o.salesperson))],
-        depots: [...new Set(offers.map((o) => o.depot))],
-    };
+    const statuses = [...new Set(offers.map(o => o.status))];
+    const salespeople = [...new Set(offers.map(o => o.salesperson))];
+    const depots = [...new Set(offers.map(o => o.depot))];
+
+    return { statuses, salespeople, depots };
 }

@@ -3,7 +3,10 @@ import StatsBar from "../components/Offers/StatsBar/StatsBar.jsx";
 import ChartsSection from "../components/Offers/ChartsSection/ChartsSection.jsx";
 import OffersGrid from "../components/Offers/OffersGrid/OffersGrid.jsx";
 import FilterBar from "../components/Offers/FilterBar/FilterBar.jsx";
+import LayoutButton from "../components/Offers/FilterBar/LayoutButton.jsx";
 import mockData from "../mock-data/mockOffersData.json";
+import { LayoutGrid, BarChart3 } from "lucide-react";
+import { filterOffers } from "../utils/filterOffers.js";
 
 export default function OffersDashboard() {
     const [offers, setOffers] = useState([]);
@@ -16,32 +19,48 @@ export default function OffersDashboard() {
     }, []);
 
     const handleFilterChange = (filters) => {
-        let filtered = [...offers];
-        if (filters.status)
-            filtered = filtered.filter((o) => o.status === filters.status);
-        if (filters.salesperson)
-            filtered = filtered.filter((o) => o.salesperson === filters.salesperson);
-        if (filters.depot)
-            filtered = filtered.filter((o) => o.depot === filters.depot);
-
+        const filtered = filterOffers(offers, filters);
         setFilteredOffers(filtered);
     };
+
+    useEffect(() => {
+        if (layout === "charts") {
+            setFilteredOffers(offers);
+        }
+    }, [layout, offers]);
 
     return (
         <div className="p-6 bg-emerald-950 min-h-screen text-emerald-50">
             {offers.length > 0 ? (
                 <>
-                    <StatsBar offers={filteredOffers} />
-                    <FilterBar
-                        offers={offers}
-                        onFilterChange={handleFilterChange}
-                        layout={layout}
-                        setLayout={setLayout}
-                    />
+                    <StatsBar offers={offers} />
 
-                    {/* Only one layout visible at a time */}
+                    <div className="flex justify-end mb-4">
+                        <div className="flex gap-2">
+                            <LayoutButton
+                                active={layout === "charts"}
+                                onClick={() => setLayout("charts")}
+                                title="Charts view"
+                                icon={BarChart3}
+                            />
+                            <LayoutButton
+                                active={layout === "grid"}
+                                onClick={() => setLayout("grid")}
+                                title="Grid view"
+                                icon={LayoutGrid}
+                            />
+                        </div>
+                    </div>
+
+                    {layout === "grid" && (
+                        <FilterBar
+                            offers={offers}
+                            onFilterChange={handleFilterChange}
+                        />
+                    )}
+
                     {layout === "charts" ? (
-                        <ChartsSection offers={filteredOffers} variant="overview" />
+                        <ChartsSection offers={offers} />
                     ) : (
                         <OffersGrid offers={filteredOffers} />
                     )}

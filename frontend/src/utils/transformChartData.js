@@ -8,10 +8,14 @@ export function transformChartData(offers) {
     // Per Salesperson
     const salesByPerson = Object.entries(
         offers.reduce((acc, o) => {
-            acc[o.salesperson] = (acc[o.salesperson] || 0) + 1;
+            const key = o.salesperson || "Unknown";
+            acc[key] = (acc[key] || 0) + 1;
             return acc;
         }, {})
-    ).map(([name, count]) => ({ name, offers: count }));
+    )
+        .map(([name, offersCount]) => ({ name, offers: offersCount }))
+        .sort((a, b) => b.offers - a.offers)
+        .slice(0, 5);
 
     // By timeline
     const offersByDate = Object.entries(
