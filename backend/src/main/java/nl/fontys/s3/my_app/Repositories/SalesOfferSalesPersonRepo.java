@@ -13,4 +13,6 @@ public interface SalesOfferSalesPersonRepo extends JpaRepository<SalesOfferSales
     List<SalesOfferSalesPerson> findByOfferUuid(String salesOfferUuid);
     List<SalesOfferSalesPerson> findBySalesPersonUuid(String salesPersonUuid);
     List<SalesOfferSalesPerson> findAllByOfferUuidIn(Collection<String> offerUuids);
+
+    
 }
