@@ -30,7 +30,6 @@ export default function Dashboard() {
         error
     } = useOffersData();
 
-    // --- Loading & Error States ---
     if (loading) {
         return (
             <div className="flex items-center justify-center h-dvh">

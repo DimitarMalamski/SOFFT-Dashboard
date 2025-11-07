@@ -47,8 +47,8 @@ export default function useOffersData() {
                 };
 
                 data.forEach((offer) => {
-                    if (offer.salesPersons?.[0]?.name)
-                        sets.salesmen.add(offer.salesPersons[0].name);
+                    if (offer.ssalesPerso?.[0]?.name)
+                        sets.salesmen.add(offer.salesPerson[0].name);
 
                     if (offer.salesOfferLine?.[0]?.product?.productType)
                         sets.productTypes.add(
