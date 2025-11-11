@@ -20,8 +20,9 @@ export default function SalesFilters({
         <div className="bg-emerald-800/50 border border-emerald-800 rounded-xl p-4 flex flex-wrap items-center gap-4">
             {/* Status */}
             <div className="flex flex-col">
-                <label className="text-xs mb-1 text-emerald-200">Status</label>
+                <label htmlFor="status" className="text-xs mb-1 text-emerald-200">Status</label>
                 <select
+                    id="status"
                     className="bg-emerald-900 border border-emerald-700 text-emerald-50 rounded-md p-2"
                     value={filters.status}
                     onChange={(e) =>
@@ -36,8 +37,9 @@ export default function SalesFilters({
 
             {/* Salesperson */}
             <div className="flex flex-col">
-                <label className="text-xs mb-1 text-emerald-200">Salesperson</label>
+                <label htmlFor="salesperson" className="text-xs mb-1 text-emerald-200">Salesperson</label>
                 <select
+                    id="salesperson"
                     className="bg-emerald-900 border border-emerald-700 text-emerald-50 rounded-md p-2"
                     value={filters.salesperson}
                     onChange={(e) =>
@@ -52,8 +54,9 @@ export default function SalesFilters({
 
             {/* Depot */}
             <div className="flex flex-col">
-                <label className="text-xs mb-1 text-emerald-200">Depot</label>
+                <label htmlFor="depot" className="text-xs mb-1 text-emerald-200">Depot</label>
                 <select
+                    id="depot"
                     className="bg-emerald-900 border border-emerald-700 text-emerald-50 rounded-md p-2"
                     value={filters.depot}
                     onChange={(e) =>
