@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import ChartSalesByDepot from "../ChartSalesByDepot.jsx";
+import ChartSalesByPerson from "../ChartSalesByPerson.jsx";
 
 describe("ChartSalesByDepot Component", () => {
     const mockData = [
@@ -72,5 +73,15 @@ describe("ChartSalesByDepot Component", () => {
                 data={badData}
             />
         )).not.toThrow();
+    });
+
+    test("matches snapshot", () => {
+        const { asFragment  } = render(
+            <ChartSalesByDepot
+                data={mockData}
+            />
+        );
+
+        expect(asFragment()).toMatchSnapshot();
     });
 });

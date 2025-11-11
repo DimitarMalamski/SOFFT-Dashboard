@@ -30,7 +30,10 @@ export default function SalesPage() {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-dvh bg-emerald-900">
-                <div className="w-12 h-12 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin"></div>
+                <div
+                    role="status"
+                    aria-label="Loading..."
+                    className="w-12 h-12 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
     }
