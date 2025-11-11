@@ -470,7 +470,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className='h-dvh max-h-dvh min-h-0 overflow-y-auto'>
+    <div className='min-h-0 flex flex-col gap-4'>
       <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
         <SalesTrendChart title='Orders (last 7 days)' points={trendPoints} />
         <ConversionsCard

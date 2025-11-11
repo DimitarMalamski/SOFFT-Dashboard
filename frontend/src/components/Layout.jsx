@@ -1,24 +1,37 @@
-import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
-import Header from './Header.jsx';
-import Sidebar from './Sidebar.jsx';
+import { useState } from "react";
+import { Outlet } from "react-router-dom";
+import Header from "./Header.jsx";
+import Sidebar from "./Sidebar.jsx";
 
 export default function Layout() {
-  const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(true);
+    const [collapsed, setCollapsed] = useState(false);
 
-  return (
-    <div className='h-dvh max-h-dvh min-h-0 overflow-hidden grid grid-rows-[auto_1fr] grid-cols-[260px_1fr] bg-emerald-950 text-state-100'>
-      <div className='col-span-2'>
-        <Header title='OVERVIEW' userName='John Doe' />
-      </div>
-      <div className='min-h-0 overflow-hidden'>
-        <Sidebar open={open} onClose={() => setOpen(false)} />
-      </div>
-      <main id='main' className='p-4 min-w-0 min-h-0 overflow-y-auto'>
-        <div className='mx-auto max-w-7xl'>
-          <Outlet />
+    return (
+        <div className="flex flex-col h-dvh bg-emerald-950 text-emerald-50 overflow-hidden">
+            {/* Header */}
+            <Header title="OVERVIEW" userName="John Doe" />
+
+            {/* Sidebar + Main Content */}
+            <div className="flex flex-1 overflow-hidden">
+                {/* Sidebar */}
+                <Sidebar
+                    open={open}
+                    collapsed={collapsed}
+                    setCollapsed={setCollapsed}
+                    onClose={() => setOpen(false)}
+                />
+
+                {/* Main */}
+                <main
+                    id="main"
+                    className="flex-1 overflow-y-auto transition-all duration-300 ease-in-out p-6"
+                >
+                    <div className="max-w-7xl mx-auto">
+                        <Outlet />
+                    </div>
+                </main>
+            </div>
         </div>
-      </main>
-    </div>
-  );
+    );
 }

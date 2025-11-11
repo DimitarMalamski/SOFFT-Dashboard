@@ -29,9 +29,12 @@ const itemBase = 'no-underline group flex items-center gap-3 outline-none';
 const itemPad = 'px-4 py-3';
 const easeOut = [0.2, 0.0, 0.2, 1];
 
-export default function Sidebar({ open = true, onClose = () => {} }) {
-  const [collapsed, setCollapsed] = useState(false);
-
+export default function Sidebar({
+    open = true,
+    collapsed,
+    setCollapsed,
+    onClose = () => {},
+}) {
   // ESC closes on mobile (no type annotation)
   useEffect(() => {
     if (!open) return;

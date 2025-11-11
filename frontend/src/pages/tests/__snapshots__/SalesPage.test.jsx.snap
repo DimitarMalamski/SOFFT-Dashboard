@@ -1,0 +1,313 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SalesPage Integration Test > match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="p-6 flex flex-col gap-6 bg-emerald-900 min-h-screen text-emerald-50"
+  >
+    <div
+      class="bg-emerald-800/50 border border-emerald-800 rounded-xl p-4 flex flex-wrap items-center gap-4"
+    >
+      <div
+        class="flex flex-col"
+      >
+        <label
+          class="text-xs mb-1 text-emerald-200"
+          for="status"
+        >
+          Status
+        </label>
+        <select
+          class="bg-emerald-900 border border-emerald-700 text-emerald-50 rounded-md p-2"
+          id="status"
+        >
+          <option>
+            All
+          </option>
+          <option>
+            Pending
+          </option>
+          <option>
+            Approved
+          </option>
+        </select>
+      </div>
+      <div
+        class="flex flex-col"
+      >
+        <label
+          class="text-xs mb-1 text-emerald-200"
+          for="salesperson"
+        >
+          Salesperson
+        </label>
+        <select
+          class="bg-emerald-900 border border-emerald-700 text-emerald-50 rounded-md p-2"
+          id="salesperson"
+        >
+          <option>
+            All
+          </option>
+        </select>
+      </div>
+      <div
+        class="flex flex-col"
+      >
+        <label
+          class="text-xs mb-1 text-emerald-200"
+          for="depot"
+        >
+          Depot
+        </label>
+        <select
+          class="bg-emerald-900 border border-emerald-700 text-emerald-50 rounded-md p-2"
+          id="depot"
+        >
+          <option>
+            All
+          </option>
+          <option>
+            North Hub
+          </option>
+          <option>
+            London Storage
+          </option>
+        </select>
+      </div>
+      <div
+        class="flex items-end gap-2 ml-auto"
+      >
+        <button
+          class="px-4 py-2 border border-emerald-600 text-emerald-300 rounded-md hover:bg-emerald-800/60"
+        >
+          Reset
+        </button>
+      </div>
+    </div>
+    <div
+      class="bg-emerald-800/40 border border-emerald-800 rounded-xl shadow-md overflow-x-auto"
+    >
+      <table
+        class="min-w-full border-collapse text-sm text-emerald-50"
+      >
+        <thead
+          class="bg-emerald-800/80 text-left text-emerald-100 uppercase text-xs"
+        >
+          <tr>
+            <th
+              class="p-3 font-semibold"
+            >
+              Reference ID
+            </th>
+            <th
+              class="p-3 font-semibold"
+            >
+              Customer
+            </th>
+            <th
+              class="p-3 font-semibold"
+            >
+              Salesperson
+            </th>
+            <th
+              class="p-3 font-semibold"
+            >
+              Depot
+            </th>
+            <th
+              class="p-3 font-semibold"
+            >
+              Status
+            </th>
+            <th
+              class="p-3 font-semibold"
+            >
+              Total (€)
+            </th>
+            <th
+              class="p-3 font-semibold"
+            >
+              Discount (€)
+            </th>
+            <th
+              class="p-3 font-semibold"
+            >
+              Created
+            </th>
+            <th
+              class="p-3 font-semibold"
+            >
+              Expires
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            class="border-t border-emerald-700/60 hover:bg-emerald-700/40 transition"
+          >
+            <td
+              class="p-3"
+            >
+              OFFER-SE-001
+            </td>
+            <td
+              class="p-3"
+            >
+              Nordic Trucks AB
+            </td>
+            <td
+              class="p-3"
+            >
+              -
+            </td>
+            <td
+              class="p-3"
+            >
+              North Hub
+            </td>
+            <td
+              class="p-3"
+            >
+              <span
+                class="px-2 py-1 rounded-md text-xs font-medium bg-yellow-500/20 text-yellow-300"
+              >
+                Pending
+              </span>
+            </td>
+            <td
+              class="p-3 font-medium text-white"
+            >
+              85,000.00 EUR
+            </td>
+            <td
+              class="p-3 text-emerald-100"
+            >
+              0
+            </td>
+            <td
+              class="p-3 text-emerald-100"
+            >
+              10/11/2025
+            </td>
+            <td
+              class="p-3 text-emerald-100"
+            >
+              —
+            </td>
+          </tr>
+          <tr
+            class="border-t border-emerald-700/60 hover:bg-emerald-700/40 transition"
+          >
+            <td
+              class="p-3"
+            >
+              OFFER-GB-002
+            </td>
+            <td
+              class="p-3"
+            >
+              EuroTransport Ltd
+            </td>
+            <td
+              class="p-3"
+            >
+              -
+            </td>
+            <td
+              class="p-3"
+            >
+              London Storage
+            </td>
+            <td
+              class="p-3"
+            >
+              <span
+                class="px-2 py-1 rounded-md text-xs font-medium bg-emerald-500/20 text-emerald-300"
+              >
+                Approved
+              </span>
+            </td>
+            <td
+              class="p-3 font-medium text-white"
+            >
+              120,000.00 GBP
+            </td>
+            <td
+              class="p-3 text-emerald-100"
+            >
+              500
+            </td>
+            <td
+              class="p-3 text-emerald-100"
+            >
+              10/11/2025
+            </td>
+            <td
+              class="p-3 text-emerald-100"
+            >
+              —
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div
+        class="flex justify-between items-center p-3 border-t border-emerald-800 text-emerald-100 text-sm"
+      >
+        <button
+          class="px-3 py-1 rounded-md border border-emerald-700 transition opacity-40 cursor-not-allowed"
+          disabled=""
+        >
+          ← Prev
+        </button>
+        <span>
+          Page 1 of 1
+        </span>
+        <button
+          class="px-3 py-1 rounded-md border border-emerald-700 transition opacity-40 cursor-not-allowed"
+          disabled=""
+        >
+          Next →
+        </button>
+      </div>
+    </div>
+    <div
+      class="flex flex-col lg:flex-row gap-6"
+    >
+      <div
+        class="bg-emerald-800/40 border border-emerald-800 rounded-xl p-4 flex-1"
+      >
+        <h2
+          class="text-lg font-semibold mb-4 text-emerald-100"
+        >
+          Sales by Salesperson
+        </h2>
+        <div
+          class="recharts-responsive-container"
+          style="width: 100%; height: 300px; min-width: 0;"
+        >
+          <div
+            style="width: 0px; overflow-x: visible;"
+          />
+        </div>
+      </div>
+      <div
+        class="bg-emerald-800/40 border border-emerald-800 rounded-xl p-4 flex-1"
+      >
+        <h2
+          class="text-lg font-semibold mb-4 text-emerald-100"
+        >
+          Sales by Depot
+        </h2>
+        <div
+          class="recharts-responsive-container"
+          style="width: 100%; height: 300px; min-width: 0;"
+        >
+          <div
+            style="width: 0px; overflow-x: visible;"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
