@@ -1,15 +1,20 @@
 import React from "react";
 
 export default function SalesFilters({
-                                         filters,
-                                         setFilters,
-                                         sales,
-                                         applyFilters,
-                                         resetFilters,
-                                     }) {
-    const statuses = ["All", ...new Set(sales.map((s) => s.status))];
-    const salespeople = ["All", ...new Set(sales.map((s) => s.salesPersonName))];
-    const depots = ["All", ...new Set(sales.map((s) => s.depotName))];
+ filters,
+ setFilters,
+ sales,
+ applyFilters,
+ resetFilters,
+}) {
+    const allSalespersons = sales.flatMap(
+        (s) => s.salesPersonName?.map((p) => p.name) || []
+    );
+    const uniqueSalespersons = ["All", ...new Set(allSalespersons)];
+
+    // ✅ Extract unique statuses and depots safely
+    const uniqueStatuses = ["All", ...new Set(sales.map((s) => s.status).filter(Boolean))];
+    const uniqueDepots = ["All", ...new Set(sales.map((s) => s.depotName).filter(Boolean))];
 
     return (
         <div className="bg-emerald-800/50 border border-emerald-800 rounded-xl p-4 flex flex-wrap items-center gap-4">
@@ -23,7 +28,7 @@ export default function SalesFilters({
                         setFilters((prev) => ({ ...prev, status: e.target.value }))
                     }
                 >
-                    {statuses.map((s) => (
+                    {uniqueStatuses.map((s) => (
                         <option key={s}>{s}</option>
                     ))}
                 </select>
@@ -39,7 +44,7 @@ export default function SalesFilters({
                         setFilters((prev) => ({ ...prev, salesperson: e.target.value }))
                     }
                 >
-                    {salespeople.map((s) => (
+                    {uniqueSalespersons.map((s) => (
                         <option key={s}>{s}</option>
                     ))}
                 </select>
@@ -55,7 +60,7 @@ export default function SalesFilters({
                         setFilters((prev) => ({ ...prev, depot: e.target.value }))
                     }
                 >
-                    {depots.map((d) => (
+                    {uniqueDepots.map((d) => (
                         <option key={d}>{d}</option>
                     ))}
                 </select>

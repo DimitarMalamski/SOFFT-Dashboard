@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
-import mockData from "../mock-data/salesData.json";
+import SalesAPI from "../apis/SalesAPI.js";
 
 export function useSalesData() {
     const [sales, setSales] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState({
         status: "All",
         salesperson: "All",
@@ -10,8 +11,17 @@ export function useSalesData() {
     });
 
     useEffect(() => {
-        const timer = setTimeout(() => setSales(mockData), 500);
-        return () => clearTimeout(timer);
+        const loadSales = async () => {
+            try {
+                const data = await SalesAPI.getAllSales();
+                setSales(data);
+            } catch (error) {
+                console.error("Error fetching sales data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadSales();
     }, []);
 
     const filtered = useMemo(() => {
@@ -20,8 +30,10 @@ export function useSalesData() {
             result = result.filter((s) => s.status === filters.status);
         }
         if (filters.salesperson !== "All") {
-            result = result.filter(
-                (s) => s.salesPersonName === filters.salesperson
+            result = result.filter((s) =>
+                s.salesPersonName?.some(
+                    (p) => p.name === filters.salesperson
+                )
             );
         }
         if (filters.depot !== "All") {

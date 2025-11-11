@@ -7,8 +7,15 @@ import ChartSalesByPerson from "../components/Sales/ChartSalesByPerson.jsx";
 import ChartSalesByDepot from "../components/Sales/ChartSalesByDepot.jsx";
 
 export default function SalesPage() {
-    const { sales, filtered, filters, setFilters, applyFilters, resetFilters } =
-        useSalesData();
+    const {
+        sales,
+        filtered,
+        filters,
+        setFilters,
+        applyFilters,
+        resetFilters,
+        loading,
+    } = useSalesData();
 
     const {
         currentPage,
@@ -18,6 +25,22 @@ export default function SalesPage() {
         prevPage,
         resetPage,
     } = usePagination(filtered, 3);
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-screen bg-emerald-900 text-emerald-50">
+                <p className="text-lg animate-pulse">Loading sales data...</p>
+            </div>
+        );
+    }
+
+    if (!sales.length) {
+        return (
+            <div className="flex flex-col items-center justify-center h-screen bg-emerald-900 text-emerald-100">
+                <p className="text-lg">No sales offers available.</p>
+            </div>
+        );
+    }
 
     return (
         <div className="p-6 flex flex-col gap-6 bg-emerald-900 min-h-screen text-emerald-50">

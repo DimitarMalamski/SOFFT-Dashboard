@@ -28,33 +28,46 @@ export default function SalesTable({
                 {data.length > 0 ? (
                     data.map((sale) => (
                         <tr
-                            key={sale.uuid}
+                            key={sale.uuid.trim()}
                             className="border-t border-emerald-700/60 hover:bg-emerald-700/40 transition"
                         >
                             <td className="p-3">{sale.referenceId}</td>
                             <td className="p-3">{sale.customerCompanyName}</td>
-                            <td className="p-3">{sale.salesPersonName}</td>
-                            <td className="p-3">{sale.depotName}</td>
+
+                            <td className="p-3">
+                                {sale.salesPersonName?.map((p) => p.name).join(", ") || "-"}
+                            </td>
+
+                            <td className="p-3">{sale.depotName || "-"}</td>
                             <td className="p-3">
                   <span
                       className={`px-2 py-1 rounded-md text-xs font-medium ${
                           sale.status === "Pending"
                               ? "bg-yellow-500/20 text-yellow-300"
                               : sale.status === "Cancelled"
-                                  ? "bg-red-500/20 text-red-300"
-                                  : "bg-emerald-500/20 text-emerald-300"
+                              ? "bg-red-500/20 text-red-300"
+                              : "bg-emerald-500/20 text-emerald-300"
                       }`}
                   >
                     {sale.status}
                   </span>
                             </td>
                             <td className="p-3 font-medium text-white">
-                                {sale.totalPrice.toLocaleString()} {sale.currency}
+                                {sale.totalPrice?.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2,
+                                })}{" "}
+                                {sale.currency}
                             </td>
                             <td className="p-3 text-emerald-100">{sale.discount}</td>
-                            <td className="p-3 text-emerald-100">{sale.createdAt}</td>
                             <td className="p-3 text-emerald-100">
-                                {sale.expiresAt || <span className="text-emerald-600">—</span>}
+                                {sale.createdAt
+                                    ? new Date(sale.createdAt).toLocaleDateString()
+                                    : "-"}
+                            </td>
+                            <td className="p-3 text-emerald-100">
+                                {sale.expiresAt
+                                    ? new Date(sale.expiresAt).toLocaleDateString()
+                                    : "—"}
                             </td>
                         </tr>
                     ))
