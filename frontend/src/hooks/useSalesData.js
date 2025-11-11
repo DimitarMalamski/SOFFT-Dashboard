@@ -4,6 +4,7 @@ import SalesAPI from "../apis/SalesAPI.js";
 export function useSalesData() {
     const [sales, setSales] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [filters, setFilters] = useState({
         status: "All",
         salesperson: "All",
@@ -15,8 +16,11 @@ export function useSalesData() {
             try {
                 const data = await SalesAPI.getAllSales();
                 setSales(data);
+                setError(null);
             } catch (error) {
                 console.error("Error fetching sales data:", error);
+                setError(error);
+                setSales([]);
             } finally {
                 setLoading(false);
             }
@@ -57,6 +61,8 @@ export function useSalesData() {
         filters,
         setFilters,
         applyFilters,
-        resetFilters
+        resetFilters,
+        loading,
+        error,
     };
 }

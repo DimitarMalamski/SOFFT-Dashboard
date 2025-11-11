@@ -15,6 +15,7 @@ export default function SalesPage() {
         applyFilters,
         resetFilters,
         loading,
+        error,
     } = useSalesData();
 
     const {
@@ -28,16 +29,26 @@ export default function SalesPage() {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center h-screen bg-emerald-900 text-emerald-50">
-                <p className="text-lg animate-pulse">Loading sales data...</p>
+            <div className="flex items-center justify-center h-dvh bg-emerald-900">
+                <div className="w-12 h-12 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="flex items-center justify-center h-dvh bg-emerald-900">
+                <div className="text-red-400 text-lg">
+                    Failed to load sales data. Please try again later.
+                </div>
             </div>
         );
     }
 
     if (!sales.length) {
         return (
-            <div className="flex flex-col items-center justify-center h-screen bg-emerald-900 text-emerald-100">
-                <p className="text-lg">No sales offers available.</p>
+            <div className="flex flex-col items-center justify-center h-dvh bg-emerald-900 text-emerald-200">
+                <p className="text-lg">No sales data available.</p>
             </div>
         );
     }
