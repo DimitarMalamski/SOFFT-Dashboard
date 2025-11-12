@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import SalesOffersAPI from "../apis/SalesOffersAPI.js";
-import { filterOffers } from "../utils/filterOffers.js";
+import { filterOffersOverview } from "../utils/filterOffersOverview.js";
 
 export default function useOffersData() {
     // --- state ---
@@ -89,7 +89,7 @@ export default function useOffersData() {
 
     // --- Apply filters ---
     const applyFilters = () => {
-        const filtered = filterOffers(offers, filters);
+        const filtered = filterOffersOverview(offers, filters);
         setFilteredOffers(filtered);
     };
 
