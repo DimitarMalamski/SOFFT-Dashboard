@@ -12,7 +12,6 @@ export default function SalesPage() {
         filtered,
         filters,
         setFilters,
-        applyFilters,
         resetFilters,
         loading,
         error,
@@ -62,10 +61,6 @@ export default function SalesPage() {
                 filters={filters}
                 setFilters={setFilters}
                 sales={sales}
-                applyFilters={() => {
-                    applyFilters();
-                    resetPage();
-                }}
                 resetFilters={resetFilters}
             />
             <SalesTable

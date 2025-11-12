@@ -14,7 +14,7 @@ export function useSalesData() {
     useEffect(() => {
         const loadSales = async () => {
             try {
-                const data = await SalesAPI.getAllSales();
+                const data = await SalesAPI.getAllSales(["Approved"]);
                 setSales(data);
                 setError(null);
             } catch (error) {

@@ -4,7 +4,6 @@ export default function SalesFilters({
  filters,
  setFilters,
  sales,
- applyFilters,
  resetFilters,
 }) {
     const allSalespersons = sales.flatMap(
@@ -12,7 +11,6 @@ export default function SalesFilters({
     );
     const uniqueSalespersons = ["All", ...new Set(allSalespersons)];
 
-    // ✅ Extract unique statuses and depots safely
     const uniqueStatuses = ["All", ...new Set(sales.map((s) => s.status).filter(Boolean))];
     const uniqueDepots = ["All", ...new Set(sales.map((s) => s.depotName).filter(Boolean))];
 
