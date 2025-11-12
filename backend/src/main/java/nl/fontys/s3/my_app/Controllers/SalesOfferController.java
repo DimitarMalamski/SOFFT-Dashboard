@@ -2,9 +2,11 @@ package nl.fontys.s3.my_app.Controllers;
 
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import nl.fontys.s3.my_app.Services.SalesOfferService;
@@ -55,9 +57,9 @@ public class SalesOfferController {
     }
 
     @GetMapping("/sales")
-    public DataResponseDTO<SalesOfferWithoutLineDTO> getAllWithoutLine() {
+    public DataResponseDTO<SalesOfferWithoutLineDTO> getAllWithoutLine(@RequestParam("statuses") List<String> statuses) {
 
-        List<SalesOfferWithoutLineDTO> dtos = salesOfferService.getAllSalesOffersWithoutLines();
+        List<SalesOfferWithoutLineDTO> dtos = salesOfferService.getAllSalesOffersWithoutLines(statuses);
 
         return new DataResponseDTO<SalesOfferWithoutLineDTO>(dtos);
     }
