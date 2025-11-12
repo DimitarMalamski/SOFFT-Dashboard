@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import nl.fontys.s3.my_app.models.Product;
+import nl.fontys.s3.my_app.models.Depot;
 
 @Repository
-public interface ProductRepo extends JpaRepository<Product, Integer> {
-    List<Product> findAllByIdIn(Collection<Integer> ids);
+public interface DepotRepo extends JpaRepository<Depot, Long> {
+    List<Depot> findAllByIdIn(Collection<Integer> ids);
 }
