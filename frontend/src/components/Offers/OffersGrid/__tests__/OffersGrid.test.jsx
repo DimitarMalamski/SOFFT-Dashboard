@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import OffersGrid from "../OffersGrid.jsx";
-import * as hook from "../../../../hooks/usePagination.js";
+import * as hook from "../../../../hooks/shared/usePagination.js";
 
 describe("OffersGrid Component", () => {
     const mockNext = vi.fn();

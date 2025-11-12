@@ -1,6 +1,6 @@
 import React from "react";
-import { useSalesData } from "../hooks/useSalesData.js";
-import { usePagination } from "../hooks/usePagination.js";
+import { useSalesData } from "../hooks/salesPage/useSalesData.js";
+import { usePagination } from "../hooks/shared/usePagination.js";
 import SalesFilters from "../components/Sales/SalesFilters.jsx";
 import SalesTable from "../components/Sales/SalesTable.jsx";
 import ChartSalesByPerson from "../components/Sales/ChartSalesByPerson.jsx";

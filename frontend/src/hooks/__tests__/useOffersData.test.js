@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import useOffersData from "../useOffersData.js";
+import useOffersData from "../offersPage/useOffersData.js";
 import OffersAPI from "../../apis/OffersAPI.js";
 
 vi.mock("../../apis/OffersAPI.js");

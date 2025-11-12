@@ -5,7 +5,7 @@ import OffersGrid from "../components/Offers/OffersGrid/OffersGrid.jsx";
 import FilterBar from "../components/Offers/FilterBar/FilterBar.jsx";
 import LayoutButton from "../components/Offers/FilterBar/LayoutButton.jsx";
 import { LayoutGrid, BarChart3 } from "lucide-react";
-import useOffersData from "../hooks/useOffersData.js";
+import useOffersData from "../hooks/offersPage/useOffersData.js";
 
 export default function OffersPage() {
     const {

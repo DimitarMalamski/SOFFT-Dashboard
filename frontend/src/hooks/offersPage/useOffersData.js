@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import OffersAPI from "../apis/OffersAPI.js";
-import { filterOffers } from "../utils/filterOffers.js";
+import OffersAPI from "../../apis/OffersAPI.js";
+import { filterOffers } from "../../utils/filterOffers.js";
 
 export default function useOffersData() {
     const [offers, setOffers] = useState([]);

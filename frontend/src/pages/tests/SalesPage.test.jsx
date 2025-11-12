@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import SalesPage from "../Sales.jsx";
-import * as useSalesDataHook from "../../hooks/useSalesData.js";
+import * as useSalesDataHook from "../../hooks/salesPage/useSalesData.js";
 
 describe("SalesPage Integration Test", () => {
     const mockData = [
@@ -127,6 +127,22 @@ describe("SalesPage Integration Test", () => {
         );
 
         expect(screen.getByText(/No sales data available/i)).toBeInTheDocument();
+    });
+
+    test("renders error state when data fetching fails", () => {
+        vi.spyOn(useSalesDataHook, "useSalesData").mockReturnValue({
+            sales: [],
+            filtered: [],
+            filters: { status: "All", salesperson: "All", depot: "All" },
+            setFilters: vi.fn(),
+            applyFilters: vi.fn(),
+            resetFilters: vi.fn(),
+            loading: false,
+            error: new Error("Network error"),
+        });
+
+        render(<SalesPage />);
+        expect(screen.getByText(/Failed to load sales data/i)).toBeInTheDocument();
     });
 
     test("handles pagination controls", async () => {

@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import FilterBar from "../FilterBar.jsx";
-import * as hook from "../../../../hooks/useOfferFilters.js";
+import * as hook from "../../../../hooks/offersPage/useOfferFilters.js";
 
 describe("FilterBar Component", () => {
     const mockHandleChange = vi.fn();

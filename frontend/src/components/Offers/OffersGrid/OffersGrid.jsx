@@ -1,7 +1,7 @@
 import React from "react";
 import OfferCard from "./OfferCard.jsx";
 import PaginationControls from "./PaginationControls.jsx";
-import { usePagination } from "../../../hooks/usePagination.js";
+import { usePagination } from "../../../hooks/shared/usePagination.js";
 import { AlertCircle } from "lucide-react";
 
 export default function OffersGrid({ offers }) {

@@ -1,7 +1,7 @@
 import React from "react";
 import Dropdown from "./Dropdown.jsx";
 import { RotateCcw } from "lucide-react";
-import { useOfferFilters } from "../../../hooks/useOfferFilters.js";
+import { useOfferFilters } from "../../../hooks/offersPage/useOfferFilters.js";
 
 export default function FilterBar({ offers, onFilterChange }) {
     const { filters, options, handleChange, handleReset, hasActiveFilters } =

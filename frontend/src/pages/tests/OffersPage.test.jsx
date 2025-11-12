@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import OffersPage from "../Offers.jsx";
-import * as useOffersDataHook from "../../hooks/useOffersData.js";
+import * as useOffersDataHook from "../../hooks/offersPage/useOffersData.js";
 
 vi.mock("../../components/Offers/StatsBar/StatsBar.jsx", () => ({
     default: () => <div data-testid="stats-bar" />,

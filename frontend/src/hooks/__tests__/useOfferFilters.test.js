@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import { useOfferFilters } from "../useOfferFilters.js";
+import { useOfferFilters } from "../offersPage/useOfferFilters.js";
 import * as utils from "../../utils/extractFilterOptions.js";
 
 describe("useOfferFilters", () => {

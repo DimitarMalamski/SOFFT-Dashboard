@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useOffersDataOverview from "../hooks/useOffersDataOverview.js";
+import useOffersDataOverview from "../hooks/overviewPage/useOffersDataOverview.js";
 import FilterBar from "../components/Dashboard/FilterBar.jsx";
 import ChartSection from "../components/Dashboard/ChartSection.jsx";
 import { chartOptions } from "../config/chartOptions.js";

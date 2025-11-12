@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import SalesAPI from "../apis/SalesAPI.js";
+import SalesAPI from "../../apis/SalesAPI.js";
 
 export function useSalesData() {
     const [sales, setSales] = useState([]);
