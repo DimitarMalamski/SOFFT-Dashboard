@@ -3,7 +3,7 @@ import axios from "axios";
 const SALES_BASE_URL = "http://localhost:8080/api/salesoffers/sales";
 
 const SalesAPI = {
-    getAllSales: async (statuses = ["Approved"]) => {
+    getAllSales: async (statuses = ["Approved", "Completed"]) => {
         try {
             const params = new URLSearchParams();
             statuses.forEach(status => params.append("statuses", status));

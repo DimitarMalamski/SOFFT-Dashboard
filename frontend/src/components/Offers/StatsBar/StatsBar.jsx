@@ -20,14 +20,8 @@ export default function StatsBar({ offers }) {
             color: "from-neutral-900 to-emerald-800",
         },
         {
-            label: "Approved",
-            value: stats.approved,
-            icon: <CheckCircle className="w-6 h-6 text-emerald-300" />,
-            color: "from-neutral-900 to-emerald-800",
-        },
-        {
-            label: "Cancelled",
-            value: stats.cancelled,
+            label: "Declined",
+            value: stats.declined,
             icon: <XCircle className="w-6 h-6 text-gray-300" />,
             color: "from-neutral-900 to-emerald-800",
         },
@@ -40,7 +34,7 @@ export default function StatsBar({ offers }) {
     ];
 
     return (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5 mb-8">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
             {cards.map((card) => (
                 <StatCard key={card.label} {...card} />
             ))}

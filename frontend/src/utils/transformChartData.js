@@ -1,15 +1,16 @@
 export function transformChartData(offers) {
-    // By Status
-    const statusCounts = ["Pending", "Approved", "Cancelled"].map((status) => ({
+    // --- By Status ---
+    const statusCounts = ["Pending", "Declined"].map((status) => ({
         name: status,
         value: offers.filter((o) => o.status === status).length,
     }));
 
-    // Per Salesperson
+    // --- By Salesperson ---
     const salesByPerson = Object.entries(
         offers.reduce((acc, o) => {
-            const key = o.salesperson || "Unknown";
-            acc[key] = (acc[key] || 0) + 1;
+            const personName =
+                o.salesPersonName?.[0]?.name?.trim() || "Unknown";
+            acc[personName] = (acc[personName] || 0) + 1;
             return acc;
         }, {})
     )
@@ -17,9 +18,10 @@ export function transformChartData(offers) {
         .sort((a, b) => b.offers - a.offers)
         .slice(0, 5);
 
-    // By timeline
+    // --- By Date ---
     const offersByDate = Object.entries(
         offers.reduce((acc, o) => {
+            if (!o.createdAt) return acc;
             const date = o.createdAt.slice(0, 10);
             acc[date] = (acc[date] || 0) + 1;
             return acc;

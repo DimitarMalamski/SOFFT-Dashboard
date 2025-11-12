@@ -6,11 +6,7 @@ export const STATUS_STYLES = {
         color: "bg-amber-500/20 text-amber-300 border-amber-500/40",
         icon: <Clock className="w-4 h-4" />,
     },
-    Approved: {
-        color: "bg-emerald-500/20 text-emerald-300 border-emerald-500/40",
-        icon: <CheckCircle className="w-4 h-4" />,
-    },
-    Cancelled: {
+    Declined: {
         color: "bg-rose-500/20 text-rose-300 border-rose-500/40",
         icon: <XCircle className="w-4 h-4" />,
     },
