@@ -1,0 +1,99 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`StatsBar Component > matches snapshot with empty offers 1`] = `
+<DocumentFragment>
+  <div
+    class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8"
+  >
+    <div
+      data-testid="stat-card"
+    >
+      <span>
+        Total Offers
+      </span>
+      <span>
+        0
+      </span>
+    </div>
+    <div
+      data-testid="stat-card"
+    >
+      <span>
+        Pending
+      </span>
+      <span>
+        0
+      </span>
+    </div>
+    <div
+      data-testid="stat-card"
+    >
+      <span>
+        Declined
+      </span>
+      <span>
+        0
+      </span>
+    </div>
+    <div
+      data-testid="stat-card"
+    >
+      <span>
+        Total Value (€)
+      </span>
+      <span>
+        €0
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`StatsBar Component > matches snapshot with offers 1`] = `
+<DocumentFragment>
+  <div
+    class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8"
+  >
+    <div
+      data-testid="stat-card"
+    >
+      <span>
+        Total Offers
+      </span>
+      <span>
+        3
+      </span>
+    </div>
+    <div
+      data-testid="stat-card"
+    >
+      <span>
+        Pending
+      </span>
+      <span>
+        2
+      </span>
+    </div>
+    <div
+      data-testid="stat-card"
+    >
+      <span>
+        Declined
+      </span>
+      <span>
+        1
+      </span>
+    </div>
+    <div
+      data-testid="stat-card"
+    >
+      <span>
+        Total Value (€)
+      </span>
+      <span>
+        €30,000
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
+`;

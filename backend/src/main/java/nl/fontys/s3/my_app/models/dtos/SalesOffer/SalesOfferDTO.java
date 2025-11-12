@@ -9,9 +9,9 @@ import nl.fontys.s3.my_app.models.SalesOffer;
 public class SalesOfferDTO {
 
     private String uuid;
-    private long ticketId;
+    private Integer ticketId;
     private String referenceId;
-    private int status;
+    private Integer status;
     private LocalDateTime expiresAt;
     private String currency;
     private BigDecimal exchangeRate;
@@ -43,14 +43,14 @@ public class SalesOfferDTO {
     public String getUuid() { return uuid; }
     public void setUuid(String uuid) { this.uuid = uuid; }
 
-    public long getTicketId() { return ticketId; }
-    public void setTicketId(long ticketId) { this.ticketId = ticketId; }
+    public Integer getTicketId() { return ticketId; }
+    public void setTicketId(Integer ticketId) { this.ticketId = ticketId; }
 
     public String getReferenceId() { return referenceId; }
     public void setReferenceId(String referenceId) { this.referenceId = referenceId; }
 
-    public int getStatus() { return status; }
-    public void setStatus(int status) { this.status = status; }
+    public Integer getStatus() { return status; }
+    public void setStatus(Integer status) { this.status = status; }
 
     public LocalDateTime getExpiresAt() { return expiresAt; }
     public void setExpiresAt(LocalDateTime expiresAt) { this.expiresAt = expiresAt; }

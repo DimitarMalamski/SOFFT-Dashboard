@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useOffersData from "../hooks/useOffersData.js";
+import useOffersDataOverview from "../hooks/useOffersDataOverview.js";
 import FilterBar from "../components/Dashboard/FilterBar.jsx";
 import ChartSection from "../components/Dashboard/ChartSection.jsx";
 import { chartOptions } from "../config/chartOptions.js";
@@ -28,7 +28,7 @@ export default function Dashboard() {
         applyFilters,
         loading,
         error
-    } = useOffersData();
+    } = useOffersDataOverview();
 
     if (loading) {
         return (
