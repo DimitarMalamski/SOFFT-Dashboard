@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import nl.fontys.s3.my_app.models.dtos.SalesOffer.SalesOfferDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -24,15 +25,20 @@ public class AIService {
         }
 
         public List<SalesOfferDTO> fetchData() {
-            List<SalesOfferDTO> dtos = salesOfferService.getAllSalesOffersDTO();
-		    return dtos;
-	    }
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime sevenDaysAgo = now.minusDays(7);
+            List<SalesOfferDTO> dtos = salesOfferService.getSalesOffersBetween(sevenDaysAgo, now);
+            return dtos;
+        }
 
         public String generateInsight() {
 
             List<SalesOfferDTO> dtos = fetchData();
 
-            String prompt = "You are an AI agent used in a project created for BAS World company. Your role is to generate useful insights in text format, for salesman who will be using our dashboard. You will be provided with a set of data for the past 7 days." + dtos.toString() + " Based on this data, provide a concise insight that can help the salesman improve their sales strategies. Focus on trends, anomalies, or opportunities that can be leveraged. Keep the response under 100 words.";
+            String prompt = "You are an AI agent used in a project created for BAS World company. Your role is to generate useful insights in text format, " +
+                    "for salesman who will be using our dashboard. You will be provided with a set of data for the past 7 days." + dtos.toString() +
+                    " Based on this data, provide a concise insight that can help the salesman improve their sales strategies. " +
+                    "Focus on trends, anomalies, or opportunities that can be leveraged. Keep the response under 100 words.";
 
             Map<String, Object> request = Map.of(
                 "model", "mistral",

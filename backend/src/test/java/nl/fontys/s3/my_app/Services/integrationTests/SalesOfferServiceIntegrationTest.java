@@ -11,10 +11,7 @@ import nl.fontys.s3.my_app.models.dtos.SalesOfferWithoutLineDTO.SalesOfferWithou
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
@@ -24,9 +21,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-//@DataJpaTest
 @ActiveProfiles("test")
-//@Import(SalesOfferService.class)
 class SalesOfferServiceIntegrationTest {
 
     @Autowired private SalesOfferRepo salesOfferRepo;
@@ -48,7 +43,6 @@ class SalesOfferServiceIntegrationTest {
 
     @BeforeEach
     void setup() {
-        // Clear DB
         salesOfferSalesPersonRepo.deleteAll();
         salesOfferDepotRepo.deleteAll();
         salesOfferLineRepo.deleteAll();
@@ -61,13 +55,11 @@ class SalesOfferServiceIntegrationTest {
         companyAddressRepo.deleteAll();
         depotRepo.deleteAll();
 
-        // Setup customer
         customer = new CustomerCompany();
         customer.setUuid("cust-1");
         customer.setName("Test Customer");
         customerCompanyRepo.save(customer);
 
-        // Setup offer
         offer = new SalesOffer();
         offer.setUuid("offer-1");
         offer.setCustomerUuid(customer.getUuid());
