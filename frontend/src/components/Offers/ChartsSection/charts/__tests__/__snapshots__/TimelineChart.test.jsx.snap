@@ -1,0 +1,36 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TimelineChart Component > matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="bg-emerald-900/30 border border-emerald-800 rounded-xl p-4 shadow-md lg:col-span-3"
+  >
+    <h2
+      class="text-emerald-100 font-semibold mb-3 text-sm uppercase"
+    >
+      Offers Over Time
+    </h2>
+    <div>
+      <div
+        data-testid="line-chart"
+      >
+        <div
+          data-testid="grid"
+        />
+        <div
+          data-testid="x-axis"
+        />
+        <div
+          data-testid="y-axis"
+        />
+        <div
+          data-testid="tooltip"
+        />
+        <div
+          data-testid="line"
+        />
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
