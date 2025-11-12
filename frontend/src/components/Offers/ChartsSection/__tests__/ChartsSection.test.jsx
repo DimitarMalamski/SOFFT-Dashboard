@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import ChartsSection from "../ChartsSection.jsx";
-import * as dataUtils from "../../../../utils/transformChartData.js";
+import * as dataUtils from "../../../../utils/offersPage/transformChartData.js";
 
 vi.mock("../charts/StatusChart.jsx", () => ({
     default: ({ data }) => <div data-testid="status-chart" data-length={data.length} />,

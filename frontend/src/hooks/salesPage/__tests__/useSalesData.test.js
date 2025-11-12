@@ -1,8 +1,10 @@
 import { renderHook, act, waitFor } from "@testing-library/react";
-import { useSalesData } from "../salesPage/useSalesData.js";
-import SalesAPI from "../../apis/SalesAPI.js";
+import { useSalesData } from "../useSalesData.js";
+import SalesAPI from "../../../apis/SalesAPI.js";
 
-vi.mock("../../apis/SalesAPI.js");
+vi.mock("../../../apis/SalesAPI.js", () => ({
+    default: { getAllSales: vi.fn() },
+}));
 
 describe("useSalesData Hook", () => {
     const mockSales = [

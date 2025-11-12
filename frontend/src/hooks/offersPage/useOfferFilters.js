@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { extractFilterOptions } from "../../utils/extractFilterOptions.js";
+import { extractFilterOptions } from "../../utils/offersPage/extractFilterOptions.js";
 
 export function useOfferFilters(offers, onFilterChange) {
     const [filters, setFilters] = useState({

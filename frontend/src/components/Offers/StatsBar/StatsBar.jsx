@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { BarChart3, Clock, CheckCircle, XCircle, Euro } from "lucide-react";
 import StatCard from "./StatCard.jsx";
-import { calculateOfferStats } from "../../../utils/calculateStats.js";
+import { calculateOfferStats } from "../../../utils/offersPage/calculateStats.js";
 
 export default function StatsBar({ offers }) {
     const stats = useMemo(() => calculateOfferStats(offers), [offers]);

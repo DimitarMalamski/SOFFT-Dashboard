@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import StatsBar from "../StatsBar.jsx";
-import * as calculateStatsModule from "../../../../utils/calculateStats.js";
+import * as calculateStatsModule from "../../../../utils/offersPage/calculateStats.js";
 import StatCard from "../StatCard.jsx";
 
 vi.mock("../StatCard.jsx", () => ({

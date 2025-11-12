@@ -1,6 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
-import { useOfferFilters } from "../offersPage/useOfferFilters.js";
-import * as utils from "../../utils/extractFilterOptions.js";
+import { useOfferFilters } from "../useOfferFilters.js";
+import * as utils from "../../../utils/offersPage/extractFilterOptions.js";
 
 describe("useOfferFilters", () => {
     const mockOffers = [

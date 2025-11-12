@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import SalesOffersAPI from "../../apis/SalesOffersAPI.js";
-import { filterOffersOverview } from "../../utils/filterOffersOverview.js";
+import { filterOffersOverview } from "../../utils/overviewPage/filterOffersOverview.js";
 
 export default function useOffersDataOverview() {
     // --- state ---

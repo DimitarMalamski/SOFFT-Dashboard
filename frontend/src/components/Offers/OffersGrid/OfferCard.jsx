@@ -1,5 +1,5 @@
 import React from "react";
-import { getStatusColor, getStatusIcon } from "../../../utils/offerStatusHelpers.jsx";
+import { getStatusColor, getStatusIcon } from "../../../utils/offersPage/offerStatusHelpers.jsx";
 
 export default function OfferCard({ offer }) {
     const customerName = offer.customerCompanyName ?? "Unknown Company";

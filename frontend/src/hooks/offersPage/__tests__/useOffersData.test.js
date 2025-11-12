@@ -1,8 +1,10 @@
 import { renderHook, act } from "@testing-library/react";
-import useOffersData from "../offersPage/useOffersData.js";
-import OffersAPI from "../../apis/OffersAPI.js";
+import useOffersData from "../useOffersData.js";
+import OffersAPI from "../../../apis/OffersAPI.js";
 
-vi.mock("../../apis/OffersAPI.js");
+vi.mock("../../../apis/OffersAPI.js", () => ({
+    default: { getOffersByStatus: vi.fn() },
+}));
 
 const mockOffers = [
     {

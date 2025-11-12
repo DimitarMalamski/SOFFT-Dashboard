@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import { usePagination } from "../shared/usePagination.js";
+import { usePagination } from "../usePagination.js";
 
 describe("usePagination hook", () => {
     const mockData = Array.from({ length: 10 }, (_, i) => i + 1);

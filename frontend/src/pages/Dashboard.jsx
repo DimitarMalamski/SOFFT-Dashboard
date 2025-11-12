@@ -10,7 +10,7 @@ import {
     getConversionStats,
     getTimeToSale,
     transformSalesMan,
-} from '../utils/offerTransformations';
+} from '../utils/overviewPage/offerTransformations.js';
 import Leaderboard from '../components/Leaderboard.jsx';
 import SalesTrendChart from '../components/Charts/SalesTrendChart.jsx';
 import ConversionsCard from '../components/Charts/ConversionsChart.jsx';

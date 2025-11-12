@@ -2,7 +2,7 @@ import React from "react";
 import StatusChart from "./charts/StatusChart.jsx";
 import SalespersonChart from "./charts/SalespersonChart.jsx";
 import TimelineChart from "./charts/TimelineChart.jsx";
-import { transformChartData } from "../../../utils/transformChartData.js";
+import { transformChartData } from "../../../utils/offersPage/transformChartData.js";
 
 export default function ChartsSection({ offers }) {
     const { statusCounts, salesByPerson, offersByDate } =

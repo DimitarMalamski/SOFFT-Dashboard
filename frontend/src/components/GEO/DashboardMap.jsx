@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import HeatmapLayer from "./HeatmapLayer.jsx";
 import SalesOffersAPI from "../../apis/SalesOffersAPI.js";
-import { transformHeatmapData } from "../../utils/transformHeatmapData.js";
+import { transformHeatmapData } from "../../utils/GEOPage/transformHeatmapData.js";
 
 function DashboardMap() {
     const [heatData, setHeatData] = useState([]);
