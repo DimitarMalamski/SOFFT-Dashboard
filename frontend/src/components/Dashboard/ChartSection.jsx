@@ -1,6 +1,6 @@
 import React from "react";
-import LineChartType from "../LineChartType";
-import BarChartType from "../BarChartType";
+import LineChartType from "../Charts/LineChartType.jsx";
+import BarChartType from "../Charts/BarChartType.jsx";
 
 export default function ChartSection({ selectedChart, chartOptions, chartData }) {
     const chartConfig = chartOptions.find((opt) => opt.value === selectedChart);

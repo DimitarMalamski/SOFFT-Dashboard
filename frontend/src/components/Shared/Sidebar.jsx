@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   BarChart3,
@@ -11,8 +11,7 @@ import {
   ChevronsRight,
   X,
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import logo from '../assets/BAS_logo.svg';
+import { motion } from 'framer-motion';
 
 const _MOTION_ = motion;
 
@@ -35,7 +34,6 @@ export default function Sidebar({
     setCollapsed,
     onClose = () => {},
 }) {
-  // ESC closes on mobile (no type annotation)
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => e.key === 'Escape' && onClose();

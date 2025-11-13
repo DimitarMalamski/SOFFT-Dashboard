@@ -4,7 +4,7 @@ import StatusChart from "../StatusChart.jsx";
 vi.mock("recharts", () => ({
     PieChart: (props) => <div data-testid="pie-chart">{props.children}</div>,
     Pie: (props) => <div data-testid="pie">{props.children}</div>,
-    Cell: (props) => <div data-testid="cell" />,
+    Cell: () => <div data-testid="cell" />,
     Tooltip: () => <div data-testid="tooltip" />,
     ResponsiveContainer: (props) => <div>{props.children}</div>,
 }));

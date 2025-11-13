@@ -135,6 +135,9 @@ export function transformSalesMan(offers) {
             offer.salesPersons.forEach((p) => {
                 if (!p.name) return;
                 const name = p.name.trim();
+
+                if (!name) return;
+
                 counts[name] = (counts[name] || 0) + 1;
             });
         }

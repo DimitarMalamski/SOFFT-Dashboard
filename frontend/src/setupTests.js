@@ -7,6 +7,6 @@ class ResizeObserverMock {
 }
 
 // Add a global mock if missing ( Chart rendering )
-if (typeof global.ResizeObserver === "undefined") {
-    global.ResizeObserver = ResizeObserverMock;
+if (typeof globalThis.ResizeObserver === "undefined") {
+    globalThis.ResizeObserver = ResizeObserverMock;
 }

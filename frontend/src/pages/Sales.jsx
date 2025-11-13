@@ -23,7 +23,6 @@ export default function SalesPage() {
         currentData,
         nextPage,
         prevPage,
-        resetPage,
     } = usePagination(filtered, 3);
 
     if (loading) {

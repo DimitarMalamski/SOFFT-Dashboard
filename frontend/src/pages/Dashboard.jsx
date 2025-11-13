@@ -11,7 +11,7 @@ import {
     getTimeToSale,
     transformSalesMan,
 } from '../utils/overviewPage/offerTransformations.js';
-import Leaderboard from '../components/Leaderboard.jsx';
+import Leaderboard from '../components/Dashboard/Leaderboard.jsx';
 import SalesTrendChart from '../components/Charts/SalesTrendChart.jsx';
 import ConversionsCard from '../components/Charts/ConversionsChart.jsx';
 import TimeToSaleCard from '../components/Charts/TimeToSaleChart.jsx';
@@ -33,7 +33,9 @@ export default function Dashboard() {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-dvh">
-                <div className="w-12 h-12 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin"></div>
+                <div
+                    data-testid="loading-spinner"
+                    className="w-12 h-12 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
     }

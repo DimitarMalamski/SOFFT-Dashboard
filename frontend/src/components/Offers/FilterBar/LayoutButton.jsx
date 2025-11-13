@@ -1,6 +1,7 @@
 import React from "react";
 
-export default function LayoutButton({ active, onClick, title, icon: Icon }) {
+export default function LayoutButton({ active, onClick, title, icon }) {
+    const Icon = icon;
     return (
         <button
             onClick={onClick}
