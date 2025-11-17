@@ -1,0 +1,398 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SalesTrendChart > matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="rounded-none bg-emerald-950 text-white p-2 sm:p-2.5 shadow-sm"
+  >
+    <div
+      class="text-xs/5 text-emerald-100"
+    >
+      Event count
+    </div>
+    <div
+      class="mt-0.5 grid grid-cols-[auto_1fr] items-end gap-2"
+    >
+      <div
+        class="flex items-end gap-2"
+      >
+        <div
+          class="text-2xl sm:text-3xl font-semibold leading-none tracking-tight"
+        >
+          130
+        </div>
+        <span
+          aria-label="delta vs previous point"
+          class="inline-flex items-center rounded-none border px-1.5 py-0.5 text-[10px] sm:text-xs font-medium text-slate-300 border-slate-700 bg-slate-800/40"
+          title="Change vs previous"
+        >
+          → 0.0%
+        </span>
+      </div>
+      <div
+        class="h-12 sm:h-14 w-full"
+      >
+        <div
+          class="css-ejowe7-MuiChartsWrapper-root"
+        >
+          <ul
+            class="MuiChartsLegend-root MuiChartsLegend-horizontal css-jxda4w-MuiChartsLegend-root"
+            hidden=""
+          >
+            <li
+              class="MuiChartsLegend-item"
+              data-series="auto-generated-id-0"
+            >
+              <div
+                class="MuiChartsLegend-series"
+              >
+                <div
+                  aria-hidden="true"
+                  class="MuiChartsLabelMark-root MuiChartsLabelMark-line MuiChartsLegend-mark css-1jbxaz3-MuiChartsLabelMark-root"
+                >
+                  <div
+                    class="MuiChartsLabelMark-mask"
+                  >
+                    <svg
+                      preserveAspectRatio="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <rect
+                        class="MuiChartsLabelMark-fill"
+                        fill="#10B981"
+                        height="24"
+                        width="24"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <span
+                  class="MuiChartsLabel-root MuiChartsLegend-label"
+                >
+                  Trend
+                </span>
+              </div>
+            </li>
+          </ul>
+          <svg
+            class="css-f2ok6g-MuiChartsSurface-root"
+            viewBox="0 0 220 56"
+          >
+            <g
+              class="MuiChartsGrid-root css-g2sgfh-MuiChartsGrid-root"
+            />
+            <g
+              clip-path="url(#«re»-clip-path)"
+            >
+              <g
+                class="css-144p1wf-MuiAreaPlot-root"
+              >
+                <clippath
+                  id="«rf»-auto-generated-id-0-area-clip"
+                >
+                  <rect
+                    class="css-dbuw8t"
+                    height="56"
+                    width="220"
+                    x="0"
+                    y="0"
+                  />
+                </clippath>
+                <g
+                  clip-path="url(#«rf»-auto-generated-id-0-area-clip)"
+                >
+                  <path
+                    class="MuiAreaElement-root MuiAreaElement-series-auto-generated-id-0"
+                    cursor="unset"
+                    d="M62.5,6L97.5,24.875L132.5,21L167.5,22.875L202.5,22.875L202.5,31L167.5,31L132.5,31L97.5,31L62.5,31Z"
+                    data-series="auto-generated-id-0"
+                    fill="#10B981"
+                    filter="brightness(120%)"
+                    opacity="1"
+                    stroke="none"
+                  />
+                </g>
+              </g>
+              <g
+                class="css-9qkk6x-MuiAreaPlot-root"
+              >
+                <clippath
+                  id="«rf»-auto-generated-id-0-line-clip"
+                >
+                  <rect
+                    class="css-dbuw8t"
+                    height="56"
+                    width="220"
+                    x="0"
+                    y="0"
+                  />
+                </clippath>
+                <g
+                  clip-path="url(#«rf»-auto-generated-id-0-line-clip)"
+                >
+                  <path
+                    class="MuiLineElement-root MuiLineElement-series-auto-generated-id-0"
+                    cursor="unset"
+                    d="M62.5,6L97.5,24.875L132.5,21L167.5,22.875L202.5,22.875"
+                    data-series="auto-generated-id-0"
+                    fill="none"
+                    opacity="1"
+                    stroke="#10B981"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </g>
+              </g>
+            </g>
+            <g
+              class="MuiChartsAxis-root MuiChartsAxis-directionX MuiChartsAxis-bottom MuiChartsAxis-id-defaultized-x-axis-0 css-1yscjcf-MuiChartsAxis-root-MuiChartsXAxis-root"
+              transform="translate(0, 31)"
+            >
+              <line
+                class="MuiChartsAxis-line"
+                x1="45"
+                x2="220"
+              />
+              <g
+                class="MuiChartsAxis-tickContainer"
+                transform="translate(45, 0)"
+              >
+                <line
+                  class="MuiChartsAxis-tick"
+                  y2="6"
+                />
+                <text
+                  class="MuiChartsAxis-tickLabel"
+                  dominant-baseline="hanging"
+                  style="font-family: "Roboto", "Helvetica", "Arial", sans-serif; font-weight: 400; font-size: 12px; line-height: 1.25; letter-spacing: 0.03333em;"
+                  text-anchor="middle"
+                  x="17.5"
+                  y="9"
+                >
+                  <tspan
+                    dominant-baseline="hanging"
+                    dy="0px"
+                    x="17.5"
+                  >
+                    Mon
+                  </tspan>
+                </text>
+              </g>
+              <g
+                class="MuiChartsAxis-tickContainer"
+                transform="translate(80, 0)"
+              >
+                <line
+                  class="MuiChartsAxis-tick"
+                  y2="6"
+                />
+                <text
+                  class="MuiChartsAxis-tickLabel"
+                  dominant-baseline="hanging"
+                  style="font-family: "Roboto", "Helvetica", "Arial", sans-serif; font-weight: 400; font-size: 12px; line-height: 1.25; letter-spacing: 0.03333em;"
+                  text-anchor="middle"
+                  x="17.5"
+                  y="9"
+                >
+                  <tspan
+                    dominant-baseline="hanging"
+                    dy="0px"
+                    x="17.5"
+                  >
+                    Tue
+                  </tspan>
+                </text>
+              </g>
+              <g
+                class="MuiChartsAxis-tickContainer"
+                transform="translate(115, 0)"
+              >
+                <line
+                  class="MuiChartsAxis-tick"
+                  y2="6"
+                />
+                <text
+                  class="MuiChartsAxis-tickLabel"
+                  dominant-baseline="hanging"
+                  style="font-family: "Roboto", "Helvetica", "Arial", sans-serif; font-weight: 400; font-size: 12px; line-height: 1.25; letter-spacing: 0.03333em;"
+                  text-anchor="middle"
+                  x="17.5"
+                  y="9"
+                >
+                  <tspan
+                    dominant-baseline="hanging"
+                    dy="0px"
+                    x="17.5"
+                  >
+                    Wed
+                  </tspan>
+                </text>
+              </g>
+              <g
+                class="MuiChartsAxis-tickContainer"
+                transform="translate(150, 0)"
+              >
+                <line
+                  class="MuiChartsAxis-tick"
+                  y2="6"
+                />
+                <text
+                  class="MuiChartsAxis-tickLabel"
+                  dominant-baseline="hanging"
+                  style="font-family: "Roboto", "Helvetica", "Arial", sans-serif; font-weight: 400; font-size: 12px; line-height: 1.25; letter-spacing: 0.03333em;"
+                  text-anchor="middle"
+                  x="17.5"
+                  y="9"
+                >
+                  <tspan
+                    dominant-baseline="hanging"
+                    dy="0px"
+                    x="17.5"
+                  >
+                    Thu
+                  </tspan>
+                </text>
+              </g>
+              <g
+                class="MuiChartsAxis-tickContainer"
+                transform="translate(185, 0)"
+              >
+                <line
+                  class="MuiChartsAxis-tick"
+                  y2="6"
+                />
+                <text
+                  class="MuiChartsAxis-tickLabel"
+                  dominant-baseline="hanging"
+                  style="font-family: "Roboto", "Helvetica", "Arial", sans-serif; font-weight: 400; font-size: 12px; line-height: 1.25; letter-spacing: 0.03333em;"
+                  text-anchor="middle"
+                  x="17.5"
+                  y="9"
+                >
+                  <tspan
+                    dominant-baseline="hanging"
+                    dy="0px"
+                    x="17.5"
+                  >
+                    Fri
+                  </tspan>
+                </text>
+              </g>
+              <g
+                class="MuiChartsAxis-tickContainer"
+                transform="translate(220, 0)"
+              >
+                <line
+                  class="MuiChartsAxis-tick"
+                  y2="6"
+                />
+              </g>
+            </g>
+            <g
+              class="MuiChartsAxis-root MuiChartsAxis-directionY MuiChartsAxis-left MuiChartsAxis-id-DEFAULT_Y_AXIS_KEY css-ra8wgq-MuiChartsAxis-root-MuiChartsYAxis-root"
+              transform="translate(45, 0)"
+            >
+              <line
+                class="MuiChartsAxis-line"
+                stroke-linecap="square"
+                y1="6"
+                y2="31"
+              />
+              <g
+                class="MuiChartsAxis-tickContainer"
+                transform="translate(0, 31)"
+              >
+                <line
+                  class="MuiChartsAxis-tick"
+                  x2="-6"
+                />
+                <text
+                  class="MuiChartsAxis-tickLabel"
+                  dominant-baseline="central"
+                  style="font-family: "Roboto", "Helvetica", "Arial", sans-serif; font-weight: 400; font-size: 12px; line-height: 1.66; letter-spacing: 0.03333em;"
+                  text-anchor="end"
+                  x="-8"
+                  y="0"
+                >
+                  <tspan
+                    dominant-baseline="central"
+                    dy="0px"
+                    x="-8"
+                  >
+                    0
+                  </tspan>
+                </text>
+              </g>
+              <g
+                class="MuiChartsAxis-tickContainer"
+                transform="translate(0, 18.5)"
+              >
+                <line
+                  class="MuiChartsAxis-tick"
+                  x2="-6"
+                />
+                <text
+                  class="MuiChartsAxis-tickLabel"
+                  dominant-baseline="central"
+                  style="font-family: "Roboto", "Helvetica", "Arial", sans-serif; font-weight: 400; font-size: 12px; line-height: 1.66; letter-spacing: 0.03333em;"
+                  text-anchor="end"
+                  x="-8"
+                  y="0"
+                >
+                  <tspan
+                    dominant-baseline="central"
+                    dy="0px"
+                    x="-8"
+                  >
+                    200
+                  </tspan>
+                </text>
+              </g>
+              <g
+                class="MuiChartsAxis-tickContainer"
+                transform="translate(0, 6)"
+              >
+                <line
+                  class="MuiChartsAxis-tick"
+                  x2="-6"
+                />
+                <text
+                  class="MuiChartsAxis-tickLabel"
+                  dominant-baseline="central"
+                  style="font-family: "Roboto", "Helvetica", "Arial", sans-serif; font-weight: 400; font-size: 12px; line-height: 1.66; letter-spacing: 0.03333em;"
+                  text-anchor="end"
+                  x="-8"
+                  y="0"
+                >
+                  <tspan
+                    dominant-baseline="central"
+                    dy="0px"
+                    x="-8"
+                  >
+                    400
+                  </tspan>
+                </text>
+              </g>
+            </g>
+            <g
+              data-drawing-container="true"
+            >
+              <g />
+            </g>
+            <clippath
+              id="«re»-clip-path"
+            >
+              <rect
+                height="25"
+                width="175"
+                x="45"
+                y="6"
+              />
+            </clippath>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

@@ -1,0 +1,175 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ConversionsCard Component > matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="rounded-none bg-emerald-950 text-white p-2 sm:p-2.5 shadow-sm"
+  >
+    <div
+      class="flex items-center justify-between"
+    >
+      <div
+        class="text-xs/5 text-emerald-100"
+      >
+        Conversion rate
+      </div>
+      <span
+        class="inline-flex items-center rounded-none border px-1.5 py-0.5 text-[10px] sm:text-xs font-medium text-slate-300 border-slate-700 bg-slate-800/40"
+        title="Change vs previous"
+      >
+        —
+      </span>
+    </div>
+    <div
+      class="relative h-28 mt-1"
+    >
+      <div
+        class="absolute inset-0 flex items-center justify-center pointer-events-none"
+      >
+        <div
+          class="text-2xl sm:text-3xl font-semibold leading-none tracking-tight"
+        >
+          50%
+        </div>
+      </div>
+      <div
+        class="css-ko2lp1-MuiChartsWrapper-root"
+      >
+        <ul
+          class="MuiChartsLegend-root MuiChartsLegend-vertical css-1nubu7u-MuiChartsLegend-root"
+          hidden=""
+        >
+          <li
+            class="MuiChartsLegend-item"
+            data-series="0"
+          >
+            <div
+              class="MuiChartsLegend-series"
+            >
+              <div
+                aria-hidden="true"
+                class="MuiChartsLabelMark-root MuiChartsLabelMark-circle MuiChartsLegend-mark css-1jbxaz3-MuiChartsLabelMark-root"
+              >
+                <div
+                  class="MuiChartsLabelMark-mask"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="MuiChartsLabelMark-fill"
+                      cx="12"
+                      cy="12"
+                      fill="white"
+                      r="12"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <span
+                class="MuiChartsLabel-root MuiChartsLegend-label"
+              >
+                Converted
+              </span>
+            </div>
+          </li>
+          <li
+            class="MuiChartsLegend-item"
+            data-series="1"
+          >
+            <div
+              class="MuiChartsLegend-series"
+            >
+              <div
+                aria-hidden="true"
+                class="MuiChartsLabelMark-root MuiChartsLabelMark-circle MuiChartsLegend-mark css-1jbxaz3-MuiChartsLabelMark-root"
+              >
+                <div
+                  class="MuiChartsLabelMark-mask"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="MuiChartsLabelMark-fill"
+                      cx="12"
+                      cy="12"
+                      fill="rgba(255,255,255,0.08)"
+                      r="12"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <span
+                class="MuiChartsLabel-root MuiChartsLegend-label"
+              >
+                Remaining
+              </span>
+            </div>
+          </li>
+        </ul>
+        <svg
+          class="css-1a6ocw0-MuiChartsSurface-root"
+          viewBox="0 0 100 112"
+        >
+          <g>
+            <g
+              class="MuiPieChart-series"
+              data-series="auto-generated-id-0"
+              transform="translate(50, 56)"
+            >
+              <g>
+                <path
+                  class="MuiPieArc-root MuiPieArc-series-auto-generated-id-0 MuiPieArc-data-index-0 css-yqw5vn-MuiPieArc-root"
+                  cursor="unset"
+                  d="M-45,0A45,45,0,1,1,45,0L40,0A40,40,0,1,0,-40,0Z"
+                  fill="white"
+                  filter="none"
+                  opacity="1"
+                  stroke-linejoin="round"
+                  stroke-width="1"
+                  visibility="visible"
+                />
+                <path
+                  class="MuiPieArc-root MuiPieArc-series-auto-generated-id-0 MuiPieArc-data-index-1 css-yqw5vn-MuiPieArc-root"
+                  cursor="unset"
+                  d="M45,0A45,45,0,1,1,-45,0L-40,0A40,40,0,1,0,40,0Z"
+                  fill="rgba(255,255,255,0.08)"
+                  filter="none"
+                  opacity="1"
+                  stroke-linejoin="round"
+                  stroke-width="1"
+                  visibility="visible"
+                />
+              </g>
+            </g>
+            <g
+              class="MuiPieChart-seriesLabels"
+              data-series="auto-generated-id-0"
+              transform="translate(50, 56)"
+            >
+              <g>
+                <text
+                  class="MuiPieArcLabel-root MuiPieArcLabel-series-auto-generated-id-0 css-1vffdx8-MuiPieArcLabel-root"
+                  x="2.6023744481881254e-15"
+                  y="-42.5"
+                />
+                <text
+                  class="MuiPieArcLabel-root MuiPieArcLabel-series-auto-generated-id-0 css-1vffdx8-MuiPieArcLabel-root"
+                  x="2.6023744481881254e-15"
+                  y="42.5"
+                />
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div
+      class="mt-1.5 text-[11px] text-emerald-100/80"
+    >
+      10/20 converted
+    </div>
+  </div>
+</DocumentFragment>
+`;

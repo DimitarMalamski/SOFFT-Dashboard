@@ -1,5 +1,6 @@
 package nl.fontys.s3.my_app.Services;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -64,6 +65,7 @@ public class SalesOfferService {
 	private static final ProductPriceDTO TEMP_PRODUCTPRICEDTO = new ProductPriceDTO("Euro",
 			BigDecimal.valueOf(100));
 
+
 	private final SalesOfferRepo salesOfferRepo;
 	private final SalesOfferLineRepo salesOfferLineRepo;
 	private final ProductRepo productRepo;
@@ -124,6 +126,12 @@ public class SalesOfferService {
 		return this.mapSalesOfferSimpleDTOs(salesOffers);
 	}
 
+	public List<SalesOfferWithoutLineDTO> getAllSalesOffersWithoutLines(List<String> statuses) { 
+
+		List<SalesOffer> salesOffers = salesOfferRepo.findAllByStatuses(statuses);
+		return this.mapAllSalesOffersWithoutLines(salesOffers);
+	}
+
 	// // Get SalesOfferLine DTO by UUID
 	// public SalesOfferLineDTO getSalesOfferLineByUuid(String uuid) {
 	// SalesOfferLine salesOfferLine =
@@ -150,14 +158,9 @@ public class SalesOfferService {
 		return addresses;
 	}
 
-	private SalesOfferDTO mapSalesOfferDTO(SalesOffer offer) {
-		if (offer == null)
-			return null;
-		return mapSalesOffersDTO(List.of(offer)).get(0);
-	}
+	
 
-	public List<SalesOfferWithoutLineDTO> getAllSalesOffersWithoutLines() {
-		List<SalesOffer> offers = salesOfferRepo.findAll();
+	public List<SalesOfferWithoutLineDTO> mapAllSalesOffersWithoutLines(List<SalesOffer> offers) {
 		if (offers.isEmpty())
 			return List.of();
 
@@ -393,6 +396,12 @@ public class SalesOfferService {
 
 			return new SalesOfferDTO(offer, discount, company, lineDtos, people);
 		}).toList();
+	}
+
+	private SalesOfferDTO mapSalesOfferDTO(SalesOffer offer) {
+		if (offer == null)
+			return null;
+		return mapSalesOffersDTO(List.of(offer)).get(0);
 	}
 
 	// Service method: map a *list* of lines in one pass

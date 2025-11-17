@@ -1,17 +1,12 @@
 import axios from "axios";
 
-const OFFERS_BASE_URL = "http://localhost:8080/offers";
+const OFFERS_BASE_URL = "http://localhost:8080/api/salesoffers/sales";
 
 const OffersAPI = {
-    getOffersBySearchQuery: (searchQuery = "") =>
+    getOffersByStatus: () =>
         axios
-            .get(OFFERS_BASE_URL, {params: {searchQuery}})
-            .then(response => response.data.offers),
-    getOffers: () => axios.get(`${OFFERS_BASE_URL}`)
-            .then(response => response.data.offers),
+            .get(OFFERS_BASE_URL, { params: { statuses: ["Pending", "Declined"] } })
+            .then((response) => response.data.data),
 };
 
 export default OffersAPI;
-
-
-// This is an example implementation of a module responsible for communication with the backend API to fetch offers.
