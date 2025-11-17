@@ -1,5 +1,6 @@
 package nl.fontys.s3.my_app.Services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -13,15 +14,17 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class AIService {
 
     private final RestTemplate restTemplate = new RestTemplate();
-
     private final SalesOfferService salesOfferService;
+    private final ObjectMapper mapper;
 
-    public AIService(SalesOfferService salesOfferService) {
-            this.salesOfferService = salesOfferService;
+    public AIService(SalesOfferService salesOfferService, ObjectMapper mapper) {
+        this.salesOfferService = salesOfferService;
+        this.mapper = mapper;
     }
 
     public List<SalesOfferDTO> fetchData(int daysBack) {
@@ -32,15 +35,19 @@ public class AIService {
 
     public String generateInsight() {
 
-        List<SalesOfferDTO> dtos = fetchData(30);
+        List<SalesOfferDTO> dtos = fetchData(14);
 
-        ObjectMapper mapper = new ObjectMapper();
+        log.info("Fetched {} sales offers from DB", dtos.size());
+        dtos.forEach(dto -> log.info("DTO: {}", dto));
+
         String dataJson = "";
         try {
             dataJson = mapper.writeValueAsString(dtos);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        log.info("FINAL JSON SENT TO AI: {}", dataJson);
 
         String prompt = """
             You are an AI agent used in a project created for BAS World company.
@@ -51,7 +58,7 @@ public class AIService {
             - anomalies,
             - missing values,
             - opportunities to improve sales strategies.
-            Keep the response under 500 words.
+            Keep the response under 500 words. Use only the provided data. Do not invent any entries. If some fields are missing, state them explicitly.
             Here is the data:
             %s
         """.formatted(dataJson);
