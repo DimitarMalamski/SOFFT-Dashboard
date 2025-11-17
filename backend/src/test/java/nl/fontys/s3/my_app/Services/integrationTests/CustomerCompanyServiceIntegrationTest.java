@@ -89,7 +89,6 @@ class CustomerCompanyServiceIntegrationTest {
         assertEquals("Eindhoven", dto.getAdresses().get(0).getCity());
 
         assertEquals(1, dto.getPersons().size());
-        // Same note as above:
         assertEquals("Ivan", dto.getPersons().get(0).getName());
     }
 

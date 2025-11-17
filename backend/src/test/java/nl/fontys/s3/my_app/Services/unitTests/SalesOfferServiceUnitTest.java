@@ -172,14 +172,14 @@ class SalesOfferServiceUnitTest {
         depot.setId(11);
         depot.setName("Main Depot");
 
-        when(salesOfferRepo.findAll()).thenReturn(List.of(offer));
+        when(salesOfferRepo.findAllByStatuses(List.of("0", "1"))).thenReturn(List.of(offer));
         when(customerCompanyRepo.findAllByUuidIn(anySet())).thenReturn(List.of(customer));
         when(salesOfferSalesPersonRepo.findAllByOfferUuidIn(anySet())).thenReturn(List.of(link));
         when(salesPersonRepo.findAllByUuidIn(anySet())).thenReturn(List.of(sp));
         when(salesOfferDepotRepo.findAllByOfferUuidIn(anySet())).thenReturn(List.of(depotLink));
         when(depotRepo.findAllByIdIn(anySet())).thenReturn(List.of(depot));
 
-        List<SalesOfferWithoutLineDTO> result = salesOfferService.getAllSalesOffersWithoutLines();
+        List<SalesOfferWithoutLineDTO> result = salesOfferService.getAllSalesOffersWithoutLines(List.of("0", "1"));
 
         assertEquals(1, result.size());
         SalesOfferWithoutLineDTO dto = result.get(0);

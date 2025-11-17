@@ -65,6 +65,7 @@ class SalesOfferServiceIntegrationTest {
         offer.setCustomerUuid(customer.getUuid());
         offer.setTotalPriceExVatAmt(new BigDecimal("100"));
         offer.setStatusCode(1);
+        offer.setStatusDescription("1");
         offer.setCreatedAt(LocalDateTime.now());
         offer.setTicketId(0);
         salesOfferRepo.save(offer);
@@ -89,7 +90,7 @@ class SalesOfferServiceIntegrationTest {
 
     @Test
     void testGetAllSalesOffersWithoutLines_returnsDTOWithCustomerName() {
-        List<?> result = salesOfferService.getAllSalesOffersWithoutLines();
+        List<?> result = salesOfferService.getAllSalesOffersWithoutLines(List.of("0", "1"));
 
         assertEquals(1, result.size());
         assertEquals("Test Customer", ((SalesOfferWithoutLineDTO) result.get(0)).getCustomerCompanyName());
