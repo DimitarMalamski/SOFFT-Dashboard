@@ -1,5 +1,22 @@
 import React, { useState } from "react";
 
+function highlightMatch(name, query) {
+    if (!query) return name;
+
+    const regex = new RegExp(`(${query})`, "gi");
+    const parts = name.split(regex);
+
+    return parts.map((part, i) =>
+        regex.test(part) ? (
+            <strong key={i} className="text-emerald-300 font-semibold">
+                {part}
+            </strong>
+        ) : (
+            <span key={i}>{part}</span>
+        )
+    );
+}
+
 export default function SalesModal({ people, onClose }) {
     const [query, setQuery] = useState("");
 
@@ -14,7 +31,6 @@ export default function SalesModal({ people, onClose }) {
                     All Salespeople
                 </h3>
 
-                {/* Search */}
                 <input
                     type="text"
                     placeholder="Search salespeople..."
@@ -26,7 +42,6 @@ export default function SalesModal({ people, onClose }) {
                                focus:outline-none focus:ring-2 focus:ring-emerald-600"
                 />
 
-                {/* Scrollable list */}
                 <div className="max-h-80 overflow-y-auto space-y-1 pr-2">
                     {filtered.length > 0 ? (
                         filtered.map((p, i) => (
@@ -35,7 +50,7 @@ export default function SalesModal({ people, onClose }) {
                                 className="px-2 py-1 bg-emerald-800/40 rounded
                                            border border-emerald-700 text-emerald-100 text-sm"
                             >
-                                {p.name}
+                                {highlightMatch(p.name, query)}
                             </div>
                         ))
                     ) : (
@@ -45,7 +60,6 @@ export default function SalesModal({ people, onClose }) {
                     )}
                 </div>
 
-                {/* Close button */}
                 <button
                     className="mt-4 w-full py-2 bg-emerald-700 text-emerald-100 rounded
                                hover:bg-emerald-600 transition"

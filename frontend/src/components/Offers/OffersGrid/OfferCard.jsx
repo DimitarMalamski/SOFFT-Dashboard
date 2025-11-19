@@ -32,10 +32,10 @@ export default function OfferCard({ offer }) {
             </div>
 
             <div className="text-emerald-100 text-sm space-y-1 mb-4">
-                <p className="flex gap-2 text-emerald-100 text-sm items-center flex-wrap">
+                <div className="flex gap-2 text-emerald-100 text-sm items-center flex-wrap">
                     <span>Salespeople:</span>
                     <SalesList people={offer.salesPersonName} limit={3} />
-                </p>
+                </div>
                 <p>Depot: {depot}</p>
                 <p>Expires: {expiresAt}</p>
             </div>
