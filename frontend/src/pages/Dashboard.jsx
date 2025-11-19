@@ -50,7 +50,9 @@ export default function Dashboard() {
         );
     }
 
-    const chartData = transformData(filteredOffers, selectedChart);
+  const allSalesmen = transformSalesMan(offers);
+  const leaders = allSalesmen.slice(0, 6);
+  const chartData = transformData(filteredOffers, selectedChart);
   const trendPoints = getLast7DaysOrders(offers);
   const conversions = getConversionStats(offers);
   const { points: ttsPoints, avg: avgTts } = getTimeToSale(offers);
@@ -96,7 +98,7 @@ export default function Dashboard() {
                 />
             </section>
           <aside className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-0'>
-            <Leaderboard salesmanData={transformSalesMan(offers)} />
+            <Leaderboard salesmanData={leaders} />
           </aside>
         </div>
       </div>

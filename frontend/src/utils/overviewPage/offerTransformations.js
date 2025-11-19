@@ -4,8 +4,8 @@ export function transformData(raw, selected) {
         case "offersPerSalesman": {
             const counts = {};
             raw.forEach((offer) => {
-                if (offer.salesPersons?.length) {
-                    offer.salesPersons.forEach((p) => {
+                if (offer.salesPerson?.length) {
+                    offer.salesPerson.forEach((p) => {
                         const name = p?.name?.trim();
                         if (!name) return;
                         counts[name] = (counts[name] || 0) + 1;
@@ -64,20 +64,18 @@ export function transformData(raw, selected) {
         }
 
         case "leadTimeAnalysis": {
-            const acceptedOffers = raw.filter(
-                (offer) =>
-                    offer.statusDescription === "Accepted" &&
-                    offer.salesOfferOrders?.length > 0
-            );
-            return acceptedOffers.map((offer) => {
+            console.log(">>> RAW offers (sample 2):", raw.slice(0, 5));
+            const leadTimes = raw.map(offer => {
                 const offerDate = new Date(offer.createdAt);
-                const orderDate = new Date(offer.salesOfferOrders[0].createdAt);
-                const leadTimeDays = (orderDate - offerDate) / (1000 * 60 * 60 * 24);
+                const transportDays = offer.salesOfferLine?.[0]?.delivery?.transportDays || 0;
+                const leadTime = transportDays;
+
                 return {
                     referenceId: offer.referenceId,
-                    leadTime: Number(leadTimeDays.toFixed(2)),
+                    leadTime
                 };
             });
+            return leadTimes;
         }
 
         default:
@@ -89,37 +87,39 @@ export function transformData(raw, selected) {
 export function getLast7DaysOrders(raw) {
     const ordersByDay = {};
     raw.forEach((offer) => {
-        if (!offer.salesOfferOrders?.length) return;
-        const date = new Date(offer.salesOfferOrders[0].createdAt);
+        const reserved = offer.salesOfferLine?.[0]?.reservedUntil;
+        if (!reserved) return;
+        const date = new Date(reserved);
+        if (isNaN(date)) return; // защита от некорректной даты
         const label = date.toLocaleDateString('en-US', { weekday: 'short' });
         ordersByDay[label] = (ordersByDay[label] || 0) + 1;
     });
+
     const daysOrder = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    return daysOrder.map((d) => ({ label: d, value: ordersByDay[d] || 0 }));
+    return daysOrder.map(d => ({ label: d, value: ordersByDay[d] || 0 }));
 }
 
+// Conversion stats
 export function getConversionStats(raw) {
-    let total = 0, wins = 0;
-    raw.forEach((offer) => {
-        total++;
-        if (offer.statusDescription === "Accepted" && offer.salesOfferOrders?.length > 0) {
-            wins++;
-        }
-    });
+    let total = raw.length;
+    let wins = raw.filter(offer => offer.status === 1 || offer.status === 2).length;
+
     return { wins, total };
 }
 
+// Time to sale (lead time)
 export function getTimeToSale(raw) {
     const accepted = raw.filter(
-        (offer) => offer.statusDescription === "Accepted" && offer.salesOfferOrders?.length > 0
+        offer => (offer.status === 1 || offer.status === 2) && offer.salesOfferLine?.length
     );
 
     const points = accepted.map((offer, i) => {
         const offerDate = new Date(offer.createdAt);
-        const orderDate = new Date(offer.salesOfferOrders[0].createdAt);
-        const diffDays = (orderDate - offerDate) / (1000 * 60 * 60 * 24);
+        const reservedDate = new Date(offer.salesOfferLine[0].reservedUntil);
+        if (isNaN(offerDate) || isNaN(reservedDate)) return null;
+        const diffDays = (reservedDate - offerDate) / (1000 * 60 * 60 * 24);
         return { label: `D${i + 1}`, value: Number(diffDays.toFixed(1)) };
-    });
+    }).filter(Boolean); // убираем null
 
     const avg = points.length
         ? points.reduce((s, p) => s + p.value, 0) / points.length
@@ -131,8 +131,8 @@ export function getTimeToSale(raw) {
 export function transformSalesMan(offers) {
     const counts = {};
     offers.forEach((offer) => {
-        if (offer.salesPersons?.length) {
-            offer.salesPersons.forEach((p) => {
+        if (offer.salesPerson?.length) {
+            offer.salesPerson.forEach((p) => {
                 if (!p.name) return;
                 const name = p.name.trim();
 
