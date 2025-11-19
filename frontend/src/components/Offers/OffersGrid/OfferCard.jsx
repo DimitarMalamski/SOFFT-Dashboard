@@ -1,5 +1,6 @@
 import React from "react";
 import { getStatusColor, getStatusIcon } from "../../../utils/offersPage/offerStatusHelpers.jsx";
+import SalesList from "../../Shared/SalesList.jsx";
 
 export default function OfferCard({ offer }) {
     const customerName = offer.customerCompanyName ?? "Unknown Company";
@@ -31,7 +32,9 @@ export default function OfferCard({ offer }) {
             </div>
 
             <div className="text-emerald-100 text-sm space-y-1 mb-4">
-                <p>Salesperson: {salesPersons}</p>
+                <p className="text-emerald-100 text-sm">
+                    Salesperson: <SalesList people={offer.salesPersonName} limit={3} />
+                </p>
                 <p>Depot: {depot}</p>
                 <p>Expires: {expiresAt}</p>
             </div>
