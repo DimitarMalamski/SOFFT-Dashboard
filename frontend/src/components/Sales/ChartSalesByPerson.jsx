@@ -10,7 +10,6 @@ import {
 } from "recharts";
 
 export default function ChartSalesByPerson({ data }) {
-    // Calculate total by salesmen
     const totals = data.reduce((acc, sale) => {
         const persons = sale.salesPersonName?.length
             ? sale.salesPersonName.map((p) => p.name)
@@ -24,7 +23,6 @@ export default function ChartSalesByPerson({ data }) {
         return acc;
     }, {});
 
-    // Showcase only the top 5 salesmen
     const chartData = Object.entries(totals)
         .map(([name, total]) => ({ name, total }))
         .sort((a, b) => b.total - a.total)
