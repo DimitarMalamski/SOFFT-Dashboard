@@ -34,6 +34,7 @@ export default function useOffersDataOverview() {
         setLoading(true);
         SalesOffersAPI.getSalesOffers()
             .then((data) => {
+                console.log('>>> RAW offers sample (first item):', data?.[0]);
                 setOffers(data);
                 setFilteredOffers(data);
 
@@ -47,8 +48,8 @@ export default function useOffersDataOverview() {
                 };
 
                 data.forEach((offer) => {
-                    if (offer.salesPersons?.[0]?.name) {
-                        sets.salesmen.add(offer.salesPersons[0].name);
+                    if (offer.salesPerson?.[0]?.name) {
+                        sets.salesmen.add(offer.salesPerson[0].name);
                     }
 
                     if (offer.salesOfferLine?.[0]?.product?.productType)

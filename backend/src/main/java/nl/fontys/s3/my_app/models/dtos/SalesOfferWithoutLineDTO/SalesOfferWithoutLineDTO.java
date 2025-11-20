@@ -103,11 +103,11 @@ public class SalesOfferWithoutLineDTO {
         this.customerCompanyName = customerCompanyName;
     }
 
-    public List<SalesPersonSimpleDTO> getSalesPersonName() {
+    public List<SalesPersonSimpleDTO> getSalesPersons() {
         return salesPersons;
     }
 
-    public void setSalesPersonName(List<SalesPersonSimpleDTO> salesPersons) {
+    public void setSalesPersons(List<SalesPersonSimpleDTO> salesPersons) {
         this.salesPersons = salesPersons;
     }
 
