@@ -23,7 +23,8 @@ export default function MultiSelectDropdown({
 
     const filteredOptions = options.filter((opt) =>
         opt.toLowerCase().includes(query.toLowerCase())
-    );
+    )
+    .sort((a, b) => a.localeCompare(b));
 
     function toggleOption(opt) {
         if (selected.includes(opt)) {
