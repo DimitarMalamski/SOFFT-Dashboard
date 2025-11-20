@@ -99,9 +99,6 @@ public class AIService {
 
         List<SalesOfferDTO> raw = fetchData(30);
 
-        log.info("Fetched {} sales offers from DB", raw.size());
-        raw.forEach(dto -> log.info("DTO: {}", dto));
-
         Map<String, Object> aggregate = Map.of(
                 "offersPerSalesman", offersPerSalesman(raw),
                 "offersPerCountry", offersPerCountry(raw),
