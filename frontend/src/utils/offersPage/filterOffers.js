@@ -11,7 +11,7 @@ export function filterOffers(offers, filters) {
     if (filters.salespersons.length > 0) {
         const names = filters.salespersons.map(norm);
         result = result.filter(o =>
-            o.salesPersonName?.some(p =>
+            o.salesPersons?.some(p =>
                 names.includes(norm(p.name))
             )
         );

@@ -37,7 +37,7 @@ export default function SalesTable({
 
                             <td className="p-3">
                                 <div className="max-w-[250px]">
-                                    <SalesList people={sale.salesPersonName} limit={3} />
+                                    <SalesList people={sale.salesPersons} limit={3} />
                                 </div>
                             </td>
 

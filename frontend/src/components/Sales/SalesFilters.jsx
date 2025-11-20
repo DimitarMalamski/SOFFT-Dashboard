@@ -8,7 +8,7 @@ export default function SalesFilters({
      resetFilters,
 }) {
     const allSalespersons = sales.flatMap(
-        (s) => s.salesPersonName?.map((p) => p.name) || []
+        (s) => s.salesPersons?.map((p) => p.name) || []
     );
     const uniqueSalespersons = [...new Set(allSalespersons)];
 

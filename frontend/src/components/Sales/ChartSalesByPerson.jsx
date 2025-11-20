@@ -11,8 +11,8 @@ import {
 
 export default function ChartSalesByPerson({ data }) {
     const totals = data.reduce((acc, sale) => {
-        const persons = sale.salesPersonName?.length
-            ? sale.salesPersonName.map((p) => p.name)
+        const persons = sale.salesPersons?.length
+            ? sale.salesPersons.map((p) => p.name)
             : ["Unknown"]
 
         persons.forEach((name) => {

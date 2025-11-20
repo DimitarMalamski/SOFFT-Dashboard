@@ -38,7 +38,7 @@ export function useSalesData() {
 
         if (filters.salespersons.length > 0) {
             result = result.filter((s) =>
-                s.salesPersonName?.some((p) =>
+                s.salesPersons?.some((p) =>
                     filters.salespersons.includes(p.name)
                 )
             );
