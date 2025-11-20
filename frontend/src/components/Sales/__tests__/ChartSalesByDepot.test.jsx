@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import ChartSalesByDepot from "../ChartSalesByDepot.jsx";
-import ChartSalesByPerson from "../ChartSalesByPerson.jsx";
 
 describe("ChartSalesByDepot Component", () => {
     const mockData = [

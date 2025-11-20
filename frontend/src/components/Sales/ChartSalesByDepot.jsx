@@ -4,7 +4,6 @@ import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer } from "recharts";
 export default function ChartSalesByDepot({ data }) {
     const colors = ["#34d399", "#10b981", "#059669", "#047857", "#065f46"];
 
-    // Aggregate total sales per depot safely
     const chartData = useMemo(() => {
         const totals = data.reduce((acc, sale) => {
             const name = sale.depotName?.trim() || "Unknown";
@@ -35,7 +34,7 @@ export default function ChartSalesByDepot({ data }) {
                             label={({ name }) =>
                                 name.length > 12 ? name.slice(0, 12) + "…" : name
                             }
-                            isAnimationActive={false} // ✅ no animation at all
+                            isAnimationActive={false}
                         >
                             {chartData.map((_, i) => (
                                 <Cell key={`cell-${i}`} fill={colors[i % colors.length]} />

@@ -1,11 +1,13 @@
-import { Menu, Bell, Settings, User } from 'lucide-react';
+import { Menu } from 'lucide-react';
+import { useLocation } from "react-router-dom";
+import { PAGE_TITLES } from "../../router/pageTitles.js";
 import logo from '../../assets/BAS_logo.svg';
 
-export default function Header({
-  title = 'OVERVIEW',
-  userName = 'John Doe',
-  onToggleSidebar,
-}) {
+export default function Header({ onToggleSidebar }) {
+    const location = useLocation();
+
+    const title = PAGE_TITLES[location.pathname] || 'OVERVIEW';
+
   return (
     <header className='sticky top-0 z-40 bg-emerald-800/50 text-white shadow'>
       <div className='relative flex h-16 items-center justify-between px-3 sm:px-4'>
@@ -26,30 +28,6 @@ export default function Header({
 
         <div className='absolute inset-x-0 text-center pointer-events-none'>
           <h1 className='font-semibold tracking-wide'>{title}</h1>
-        </div>
-
-        <div className='flex items-center gap-1 sm:gap-2'>
-          <button
-            type='button'
-            aria-label='Notifications'
-            className='rounded p-2 hover:bg-emerald-800/50'
-          >
-            <Bell className='h-5 w-5' />
-          </button>
-          <button
-            type='button'
-            aria-label='Settings'
-            className='rounded p-2 hover:bg-white/10'
-          >
-            <Settings className='h-5 w-5' />
-          </button>
-
-          <div className='hidden sm:flex items-center gap-2 pl-1'>
-            <div className='h-7 w-7 rounded-full bg-white/20 flex items-center justify-center'>
-              <User className='h-4 w-4' />
-            </div>
-            <span className='text-sm'>{userName}</span>
-          </div>
         </div>
       </div>
     </header>

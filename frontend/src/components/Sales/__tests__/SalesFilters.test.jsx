@@ -5,7 +5,7 @@ describe("SalesFilters Component", () => {
     const mockSales = [
         {
             status: "Pending",
-            salesPersonName: [{ name: "Anna Svensson" }],
+            salesPersonName: [{ name: "Anna Stevenson" }],
             depotName: "North Hub",
         },
         {
@@ -17,75 +17,93 @@ describe("SalesFilters Component", () => {
 
     const defaultFilters = {
         status: "All",
-        salesperson: "All",
-        depot: "All"
+        salespersons: [],
+        depots: [],
     };
 
     const setFilters = vi.fn();
-    const applyFilters = vi.fn();
     const resetFilters = vi.fn();
 
     beforeEach(() => {
         setFilters.mockClear();
-        applyFilters.mockClear();
         resetFilters.mockClear();
     });
 
-    test("match snapshot", () => {
-        const { asFragment } = render(
-            <SalesFilters
-                filters={{ status: "All", salesperson: "All", depot: "All" }}
-                setFilters={vi.fn()}
-                sales={[]}
-                applyFilters={vi.fn()}
-                resetFilters={vi.fn()}
-            />
-        );
-
-        expect(asFragment()).toMatchSnapshot();
-    })
-
-    test("renders dropdowns with unique options", () => {
+    test("renders status dropdown with unique options", () => {
         render(
             <SalesFilters
                 filters={defaultFilters}
                 setFilters={setFilters}
                 sales={mockSales}
-                applyFilters={applyFilters}
                 resetFilters={resetFilters}
             />
         );
 
+        const statusBox = screen.getByTestId("status-dropdown");
+        expect(statusBox).toBeInTheDocument();
+
+        fireEvent.click(statusBox);
         expect(screen.getByText("Pending")).toBeInTheDocument();
         expect(screen.getByText("Approved")).toBeInTheDocument();
-
-        expect(screen.getByText("Anna Svensson")).toBeInTheDocument();
-        expect(screen.getByText("John Smith")).toBeInTheDocument();
-
-        expect(screen.getByText("North Hub")).toBeInTheDocument();
-        expect(screen.getByText("London Storage")).toBeInTheDocument();
     });
 
-    test("calls setFilters when selecting a status", () => {
+    test("fires setFilters when changing status", () => {
         render(
             <SalesFilters
                 filters={defaultFilters}
                 setFilters={setFilters}
                 sales={mockSales}
-                applyFilters={applyFilters}
                 resetFilters={resetFilters}
             />
         );
 
-        const statusSelect = screen.getByLabelText(/Status/i);
-        fireEvent.change(statusSelect, {
-            target: {
-                value: "Pending"
-            }
-        });
+        const statusBox = screen.getByTestId("status-dropdown");
+        fireEvent.click(statusBox);
+
+        const checkboxLabel = screen.getByText("Pending").closest("label");
+        fireEvent.click(checkboxLabel);
 
         expect(setFilters).toHaveBeenCalledTimes(1);
         expect(typeof setFilters.mock.calls[0][0]).toBe("function");
+    });
+
+    test("opens salesperson dropdown", () => {
+        render(
+            <SalesFilters
+                filters={defaultFilters}
+                setFilters={setFilters}
+                sales={mockSales}
+                resetFilters={resetFilters}
+            />
+        );
+
+        const label = screen.getByText("Salesperson");
+        const dropdown = label.closest("div").querySelector("div.p-2");
+        fireEvent.click(dropdown);
+
+        // After opening, options appear:
+        expect(screen.getByText("Anna Stevenson")).toBeInTheDocument();
+        expect(screen.getByText("John Smith")).toBeInTheDocument();
+    });
+
+    test("calls setFilters when selecting salesperson", () => {
+        render(
+            <SalesFilters
+                filters={defaultFilters}
+                setFilters={setFilters}
+                sales={mockSales}
+                resetFilters={resetFilters}
+            />
+        );
+
+        const label = screen.getByText("Salesperson");
+        const dropdown = label.closest("div").querySelector("div.p-2");
+        fireEvent.click(dropdown);
+
+        const checkbox = screen.getByLabelText("Anna Stevenson");
+        fireEvent.click(checkbox);
+
+        expect(setFilters).toHaveBeenCalledTimes(1);
     });
 
     test("calls resetFilters when reset button clicked", () => {
@@ -94,16 +112,11 @@ describe("SalesFilters Component", () => {
                 filters={defaultFilters}
                 setFilters={setFilters}
                 sales={mockSales}
-                applyFilters={applyFilters}
                 resetFilters={resetFilters}
             />
         );
 
-        const resetButton = screen.getByRole("button", {
-            name: /reset/i
-        });
-
-        fireEvent.click(resetButton);
+        fireEvent.click(screen.getByRole("button", { name: /reset/i }));
 
         expect(resetFilters).toHaveBeenCalledTimes(1);
     });

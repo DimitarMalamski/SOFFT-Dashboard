@@ -6,16 +6,24 @@ exports[`ChartsSection Component > matches snapshot 1`] = `
     class="flex flex-col gap-6 mb-10"
   >
     <div
-      class="grid lg:grid-cols-2 gap-6"
+      class="flex flex-col lg:flex-row gap-6"
     >
       <div
-        data-length="1"
-        data-testid="status-chart"
-      />
+        class="lg:basis-[40%]"
+      >
+        <div
+          data-length="1"
+          data-testid="status-chart"
+        />
+      </div>
       <div
-        data-length="1"
-        data-testid="salesperson-chart"
-      />
+        class="lg:basis-[60%]"
+      >
+        <div
+          data-length="1"
+          data-testid="salesperson-chart"
+        />
+      </div>
     </div>
     <div
       data-length="1"

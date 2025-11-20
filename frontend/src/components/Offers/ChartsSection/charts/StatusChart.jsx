@@ -2,9 +2,8 @@ import React from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
 const COLORS = {
-    Pending: "#fbbf24",
-    Approved: "#10b981",
-    Cancelled: "#f43f5e",
+    Pending: "#fcd34d",
+    Declined: "#FCA5A5",
 };
 
 export default function StatusChart({ data }) {

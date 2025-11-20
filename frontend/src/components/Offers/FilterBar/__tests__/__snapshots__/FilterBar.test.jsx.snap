@@ -11,63 +11,48 @@ exports[`FilterBar Component > matches snapshot 1`] = `
       <div
         class="flex flex-wrap gap-3 items-center"
       >
-        <select
-          class="bg-emerald-950/70 border border-emerald-800 text-emerald-100 text-sm rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+        <div
+          class="flex flex-col relative min-w-[220px]"
         >
-          <option
-            value=""
+          <label
+            class="text-xs mb-1 text-emerald-200"
           >
-            All statuses
-          </option>
-          <option
-            value="Pending"
+            Statuses
+          </label>
+          <div
+            class="p-2 bg-emerald-900 border border-emerald-700 text-emerald-50 rounded-md cursor-pointer"
           >
-            Pending
-          </option>
-          <option
-            value="Declined"
-          >
-            Declined
-          </option>
-        </select>
-        <select
-          class="bg-emerald-950/70 border border-emerald-800 text-emerald-100 text-sm rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            All
+          </div>
+        </div>
+        <div
+          class="flex flex-col relative min-w-[220px]"
         >
-          <option
-            value=""
+          <label
+            class="text-xs mb-1 text-emerald-200"
           >
-            All salespersons
-          </option>
-          <option
-            value="Anna"
+            Salespersons
+          </label>
+          <div
+            class="p-2 bg-emerald-900 border border-emerald-700 text-emerald-50 rounded-md cursor-pointer"
           >
-            Anna
-          </option>
-          <option
-            value="Ben"
-          >
-            Ben
-          </option>
-        </select>
-        <select
-          class="bg-emerald-950/70 border border-emerald-800 text-emerald-100 text-sm rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            All
+          </div>
+        </div>
+        <div
+          class="flex flex-col relative min-w-[220px]"
         >
-          <option
-            value=""
+          <label
+            class="text-xs mb-1 text-emerald-200"
           >
-            All depots
-          </option>
-          <option
-            value="North Hub"
+            Depots
+          </label>
+          <div
+            class="p-2 bg-emerald-900 border border-emerald-700 text-emerald-50 rounded-md cursor-pointer"
           >
-            North Hub
-          </option>
-          <option
-            value="South Hub"
-          >
-            South Hub
-          </option>
-        </select>
+            All
+          </div>
+        </div>
       </div>
       <button
         class="flex items-center gap-2 px-3 py-2 rounded-lg border border-emerald-700 text-emerald-100 text-sm hover:bg-emerald-800/40 transition"

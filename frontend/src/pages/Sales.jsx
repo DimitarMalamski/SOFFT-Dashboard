@@ -71,8 +71,13 @@ export default function SalesPage() {
             />
 
             <div className="flex flex-col lg:flex-row gap-6">
-                <ChartSalesByPerson data={sales} />
-                <ChartSalesByDepot data={sales} />
+                <div className="lg:basis-[60%]">
+                    <ChartSalesByPerson data={sales} />
+                </div>
+
+                <div className="lg:basis-[40%]">
+                    <ChartSalesByDepot data={sales} />
+                </div>
             </div>
         </div>
     );

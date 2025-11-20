@@ -36,7 +36,7 @@ describe("SalesPage Integration Test", () => {
         vi.spyOn(useSalesDataHook, "useSalesData").mockReturnValue({
             sales: mockData,
             filtered: mockData,
-            filters: { status: "All", salesperson: "All", depot: "All" },
+            filters: { status: "All" , salespersons: [], depots: [] },
             setFilters: vi.fn(),
             applyFilters: vi.fn(),
             resetFilters: vi.fn(),
@@ -67,7 +67,7 @@ describe("SalesPage Integration Test", () => {
         vi.spyOn(useSalesDataHook, "useSalesData").mockReturnValue({
             sales: [],
             filtered: [],
-            filters: { status: "All", salesperson: "All", depot: "All" },
+            filters: { status: "All" , salespersons: [], depots: [] },
             setFilters: vi.fn(),
             applyFilters: vi.fn(),
             resetFilters: vi.fn(),
@@ -83,14 +83,12 @@ describe("SalesPage Integration Test", () => {
 
     test("filters sales by status", async () => {
         const setFilters = vi.fn();
-        const applyFilters = vi.fn();
 
         vi.spyOn(useSalesDataHook, "useSalesData").mockReturnValue({
             sales: mockData,
             filtered: mockData,
-            filters: { status: "All", salesperson: "All", depot: "All" },
+            filters: { status: "All" , salespersons: [], depots: [] },
             setFilters,
-            applyFilters,
             resetFilters: vi.fn(),
             loading: false,
         });
@@ -99,23 +97,20 @@ describe("SalesPage Integration Test", () => {
             <SalesPage />
         );
 
-        const statusSelect = screen.getByLabelText(/Status/i);
-        fireEvent.change(statusSelect, {
-            target: {
-                value: "Approved"
-            }
-        });
+        const statusBox = screen.getByTestId("status-dropdown");
+        fireEvent.click(statusBox); // opens dropdown
 
-        await  waitFor(() => {
-            expect(setFilters).toHaveBeenCalledTimes(1);
-        });
+        const approvedOption = await screen.findByLabelText("Approved");
+        fireEvent.click(approvedOption);
+
+        expect(setFilters).toHaveBeenCalledTimes(1);
     });
 
     test("shows empty state when no sales are found", () => {
         vi.spyOn(useSalesDataHook, "useSalesData").mockReturnValue({
             sales: [],
             filtered: [],
-            filters: { status: "All", salesperson: "All", depot: "All" },
+            filters: { status: "All" , salespersons: [], depots: [] },
             setFilters: vi.fn(),
             applyFilters: vi.fn(),
             resetFilters: vi.fn(),
@@ -133,7 +128,7 @@ describe("SalesPage Integration Test", () => {
         vi.spyOn(useSalesDataHook, "useSalesData").mockReturnValue({
             sales: [],
             filtered: [],
-            filters: { status: "All", salesperson: "All", depot: "All" },
+            filters: { status: "All" , salespersons: [], depots: [] },
             setFilters: vi.fn(),
             applyFilters: vi.fn(),
             resetFilters: vi.fn(),
