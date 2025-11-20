@@ -1,11 +1,16 @@
 import { Menu, Bell, Settings, User } from 'lucide-react';
+import { useLocation } from "react-router-dom";
+import { PAGE_TITLES } from "../../router/pageTitles.js";
 import logo from '../../assets/BAS_logo.svg';
 
 export default function Header({
-  title = 'OVERVIEW',
   userName = 'John Doe',
   onToggleSidebar,
 }) {
+    const location = useLocation();
+
+    const title = PAGE_TITLES[location.pathname] || 'OVERVIEW';
+
   return (
     <header className='sticky top-0 z-40 bg-emerald-800/50 text-white shadow'>
       <div className='relative flex h-16 items-center justify-between px-3 sm:px-4'>
