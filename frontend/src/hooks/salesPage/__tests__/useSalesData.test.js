@@ -56,14 +56,52 @@ describe("useSalesData Hook", () => {
 
         act(() => {
             result.current.setFilters({
-                status: "Approved",
-                salesperson: "All",
-                depot: "All",
+                statuses: "Approved",
+                salespersons: [],
+                depots: []
             });
         });
 
         expect(result.current.filtered).toHaveLength(1);
         expect(result.current.filtered[0].status).toBe("Approved");
+    });
+
+    test("filters by salesperson", async () => {
+        SalesAPI.getAllSales.mockResolvedValue(mockSales);
+
+        const { result } = renderHook(() => useSalesData());
+
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        act(() => {
+            result.current.setFilters({
+                statuses: [],
+                salespersons: ["Anna"],
+                depots: []
+            });
+        });
+
+        expect(result.current.filtered).toHaveLength(1);
+        expect(result.current.filtered[0].salesPersonName[0].name).toBe("Anna");
+    });
+
+    test("filters by depot", async () => {
+        SalesAPI.getAllSales.mockResolvedValue(mockSales);
+
+        const { result } = renderHook(() => useSalesData());
+
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        act(() => {
+            result.current.setFilters({
+                statuses: [],
+                salespersons: [],
+                depots: ["South Hub"]
+            });
+        });
+
+        expect(result.current.filtered).toHaveLength(1);
+        expect(result.current.filtered[0].depotName).toBe("South Hub");
     });
 
     test("resets filters correctly", async () => {
@@ -75,17 +113,18 @@ describe("useSalesData Hook", () => {
 
         act(() => {
             result.current.setFilters({
-                status: "Approved",
-                salesperson: "Anna",
-                depot: "North Hub",
+                statuses: [],
+                salespersons: ["Anna"],
+                depots: ["North Hub"],
             });
+
             result.current.resetFilters();
         });
 
         expect(result.current.filters).toEqual({
-            status: "All",
-            salesperson: "All",
-            depot: "All",
+            statuses: [],
+            salespersons: [],
+            depots: [],
         });
     });
 });

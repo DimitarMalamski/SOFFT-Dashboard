@@ -6,7 +6,12 @@ describe("useOfferFilters", () => {
     const mockOffers = [
         { status: "Pending", depotName: "North Hub", salesPersonName: [{ name: "Anna" }] },
     ];
-    const mockExtract = { statuses: ["Pending"], salespeople: ["Anna"], depots: ["North Hub"] };
+
+    const mockExtract = {
+        statuses: ["Pending"],
+        salespersons: ["Anna"],
+        depots: ["North Hub"]
+    };
 
     beforeEach(() => {
         vi.spyOn(utils, "extractFilterOptions").mockReturnValue(mockExtract);
@@ -20,7 +25,12 @@ describe("useOfferFilters", () => {
         const onFilterChange = vi.fn();
         const { result } = renderHook(() => useOfferFilters(mockOffers, onFilterChange));
 
-        expect(result.current.filters).toEqual({ status: "", salesperson: "", depot: "" });
+        expect(result.current.filters).toEqual({
+            statuses: [],
+            salespersons: [],
+            depots: []
+        });
+
         expect(result.current.options).toEqual(mockExtract);
     });
 
@@ -28,13 +38,13 @@ describe("useOfferFilters", () => {
         const onFilterChange = vi.fn();
         const { result } = renderHook(() => useOfferFilters(mockOffers, onFilterChange));
 
-        act(() => result.current.handleChange("status", "Pending"));
+        act(() => result.current.handleChange("statuses", ["Pending"]));
 
-        expect(result.current.filters.status).toBe("Pending");
+        expect(result.current.filters.statuses).toEqual(["Pending"]);
         expect(onFilterChange).toHaveBeenCalledWith({
-            status: "Pending",
-            salesperson: "",
-            depot: "",
+            statuses: ["Pending"],
+            salespersons: [],
+            depots: []
         });
     });
 
@@ -42,10 +52,19 @@ describe("useOfferFilters", () => {
         const onFilterChange = vi.fn();
         const { result } = renderHook(() => useOfferFilters(mockOffers, onFilterChange));
 
-        act(() => result.current.handleChange("status", "Pending"));
+        act(() => result.current.handleChange("statuses", ["Pending"]));
         act(() => result.current.handleReset());
 
-        expect(result.current.filters).toEqual({ status: "", salesperson: "", depot: "" });
-        expect(onFilterChange).toHaveBeenCalledWith({ status: "", salesperson: "", depot: "" });
+        expect(result.current.filters).toEqual({
+            statuses: [],
+            salespersons: [],
+            depots: []
+        });
+
+        expect(onFilterChange).toHaveBeenCalledWith({
+            statuses: [],
+            salespersons: [],
+            depots: []
+        });
     });
 });

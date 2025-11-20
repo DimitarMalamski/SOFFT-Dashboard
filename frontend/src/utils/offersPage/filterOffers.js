@@ -1,23 +1,26 @@
 export function filterOffers(offers, filters) {
     let result = [...offers];
 
+    const norm = (v) => v.toLowerCase();
+
     if (filters.statuses.length > 0) {
-        result = result.filter(o =>
-            filters.statuses.includes(o.status)
-        );
+        const statuses = filters.statuses.map(norm);
+        result = result.filter(o => statuses.includes(norm(o.status)));
     }
 
     if (filters.salespersons.length > 0) {
+        const names = filters.salespersons.map(norm);
         result = result.filter(o =>
             o.salesPersonName?.some(p =>
-                filters.salespersons.includes(p.name)
+                names.includes(norm(p.name))
             )
         );
     }
 
     if (filters.depots.length > 0) {
+        const depots = filters.depots.map(norm);
         result = result.filter(o =>
-            filters.depots.includes(o.depotName)
+            depots.includes(norm(o.depotName))
         );
     }
 

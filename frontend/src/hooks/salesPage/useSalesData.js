@@ -7,7 +7,7 @@ export function useSalesData() {
     const [error, setError] = useState(null);
 
     const [filters, setFilters] = useState({
-        status: "All",
+        statuses: [],
         salespersons: [],
         depots: [],
     });
@@ -32,8 +32,8 @@ export function useSalesData() {
     const filtered = useMemo(() => {
         let result = [...sales];
 
-        if (filters.status !== "All") {
-            result = result.filter((s) => s.status === filters.status);
+        if (filters.statuses.length > 0) {
+            result = result.filter(s => filters.statuses.includes(s.status));
         }
 
         if (filters.salespersons.length > 0) {
@@ -55,7 +55,7 @@ export function useSalesData() {
 
     const resetFilters = () => {
         setFilters({
-            status: "All",
+            statuses: [],
             salespersons: [],
             depots: []
         });

@@ -19,41 +19,83 @@ describe("filterOffers Utility", () => {
         },
     ];
 
-    test("returns all offers when filters are set to 'All'", () => {
-        const filters = { status: "All", salesperson: "All", depot: "All" };
+    test("returns all offers when no filters applied", () => {
+        const filters = {
+            statuses: [],
+            salespersons: [],
+            depots: [],
+        };
+
         const result = filterOffers(offers, filters);
         expect(result).toHaveLength(3);
     });
 
     test("filters by status correctly", () => {
-        const filters = { status: "Pending", salesperson: "All", depot: "All" };
+        const filters = {
+            statuses: ["Pending"],
+            salespersons: [],
+            depots: [],
+        };
+
         const result = filterOffers(offers, filters);
+
         expect(result).toHaveLength(2);
         expect(result.every(o => o.status === "Pending")).toBe(true);
     });
 
     test("filters by salesperson correctly", () => {
-        const filters = { status: "All", salesperson: "John Smith", depot: "All" };
+        const filters = {
+            statuses: [],
+            salespersons: ["John Smith"],
+            depots: [],
+        };
+
         const result = filterOffers(offers, filters);
+
         expect(result).toHaveLength(1);
         expect(result[0].salesPersonName[0].name).toBe("John Smith");
     });
 
     test("filters by depot name correctly", () => {
-        const filters = { status: "All", salesperson: "All", depot: "London Storage" };
+        const filters = {
+            statuses: [],
+            salespersons: [],
+            depots: ["London Storage"],
+        };
+
         const result = filterOffers(offers, filters);
+
         expect(result).toHaveLength(1);
         expect(result[0].depotName).toBe("London Storage");
     });
 
     test("is case-insensitive for names and depots", () => {
-        const filters = { status: "All", salesperson: "john smith", depot: "london storage" };
-        const result = filterOffers(offers, filters);
+        const filters = {
+            statuses: [],
+            salespersons: ["john smith"],
+            depots: ["london storage"],
+        };
+
+        const result = filterOffers(
+            offers.map(o => ({
+                ...o,
+                status: o.status.toLowerCase(),
+                depotName: o.depotName.toLowerCase(),
+                salesPersonName: o.salesPersonName.map(p => ({ name: p.name.toLowerCase() }))
+            })),
+            filters
+        );
+
         expect(result).toHaveLength(1);
     });
 
     test("returns empty array when no matches found", () => {
-        const filters = { status: "Declined", salesperson: "Anna", depot: "North Hub" };
+        const filters = {
+            statuses: ["Declined"],
+            salespersons: ["Anna Svensson"],
+            depots: ["North Hub"],
+        };
+
         const result = filterOffers(offers, filters);
         expect(result).toHaveLength(0);
     });

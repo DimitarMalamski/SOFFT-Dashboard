@@ -12,29 +12,22 @@ export default function SalesFilters({
     );
     const uniqueSalespersons = [...new Set(allSalespersons)];
 
-    const uniqueStatuses = ["All", ...new Set(sales.map((s) => s.status).filter(Boolean))];
+    const uniqueStatuses = [...new Set(sales.map((s) => s.status).filter(Boolean))];
     const uniqueDepots = [...new Set(sales.map((s) => s.depotName).filter(Boolean))];
 
     return (
         <div className="bg-emerald-800/50 border border-emerald-800 rounded-xl p-4 flex flex-wrap items-center gap-4 overflow-visible">
 
-            {/* Status (simple) */}
-            <div className="flex flex-col">
-                <label className="text-xs mb-1 text-emerald-200">Status</label>
-                <select
-                    className="bg-emerald-900 border border-emerald-700 text-emerald-50 rounded-md p-2"
-                    value={filters.status}
-                    onChange={(e) =>
-                        setFilters((prev) => ({ ...prev, status: e.target.value }))
-                    }
-                >
-                    {uniqueStatuses.map((s) => (
-                        <option key={s}>{s}</option>
-                    ))}
-                </select>
-            </div>
+            <MultiSelectDropdown
+                label="Status"
+                options={uniqueStatuses}
+                selected={filters.statuses || []}
+                onChange={(newSelected) =>
+                    setFilters((prev) => ({ ...prev, statuses: newSelected }))
+                }
+                data-testid="status-dropdown"
+            />
 
-            {/* Salesperson (multi-select) */}
             <MultiSelectDropdown
                 label="Salesperson"
                 options={uniqueSalespersons}
@@ -44,7 +37,6 @@ export default function SalesFilters({
                 }
             />
 
-            {/* Depot (multi-select) */}
             <MultiSelectDropdown
                 label="Depot"
                 options={uniqueDepots}

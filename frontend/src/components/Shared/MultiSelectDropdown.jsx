@@ -5,6 +5,7 @@ export default function MultiSelectDropdown({
     options,
     selected = [],
     onChange,
+    ...props
 }) {
     const [open, setOpen] = useState(false);
     const [query, setQuery] = useState("");
@@ -42,6 +43,7 @@ export default function MultiSelectDropdown({
             <div
                 onClick={() => setOpen((o) => !o)}
                 className="p-2 bg-emerald-900 border border-emerald-700 text-emerald-50 rounded-md cursor-pointer"
+                data-testid={props["data-testid"]}
             >
                 {display}
             </div>
