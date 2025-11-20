@@ -1,27 +1,25 @@
 export function filterOffers(offers, filters) {
-    let filtered = [...offers];
+    let result = [...offers];
 
-    if (filters.status && filters.status !== "All") {
-        filtered = filtered.filter((o) => o.status === filters.status);
+    if (filters.statuses.length > 0) {
+        result = result.filter(o =>
+            filters.statuses.includes(o.status)
+        );
     }
 
-    if (filters.salesperson && filters.salesperson !== "All") {
-        filtered = filtered.filter((o) =>
-            o.salesPersonName?.some(
-                (p) =>
-                    p.name &&
-                    p.name.toLowerCase() === filters.salesperson.toLowerCase()
+    if (filters.salespersons.length > 0) {
+        result = result.filter(o =>
+            o.salesPersonName?.some(p =>
+                filters.salespersons.includes(p.name)
             )
         );
     }
 
-    if (filters.depot && filters.depot !== "All") {
-        filtered = filtered.filter(
-            (o) =>
-                o.depotName &&
-                o.depotName.toLowerCase() === filters.depot.toLowerCase()
+    if (filters.depots.length > 0) {
+        result = result.filter(o =>
+            filters.depots.includes(o.depotName)
         );
     }
 
-    return filtered;
+    return result;
 }
