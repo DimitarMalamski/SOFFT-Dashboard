@@ -20,7 +20,6 @@ const NAV = [
   { to: '/sales', icon: CheckCircle, label: 'Sales' },
   { to: '/geo', icon: Flag, label: 'GEO' },
   { to: '/genai', icon: Activity, label: 'Gen AI' },
-  { to: '/insights', icon: Activity, label: 'Product insight' },
 ];
 
 const itemHeight = 'h-12';
