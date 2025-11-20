@@ -1,5 +1,5 @@
 import { Menu, Bell, Settings, User } from 'lucide-react';
-import logo from '../assets/BAS_logo.svg';
+import logo from '../../assets/BAS_logo.svg';
 
 export default function Header({
   title = 'OVERVIEW',
@@ -19,7 +19,7 @@ export default function Header({
             <Menu className='h-5 w-5' />
           </button>
 
-          <a href='/' className='hidden md:inline-flex items-center gap-2'>
+          <a href='/frontend/public' className='hidden md:inline-flex items-center gap-2'>
             <img src={logo} alt='' className='h-6 w-auto' />
           </a>
         </div>

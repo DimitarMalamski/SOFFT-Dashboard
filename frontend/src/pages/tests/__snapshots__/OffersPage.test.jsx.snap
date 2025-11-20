@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`OffersPage Component > matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="flex items-center justify-center h-dvh bg-emerald-950"
+  >
+    <div
+      class="w-12 h-12 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin"
+    />
+  </div>
+</DocumentFragment>
+`;

@@ -31,4 +31,18 @@ public class SalesOfferDepot {
     public Integer getDepotId() {
         return id != null ? id.getDepotId() : null;
     }
+
+    public void setSalesOfferUuid(String offerUuid) {
+        if (id == null) {
+            id = new SalesOfferDepotId();
+        }
+        id = new SalesOfferDepotId(offerUuid, id.getDepotId());
+    }
+
+    public void setDepotId(Integer depotId) {
+        if (id == null) {
+            id = new SalesOfferDepotId();
+        }
+        id = new SalesOfferDepotId(id.getOfferUuid(), depotId);
+    }
 }

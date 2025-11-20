@@ -1,4 +1,4 @@
-import countryCoordinates from "../mock-data/mock-country-coordinates.json";
+import countryCoordinates from "../../mock-data/GEOPage/mock-country-coordinates.json";
 
 export const transformHeatmapData = (data, mode = "country") => {
     if (mode === "country") {

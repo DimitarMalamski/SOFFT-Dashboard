@@ -1,0 +1,39 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ChartSelector Component > matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="mb-2"
+  >
+    <label
+      class="block mb-2 text-xs/5 text-emerald-100"
+      for="chart-select"
+    >
+      Select chart:
+    </label>
+    <select
+      class="bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2 shadow-sm"
+      id="chart-select"
+    >
+      <option
+        class="bg-emerald-950 text-white"
+        value="sales-country"
+      >
+        Sales by Country
+      </option>
+      <option
+        class="bg-emerald-950 text-white"
+        value="sales-brand"
+      >
+        Sales by Brand
+      </option>
+      <option
+        class="bg-emerald-950 text-white"
+        value="sales-trend"
+      >
+        Sales Trend
+      </option>
+    </select>
+  </div>
+</DocumentFragment>
+`;
