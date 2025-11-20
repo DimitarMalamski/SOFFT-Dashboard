@@ -2,6 +2,7 @@ package nl.fontys.s3.my_app.Services;
 
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -107,6 +108,11 @@ public class SalesOfferService {
 
 		return this.mapSalesOffersDTO(salesOffers);
 	}
+
+    public List<SalesOfferDTO> getSalesOffersBetween(LocalDateTime start, LocalDateTime end) {
+        List<SalesOffer> salesOffers = salesOfferRepo.findAllByCreatedAtBetween(start, end);
+        return this.mapSalesOffersDTO(salesOffers);
+    }
 
 	// Get SalesOffer DTO by UUID
 	public SalesOfferDTO getSalesOfferByUuid(String uuid) {

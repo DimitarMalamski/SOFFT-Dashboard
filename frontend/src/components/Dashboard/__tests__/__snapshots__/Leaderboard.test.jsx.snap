@@ -1,0 +1,99 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Leaderboard Component > matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="rounded-none bg-emerald-950 text-white p-4 sm:p-6 shadow-sm flex flex-col "
+  >
+    <h2
+      class="text-base sm:text-lg font-semibold mb-4 text-emerald-100"
+    >
+      Leaderboard
+    </h2>
+    <div
+      class="overflow-y-auto max-h-[360px] pr-1"
+    >
+      <ol
+        class="space-y-2"
+      >
+        <li
+          class="flex items-center gap-4 p-2 rounded hover:bg-emerald-900 transition"
+        >
+          <div
+            class="text-lg font-bold w-6 text-center text-yellow-400"
+          >
+            1
+          </div>
+          <div
+            class="w-8 h-8 rounded-full bg-emerald-800 text-white flex items-center justify-center text-sm font-semibold"
+          >
+            A
+          </div>
+          <span
+            class="text-sm sm:text-base font-medium"
+          >
+            Alice (12)
+          </span>
+        </li>
+        <li
+          class="flex items-center gap-4 p-2 rounded hover:bg-emerald-900 transition"
+        >
+          <div
+            class="text-lg font-bold w-6 text-center text-gray-300"
+          >
+            2
+          </div>
+          <div
+            class="w-8 h-8 rounded-full bg-emerald-800 text-white flex items-center justify-center text-sm font-semibold"
+          >
+            B
+          </div>
+          <span
+            class="text-sm sm:text-base font-medium"
+          >
+            Bob (9)
+          </span>
+        </li>
+        <li
+          class="flex items-center gap-4 p-2 rounded hover:bg-emerald-900 transition"
+        >
+          <div
+            class="text-lg font-bold w-6 text-center text-amber-600"
+          >
+            3
+          </div>
+          <div
+            class="w-8 h-8 rounded-full bg-emerald-800 text-white flex items-center justify-center text-sm font-semibold"
+          >
+            C
+          </div>
+          <span
+            class="text-sm sm:text-base font-medium"
+          >
+            Charlie (7)
+          </span>
+        </li>
+        <li
+          class="flex items-center gap-4 p-2 rounded hover:bg-emerald-900 transition"
+        >
+          <div
+            class="text-lg font-bold w-6 text-center text-white"
+          >
+            4
+          </div>
+          <div
+            class="w-8 h-8 rounded-full bg-emerald-800 text-white flex items-center justify-center text-sm font-semibold"
+          >
+            D
+          </div>
+          <span
+            class="text-sm sm:text-base font-medium"
+          >
+            David (5)
+          </span>
+        </li>
+      </ol>
+    </div>
+  </div>
+</DocumentFragment>
+`;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   BarChart3,
@@ -11,8 +11,7 @@ import {
   ChevronsRight,
   X,
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import logo from '../assets/BAS_logo.svg';
+import { motion } from 'framer-motion';
 
 const _MOTION_ = motion;
 
@@ -21,6 +20,7 @@ const NAV = [
   { to: '/offers', icon: Tag, label: 'Offers' },
   { to: '/sales', icon: CheckCircle, label: 'Sales' },
   { to: '/geo', icon: Flag, label: 'GEO' },
+  { to: '/genai', icon: Activity, label: 'Gen AI' },
   { to: '/insights', icon: Activity, label: 'Product insight' },
 ];
 
@@ -29,10 +29,12 @@ const itemBase = 'no-underline group flex items-center gap-3 outline-none';
 const itemPad = 'px-4 py-3';
 const easeOut = [0.2, 0.0, 0.2, 1];
 
-export default function Sidebar({ open = true, onClose = () => {} }) {
-  const [collapsed, setCollapsed] = useState(false);
-
-  // ESC closes on mobile (no type annotation)
+export default function Sidebar({
+    open = true,
+    collapsed,
+    setCollapsed,
+    onClose = () => {},
+}) {
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => e.key === 'Escape' && onClose();
