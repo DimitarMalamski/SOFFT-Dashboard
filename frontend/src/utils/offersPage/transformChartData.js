@@ -9,7 +9,7 @@ export function transformChartData(offers) {
     const salesByPerson = Object.entries(
         offers.reduce((acc, o) => {
             const personName =
-                o.salesPersonName?.[0]?.name?.trim() || "Unknown";
+                o.salesPersons?.[0]?.name?.trim() || "Unknown";
             acc[personName] = (acc[personName] || 0) + 1;
             return acc;
         }, {})

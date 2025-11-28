@@ -1,4 +1,5 @@
 import React from "react";
+import SalesList from "../Shared/SalesList/SalesList.jsx";
 
 export default function SalesTable({
        data,
@@ -35,7 +36,9 @@ export default function SalesTable({
                             <td className="p-3">{sale.customerCompanyName}</td>
 
                             <td className="p-3">
-                                {sale.salesPersonName?.map((p) => p.name).join(", ") || "-"}
+                                <div className="max-w-[250px]">
+                                    <SalesList people={sale.salesPersons} limit={3} />
+                                </div>
                             </td>
 
                             <td className="p-3">{sale.depotName || "-"}</td>

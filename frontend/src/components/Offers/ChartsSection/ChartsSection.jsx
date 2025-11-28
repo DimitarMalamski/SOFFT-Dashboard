@@ -10,9 +10,13 @@ export default function ChartsSection({ offers }) {
 
     return (
         <section className="flex flex-col gap-6 mb-10">
-            <div className="grid lg:grid-cols-2 gap-6">
-                <StatusChart data={statusCounts} />
-                <SalespersonChart data={salesByPerson} />
+            <div className="flex flex-col lg:flex-row gap-6">
+                <div className="lg:basis-[40%]">
+                    <StatusChart data={statusCounts} />
+                </div>
+                <div className="lg:basis-[60%]">
+                    <SalespersonChart data={salesByPerson} />
+                </div>
             </div>
 
             <TimelineChart data={offersByDate} />

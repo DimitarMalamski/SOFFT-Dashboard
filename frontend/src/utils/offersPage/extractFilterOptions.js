@@ -10,7 +10,7 @@ export function extractFilterOptions(offers) {
     const salespeople = [
         ...new Set(
             offers.flatMap(o =>
-                o.salesPersonName?.map(p => p.name).filter(Boolean) || []
+                o.salesPersons?.map(p => p.name).filter(Boolean) || []
             )
         ),
     ];

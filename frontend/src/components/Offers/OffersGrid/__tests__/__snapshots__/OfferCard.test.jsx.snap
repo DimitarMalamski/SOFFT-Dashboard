@@ -22,9 +22,18 @@ exports[`OfferCard Component > matches snapshot 1`] = `
     <div
       class="text-emerald-100 text-sm space-y-1 mb-4"
     >
-      <p>
-        Salesperson: N/A
-      </p>
+      <div
+        class="flex gap-2 text-emerald-100 text-sm items-center flex-wrap"
+      >
+        <span>
+          Salespeople:
+        </span>
+        <span
+          class="text-gray-400"
+        >
+          N/A
+        </span>
+      </div>
       <p>
         Depot: N/A
       </p>

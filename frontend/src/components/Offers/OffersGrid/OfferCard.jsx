@@ -1,5 +1,6 @@
 import React from "react";
 import { getStatusColor, getStatusIcon } from "../../../utils/offersPage/offerStatusHelpers.jsx";
+import SalesList from "../../Shared/SalesList/SalesList.jsx";
 
 export default function OfferCard({ offer }) {
     const customerName = offer.customerCompanyName ?? "Unknown Company";
@@ -9,8 +10,8 @@ export default function OfferCard({ offer }) {
     const totalPrice = Number(offer.totalPrice) || 0;
 
     const salesPersons =
-        offer.salesPersonName?.length > 0
-            ? offer.salesPersonName.map((p) => p.name).join(", ")
+        offer.salesPersons?.length > 0
+            ? offer.salesPersons.map((p) => p.name).join(", ")
             : "N/A";
 
     return (
@@ -31,7 +32,10 @@ export default function OfferCard({ offer }) {
             </div>
 
             <div className="text-emerald-100 text-sm space-y-1 mb-4">
-                <p>Salesperson: {salesPersons}</p>
+                <div className="flex gap-2 text-emerald-100 text-sm items-center flex-wrap">
+                    <span>Salespeople:</span>
+                    <SalesList people={offer.salesPersons} limit={3} />
+                </div>
                 <p>Depot: {depot}</p>
                 <p>Expires: {expiresAt}</p>
             </div>

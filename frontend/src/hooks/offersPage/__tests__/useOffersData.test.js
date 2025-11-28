@@ -29,7 +29,7 @@ const mockOffers = [
 
 describe("useOffersData Hook", () => {
     beforeEach(() => {
-        vi.clearAllMocks(); // ✅ same as jest.clearAllMocks()
+        vi.clearAllMocks();
     });
 
     it("fetches offers successfully and sets loading state", async () => {
@@ -63,13 +63,21 @@ describe("useOffersData Hook", () => {
         await act(async () => {});
 
         act(() => {
-            result.current.setFilters({ status: "Pending" });
+            result.current.setFilters({
+                statuses: ["Pending"],
+                salespersons: [],
+                depots: []
+            });
         });
         expect(result.current.filteredOffers).toHaveLength(1);
         expect(result.current.filteredOffers[0].status).toBe("Pending");
 
         act(() => {
-            result.current.setFilters({ depot: "Lyon Terminal" });
+            result.current.setFilters({
+                statuses: [],
+                salespersons: [],
+                depots: ["Lyon Terminal"]
+            });
         });
         expect(result.current.filteredOffers).toHaveLength(1);
         expect(result.current.filteredOffers[0].depotName).toBe("Lyon Terminal");

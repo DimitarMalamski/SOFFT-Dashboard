@@ -1,5 +1,5 @@
 import React from "react";
-import Dropdown from "./Dropdown.jsx";
+import MultiSelectDropdown from "../../Shared/MultiSelectDropdown.jsx";
 import { RotateCcw } from "lucide-react";
 import { useOfferFilters } from "../../../hooks/offersPage/useOfferFilters.js";
 
@@ -11,23 +11,25 @@ export default function FilterBar({ offers, onFilterChange }) {
         <div className="bg-emerald-900/40 border border-emerald-800 rounded-xl p-4 mb-6 shadow-md">
             <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex flex-wrap gap-3 items-center">
-                    <Dropdown
+                    <MultiSelectDropdown
                         label="Statuses"
-                        value={filters.status}
-                        onChange={(val) => handleChange("status", val)}
                         options={options.statuses}
+                        selected={filters.statuses}
+                        onChange={(val) => handleChange("statuses", val)}
                     />
-                    <Dropdown
+
+                    <MultiSelectDropdown
                         label="Salespersons"
-                        value={filters.salesperson}
-                        onChange={(val) => handleChange("salesperson", val)}
                         options={options.salespeople}
+                        selected={filters.salespersons}
+                        onChange={(val) => handleChange("salespersons", val)}
                     />
-                    <Dropdown
+
+                    <MultiSelectDropdown
                         label="Depots"
-                        value={filters.depot}
-                        onChange={(val) => handleChange("depot", val)}
                         options={options.depots}
+                        selected={filters.depots}
+                        onChange={(val) => handleChange("depots", val)}
                     />
                 </div>
 

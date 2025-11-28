@@ -3,9 +3,9 @@ import { extractFilterOptions } from "../../utils/offersPage/extractFilterOption
 
 export function useOfferFilters(offers, onFilterChange) {
     const [filters, setFilters] = useState({
-        status: "",
-        salesperson: "",
-        depot: "",
+        statuses: [],
+        salespersons: [],
+        depots: [],
     });
 
     const options = useMemo(() => extractFilterOptions(offers), [offers]);
@@ -17,13 +17,15 @@ export function useOfferFilters(offers, onFilterChange) {
     };
 
     const handleReset = () => {
-        const reset = { status: "", salesperson: "", depot: "" };
+        const reset = { statuses: [], salespersons: [], depots: [] };
         setFilters(reset);
         onFilterChange(reset);
     };
 
     const hasActiveFilters =
-        filters.status || filters.salesperson || filters.depot;
+        filters.statuses.length > 0 ||
+        filters.salespersons.length > 0 ||
+        filters.depots.length > 0;
 
     return { filters, options, handleChange, handleReset, hasActiveFilters };
 }

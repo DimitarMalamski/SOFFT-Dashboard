@@ -8,9 +8,9 @@ export default function useOffersData() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [filters, setFilters] = useState({
-        status: "",
-        salesperson: "",
-        depot: "",
+        statuses: [],
+        salespersons: [],
+        depots: [],
     });
 
     useEffect(() => {
@@ -32,7 +32,7 @@ export default function useOffersData() {
     useEffect(() => {
         const result = filterOffers(offers, filters);
         setFilteredOffers(result);
-    }, [filters, offers]);
+    }, [offers, filters]);
 
     return {
         offers,

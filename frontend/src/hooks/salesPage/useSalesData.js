@@ -5,10 +5,11 @@ export function useSalesData() {
     const [sales, setSales] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
     const [filters, setFilters] = useState({
-        status: "All",
-        salesperson: "All",
-        depot: "All",
+        statuses: [],
+        salespersons: [],
+        depots: [],
     });
 
     useEffect(() => {
@@ -30,28 +31,33 @@ export function useSalesData() {
 
     const filtered = useMemo(() => {
         let result = [...sales];
-        if (filters.status !== "All") {
-            result = result.filter((s) => s.status === filters.status);
+
+        if (filters.statuses.length > 0) {
+            result = result.filter(s => filters.statuses.includes(s.status));
         }
-        if (filters.salesperson !== "All") {
+
+        if (filters.salespersons.length > 0) {
             result = result.filter((s) =>
-                s.salesPersonName?.some(
-                    (p) => p.name === filters.salesperson
+                s.salesPersons?.some((p) =>
+                    filters.salespersons.includes(p.name)
                 )
             );
         }
-        if (filters.depot !== "All") {
-            result = result.filter((s) => s.depotName === filters.depot);
+
+        if (filters.depots.length > 0) {
+            result = result.filter((s) =>
+                filters.depots.includes(s.depotName)
+            );
         }
+
         return result;
     }, [sales, filters]);
 
-    const applyFilters = () => {};
     const resetFilters = () => {
         setFilters({
-            status: "All",
-            salesperson: "All",
-            depot: "All"
+            statuses: [],
+            salespersons: [],
+            depots: []
         });
     };
 
@@ -60,7 +66,6 @@ export function useSalesData() {
         filtered,
         filters,
         setFilters,
-        applyFilters,
         resetFilters,
         loading,
         error,

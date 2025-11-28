@@ -76,7 +76,20 @@ exports[`SalesTable Component > match the snapshot 1`] = `
           <td
             class="p-3"
           >
-            Anna Svensson
+            <div
+              class="max-w-[250px]"
+            >
+              <span
+                class="inline-flex flex-wrap gap-1 items-center"
+              >
+                <span
+                  class="px-2 py-0.5 bg-emerald-800/60 border border-emerald-700
+                       text-emerald-100 text-xs rounded-full whitespace-nowrap"
+                >
+                  Anna Svensson
+                </span>
+              </span>
+            </div>
           </td>
           <td
             class="p-3"
