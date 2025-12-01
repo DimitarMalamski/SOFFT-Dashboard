@@ -1,6 +1,7 @@
 workflow:
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "infra"' # for testing 
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 stages: [test, package, docker, deploy]
@@ -68,6 +69,7 @@ deploy_to_netlab:
     - netlab
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "infra"' # for testing 
   script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
     
