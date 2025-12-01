@@ -1,0 +1,43 @@
+services:
+  api:
+    image: ${BACKEND_IMAGE}:${TAG} # download the backend specific version from GitLab
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: api
+    expose:
+      - "8080"
+    networks:
+      default:
+        aliases:
+          - backend
+    restart: unless-stopped
+ 
+  web:
+    image: ${FRONTEND_IMAGE}:${TAG}  # download the frontend specific version from GitLab
+    build:
+      context: ./frontend
+    container_name: web
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+ 
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    pull_policy: always
+    restart: unless-stopped
+ 
+networks:
+  default:
+    name: test-stack
+    driver: bridge
+ 
+volumes:
+  ollama: {}

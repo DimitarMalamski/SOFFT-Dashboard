@@ -1,0 +1,80 @@
+workflow:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+stages: [test, package, docker, deploy]
+
+variables:
+  BACKEND_IMAGE: "$CI_REGISTRY_IMAGE/backend"
+  FRONTEND_IMAGE: "$CI_REGISTRY_IMAGE/frontend"
+  COMPOSE_PROJECT_NAME: ci
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
+
+backend_tests:
+  stage: test
+  image: gradle:8.10.2-jdk17
+  script:
+    - cd backend
+    - ./gradlew test --no-daemon
+
+frontend_tests:
+  stage: test
+  image: node:20-alpine
+  script:
+    - cd frontend
+    - npm ci 
+    - npm run lint 
+    - npm run build
+
+backend_package:
+  stage: package
+  image: gradle:8.10.2-jdk17
+  needs: [backend_tests] 
+  script:
+    - cd backend
+    - ./gradlew clean bootJar --no-daemon
+  artifacts: 
+    paths: [backend/build/libs/app.jar]
+
+build_and_push:
+  stage: docker
+  image: docker:27.3.1-git
+  services:
+    - docker:27.3.1-dind
+  needs: [backend_package, frontend_tests]
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+
+    - TAG="$CI_COMMIT_SHORT_SHA"
+
+    - docker compose -f docker-compose.yaml build
+
+    - docker tag "${COMPOSE_PROJECT_NAME}-api:latest" "$BACKEND_IMAGE:$TAG"
+    - docker tag "${COMPOSE_PROJECT_NAME}-web:latest" "$FRONTEND_IMAGE:$TAG"
+
+    - docker push "$BACKEND_IMAGE:$TAG" "$FRONTEND_IMAGE:$TAG"
+    - |
+      if [ "$CI_COMMIT_BRANCH" = "main" ]; then
+        docker tag "$BACKEND_IMAGE:$TAG" "$BACKEND_IMAGE:latest"
+        docker tag "$FRONTEND_IMAGE:$TAG" "$FRONTEND_IMAGE:latest"
+        docker push "$BACKEND_IMAGE:latest" "$FRONTEND_IMAGE:latest"
+      fi
+
+deploy_to_netlab:
+  stage: deploy
+  tags:
+    - netlab
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+    
+    - export BACKEND_IMAGE="$BACKEND_IMAGE"
+    - export FRONTEND_IMAGE="$FRONTEND_IMAGE"
+    - export TAG="$CI_COMMIT_SHORT_SHA"
+    
+    - docker compose down --remove-orphans || true
+    - docker compose pull
+    - docker compose up -d
