@@ -10,8 +10,6 @@ variables:
   BACKEND_IMAGE: "proftas/backend"
   FRONTEND_IMAGE: "proftas/frontend"
   COMPOSE_PROJECT_NAME: ci
-  DOCKER_HOST: tcp://docker:2375
-  DOCKER_TLS_CERTDIR: ""
 
 backend_tests:
   stage: test
@@ -43,19 +41,13 @@ backend_package:
 
 build_and_push:
   stage: docker
-  image: docker:27.3.1-git
-  services:
-    - docker:27.3.1-dind
   needs: [backend_package, frontend_tests]
   script:
     # using docker hub instead since GitLab registry has limitations 
     - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USER" --password-stdin
-    - TAG="$CI_COMMIT_SHORT_SHA"
+    - export TAG="$CI_COMMIT_SHORT_SHA"
 
     - docker compose -f docker-compose.yaml build
-
-    - docker tag "${COMPOSE_PROJECT_NAME}-api:latest" "$BACKEND_IMAGE:$TAG"
-    - docker tag "${COMPOSE_PROJECT_NAME}-web:latest" "$FRONTEND_IMAGE:$TAG"
 
     - docker push "$BACKEND_IMAGE:$TAG" "$FRONTEND_IMAGE:$TAG"
     - |
