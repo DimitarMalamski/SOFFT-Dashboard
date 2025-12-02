@@ -49,12 +49,16 @@ build_and_push:
 
     - docker compose -f docker-compose.yaml build
 
-    - docker push "$BACKEND_IMAGE:$TAG" "$FRONTEND_IMAGE:$TAG"
+    - docker push "$BACKEND_IMAGE:$TAG"
+    - docker push "$FRONTEND_IMAGE:$TAG"
+
     - |
       if [ "$CI_COMMIT_BRANCH" = "main" ]; then
         docker tag "$BACKEND_IMAGE:$TAG" "$BACKEND_IMAGE:latest"
         docker tag "$FRONTEND_IMAGE:$TAG" "$FRONTEND_IMAGE:latest"
-        docker push "$BACKEND_IMAGE:latest" "$FRONTEND_IMAGE:latest"
+        docker push "$BACKEND_IMAGE:latest"
+        docker push "$FRONTEND_IMAGE:latest"
+
       fi
 
 deploy_to_netlab:
