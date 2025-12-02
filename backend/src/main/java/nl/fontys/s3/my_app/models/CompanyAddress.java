@@ -49,11 +49,11 @@ public class CompanyAddress {
         this.uuid = uuid;
     }
 
-    public String getCustomerCompany() {
+    public String getCompanyUuid() {
         return companyUuid;
     }
 
-    public void setCustomerCompany(String companyUuid) {
+    public void setCompanyUuid(String companyUuid) {
         this.companyUuid = companyUuid;
     }
 

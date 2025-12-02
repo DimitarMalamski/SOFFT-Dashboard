@@ -1,0 +1,152 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SalesTable Component > match the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="bg-emerald-800/40 border border-emerald-800 rounded-xl shadow-md overflow-x-auto"
+  >
+    <table
+      class="min-w-full border-collapse text-sm text-emerald-50"
+    >
+      <thead
+        class="bg-emerald-800/80 text-left text-emerald-100 uppercase text-xs"
+      >
+        <tr>
+          <th
+            class="p-3 font-semibold"
+          >
+            Reference ID
+          </th>
+          <th
+            class="p-3 font-semibold"
+          >
+            Customer
+          </th>
+          <th
+            class="p-3 font-semibold"
+          >
+            Salesperson
+          </th>
+          <th
+            class="p-3 font-semibold"
+          >
+            Depot
+          </th>
+          <th
+            class="p-3 font-semibold"
+          >
+            Status
+          </th>
+          <th
+            class="p-3 font-semibold"
+          >
+            Total (€)
+          </th>
+          <th
+            class="p-3 font-semibold"
+          >
+            Discount (€)
+          </th>
+          <th
+            class="p-3 font-semibold"
+          >
+            Created
+          </th>
+          <th
+            class="p-3 font-semibold"
+          >
+            Expires
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          class="border-t border-emerald-700/60 hover:bg-emerald-700/40 transition"
+        >
+          <td
+            class="p-3"
+          >
+            OFFER-SE-001
+          </td>
+          <td
+            class="p-3"
+          >
+            Nordic Trucks AB
+          </td>
+          <td
+            class="p-3"
+          >
+            <div
+              class="max-w-[250px]"
+            >
+              <span
+                class="inline-flex flex-wrap gap-1 items-center"
+              >
+                <span
+                  class="px-2 py-0.5 bg-emerald-800/60 border border-emerald-700
+                       text-emerald-100 text-xs rounded-full whitespace-nowrap"
+                >
+                  Anna Svensson
+                </span>
+              </span>
+            </div>
+          </td>
+          <td
+            class="p-3"
+          >
+            North Hub
+          </td>
+          <td
+            class="p-3"
+          >
+            <span
+              class="px-2 py-1 rounded-md text-xs font-medium bg-yellow-500/20 text-yellow-300"
+            >
+              Pending
+            </span>
+          </td>
+          <td
+            class="p-3 font-medium text-white"
+          >
+            85,000.00 EUR
+          </td>
+          <td
+            class="p-3 text-emerald-100"
+          >
+            5000
+          </td>
+          <td
+            class="p-3 text-emerald-100"
+          >
+            10/11/2025
+          </td>
+          <td
+            class="p-3 text-emerald-100"
+          >
+            10/12/2025
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div
+      class="flex justify-between items-center p-3 border-t border-emerald-800 text-emerald-100 text-sm"
+    >
+      <button
+        class="px-3 py-1 rounded-md border border-emerald-700 transition opacity-40 cursor-not-allowed"
+        disabled=""
+      >
+        ← Prev
+      </button>
+      <span>
+        Page 1 of 1
+      </span>
+      <button
+        class="px-3 py-1 rounded-md border border-emerald-700 transition opacity-40 cursor-not-allowed"
+        disabled=""
+      >
+        Next →
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;

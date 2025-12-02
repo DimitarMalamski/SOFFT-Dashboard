@@ -118,11 +118,11 @@ public class SalesOfferLine {
     }
 
     public Integer getFinancingType() {
-        return financingType;
+        return financingType == null ? 0 : financingType;
     }
 
     public void setFinancingType(Integer financingType) {
-        this.financingType = financingType;
+        this.financingType = financingType == null ? 0 : financingType;
     }
 
     public Boolean getIsProductSeenPhysically() {

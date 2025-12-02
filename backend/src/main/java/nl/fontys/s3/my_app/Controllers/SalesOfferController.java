@@ -2,18 +2,24 @@ package nl.fontys.s3.my_app.Controllers;
 
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import nl.fontys.s3.my_app.Services.SalesOfferService;
 import nl.fontys.s3.my_app.models.dtos.DataResponseDTO;
 import nl.fontys.s3.my_app.models.dtos.SingleDataResponseDTO;
 import nl.fontys.s3.my_app.models.dtos.SalesOffer.SalesOfferDTO;
+import nl.fontys.s3.my_app.models.dtos.SalesOffer.SalesOfferLineDTO;
+import nl.fontys.s3.my_app.models.dtos.SalesOffer.SalesOffersPerCountryDTO;
+import nl.fontys.s3.my_app.models.dtos.SalesOfferSimple.SalesOfferSimpleDTO;
+import nl.fontys.s3.my_app.models.dtos.SalesOfferWithoutLineDTO.SalesOfferWithoutLineDTO;
 
 @RestController
-@RequestMapping("/api/SalesOffers")
+@RequestMapping("/api/salesoffers")
 public class SalesOfferController {
 
     private final SalesOfferService salesOfferService;
@@ -30,10 +36,39 @@ public class SalesOfferController {
         return new DataResponseDTO<SalesOfferDTO>(dtos);
     }
 
+    @GetMapping("/per-country")
+    public DataResponseDTO<SalesOffersPerCountryDTO> getSalesOffersCountPerCountry() {
+        List<SalesOffersPerCountryDTO> dtos = salesOfferService.getSalesOffersCountPerCountry();
+        return new DataResponseDTO<SalesOffersPerCountryDTO>(dtos);
+    }
+
     @GetMapping("/{uuid}")
     public SingleDataResponseDTO<SalesOfferDTO> getByUuid(@PathVariable String uuid) {
-        SalesOfferDTO dtos = salesOfferService.getSalesOfferByUuid(uuid);
-        return new SingleDataResponseDTO<SalesOfferDTO>(dtos);
+        SalesOfferDTO dto = salesOfferService.getSalesOfferByUuid(uuid);
+        return new SingleDataResponseDTO<SalesOfferDTO>(dto);
     }
+
+    @GetMapping("/simple")
+    public DataResponseDTO<SalesOfferSimpleDTO> getAllSimple() {
+
+        List<SalesOfferSimpleDTO> dtos = salesOfferService.getAllSalesOffersSimpleDTO();
+
+        return new DataResponseDTO<SalesOfferSimpleDTO>(dtos);
+    }
+
+    @GetMapping("/sales")
+    public DataResponseDTO<SalesOfferWithoutLineDTO> getAllWithoutLine(@RequestParam("statuses") List<String> statuses) {
+
+        List<SalesOfferWithoutLineDTO> dtos = salesOfferService.getAllSalesOffersWithoutLines(statuses);
+
+        return new DataResponseDTO<SalesOfferWithoutLineDTO>(dtos);
+    }
+
+    // @GetMapping("/line/{uuid}")
+    // public SingleDataResponseDTO<SalesOfferLineDTO> getLineByUuid(@PathVariable
+    // String uuid) {
+    // SalesOfferLineDTO dto = salesOfferService.getSalesOfferLineByUuid(uuid);
+    // return new SingleDataResponseDTO<SalesOfferLineDTO>(dto);
+    // }
 
 }

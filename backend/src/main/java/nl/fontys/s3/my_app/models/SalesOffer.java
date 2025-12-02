@@ -89,7 +89,7 @@ public class SalesOffer {
     }
 
     public Integer getTicketId() {
-        return ticketId;
+        return ticketId == null ? 0 : ticketId;
     }
 
     public void setTicketId(Integer ticketId) {

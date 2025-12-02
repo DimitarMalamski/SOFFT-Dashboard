@@ -1,0 +1,55 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`OfferCard Component > matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="bg-emerald-900/30 border border-emerald-800 rounded-2xl p-5 shadow-lg hover:shadow-emerald-800/50 hover:-translate-y-1 transition-transform cursor-pointer"
+  >
+    <div
+      class="flex justify-between items-start mb-3"
+    >
+      <h3
+        class="text-lg font-semibold text-emerald-50"
+      >
+        Unknown Company
+      </h3>
+      <span
+        class="flex items-center gap-1 px-2 py-1 rounded-md border text-xs font-semibold uppercase bg-emerald-800/20 text-emerald-100 border-emerald-700"
+      >
+        Unknown
+      </span>
+    </div>
+    <div
+      class="text-emerald-100 text-sm space-y-1 mb-4"
+    >
+      <div
+        class="flex gap-2 text-emerald-100 text-sm items-center flex-wrap"
+      >
+        <span>
+          Salespeople:
+        </span>
+        <span
+          class="text-gray-400"
+        >
+          N/A
+        </span>
+      </div>
+      <p>
+        Depot: N/A
+      </p>
+      <p>
+        Expires: N/A
+      </p>
+    </div>
+    <div
+      class="border-t border-emerald-800 pt-3 flex justify-between items-center"
+    >
+      <p
+        class="text-2xl font-bold text-emerald-300"
+      >
+        €0
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;

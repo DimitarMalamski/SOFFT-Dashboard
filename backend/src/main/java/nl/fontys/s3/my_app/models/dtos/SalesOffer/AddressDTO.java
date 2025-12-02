@@ -11,6 +11,15 @@ public class AddressDTO {
     private String area;
 
     public AddressDTO(Address address) {
+        if (address == null) {
+            this.uuid = null;
+            this.countryCode = null;
+            this.city = null;
+            this.zipCode = null;
+            this.street = null;
+            this.area = null;
+            return;
+        }
         this.uuid = address.getUuid();
         this.countryCode = address.getCountryCode();
         this.city = address.getCity();

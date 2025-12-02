@@ -1,0 +1,130 @@
+import { renderHook, act, waitFor } from "@testing-library/react";
+import { useSalesData } from "../useSalesData.js";
+import SalesAPI from "../../../apis/SalesAPI.js";
+
+vi.mock("../../../apis/SalesAPI.js", () => ({
+    default: { getAllSales: vi.fn() },
+}));
+
+describe("useSalesData Hook", () => {
+    const mockSales = [
+        {
+            status: "Approved",
+            salesPersonName: [{ name: "Anna" }],
+            depotName: "North Hub",
+        },
+        {
+            status: "Completed",
+            salesPersonName: [{ name: "Ben" }],
+            depotName: "South Hub",
+        },
+    ];
+
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    test("fetches and sets sales data successfully", async () => {
+        SalesAPI.getAllSales.mockResolvedValue(mockSales);
+
+        const { result } = renderHook(() => useSalesData());
+
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        expect(result.current.error).toBeNull();
+        expect(result.current.sales).toHaveLength(2);
+        expect(result.current.filtered).toHaveLength(2);
+    });
+
+    test("handles API failure", async () => {
+        SalesAPI.getAllSales.mockRejectedValue(new Error("Network Error"));
+
+        const { result } = renderHook(() => useSalesData());
+
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        expect(result.current.error).toBeInstanceOf(Error);
+        expect(result.current.sales).toEqual([]);
+    });
+
+    test("filters sales based on filters", async () => {
+        SalesAPI.getAllSales.mockResolvedValue(mockSales);
+
+        const { result } = renderHook(() => useSalesData());
+
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        act(() => {
+            result.current.setFilters({
+                statuses: "Approved",
+                salespersons: [],
+                depots: []
+            });
+        });
+
+        expect(result.current.filtered).toHaveLength(1);
+        expect(result.current.filtered[0].status).toBe("Approved");
+    });
+
+    test("filters by salesperson", async () => {
+        SalesAPI.getAllSales.mockResolvedValue(mockSales);
+
+        const { result } = renderHook(() => useSalesData());
+
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        act(() => {
+            result.current.setFilters({
+                statuses: [],
+                salespersons: ["Anna"],
+                depots: []
+            });
+        });
+
+        expect(result.current.filtered).toHaveLength(1);
+        expect(result.current.filtered[0].salesPersonName[0].name).toBe("Anna");
+    });
+
+    test("filters by depot", async () => {
+        SalesAPI.getAllSales.mockResolvedValue(mockSales);
+
+        const { result } = renderHook(() => useSalesData());
+
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        act(() => {
+            result.current.setFilters({
+                statuses: [],
+                salespersons: [],
+                depots: ["South Hub"]
+            });
+        });
+
+        expect(result.current.filtered).toHaveLength(1);
+        expect(result.current.filtered[0].depotName).toBe("South Hub");
+    });
+
+    test("resets filters correctly", async () => {
+        SalesAPI.getAllSales.mockResolvedValue(mockSales);
+
+        const { result } = renderHook(() => useSalesData());
+
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        act(() => {
+            result.current.setFilters({
+                statuses: [],
+                salespersons: ["Anna"],
+                depots: ["North Hub"],
+            });
+
+            result.current.resetFilters();
+        });
+
+        expect(result.current.filters).toEqual({
+            statuses: [],
+            salespersons: [],
+            depots: [],
+        });
+    });
+});

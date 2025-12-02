@@ -1,0 +1,23 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ChartSalesByPerson Component > matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="bg-emerald-800/40 border border-emerald-800 rounded-xl p-4 flex-1"
+  >
+    <h2
+      class="text-lg font-semibold mb-4 text-emerald-100"
+    >
+      Sales by Salesperson
+    </h2>
+    <div
+      class="recharts-responsive-container"
+      style="width: 100%; height: 300px; min-width: 0;"
+    >
+      <div
+        style="width: 0px; overflow-x: visible;"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;

@@ -1,5 +1,6 @@
 package nl.fontys.s3.my_app.Repositories;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,7 @@ import nl.fontys.s3.my_app.models.SalesOfferSalesPerson;
 public interface SalesOfferSalesPersonRepo extends JpaRepository<SalesOfferSalesPerson, Long> {
     List<SalesOfferSalesPerson> findByOfferUuid(String salesOfferUuid);
     List<SalesOfferSalesPerson> findBySalesPersonUuid(String salesPersonUuid);
+    List<SalesOfferSalesPerson> findAllByOfferUuidIn(Collection<String> offerUuids);
+
+    
 }

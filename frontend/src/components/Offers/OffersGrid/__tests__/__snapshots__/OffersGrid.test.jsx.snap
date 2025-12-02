@@ -1,0 +1,113 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`OffersGrid Component > matches snapshot 1`] = `
+<DocumentFragment>
+  <section>
+    <h2
+      class="text-emerald-100 font-semibold mb-3 text-sm uppercase"
+    >
+      Offer Details
+    </h2>
+    <div
+      class="grid sm:grid-cols-2 gap-6"
+    >
+      <div
+        class="bg-emerald-900/30 border border-emerald-800 rounded-2xl p-5 shadow-lg hover:shadow-emerald-800/50 hover:-translate-y-1 transition-transform cursor-pointer"
+      >
+        <div
+          class="flex justify-between items-start mb-3"
+        >
+          <h3
+            class="text-lg font-semibold text-emerald-50"
+          >
+            CargoMax
+          </h3>
+          <span
+            class="flex items-center gap-1 px-2 py-1 rounded-md border text-xs font-semibold uppercase bg-amber-500/20 text-amber-300 border-amber-500/40"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-clock w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 6v6l4 2"
+              />
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+              />
+            </svg>
+            Pending
+          </span>
+        </div>
+        <div
+          class="text-emerald-100 text-sm space-y-1 mb-4"
+        >
+          <div
+            class="flex gap-2 text-emerald-100 text-sm items-center flex-wrap"
+          >
+            <span>
+              Salespeople:
+            </span>
+            <span
+              class="inline-flex flex-wrap gap-1 items-center"
+            >
+              <span
+                class="px-2 py-0.5 bg-emerald-800/60 border border-emerald-700
+                       text-emerald-100 text-xs rounded-full whitespace-nowrap"
+              >
+                Alice
+              </span>
+            </span>
+          </div>
+          <p>
+            Depot: Lyon Terminal
+          </p>
+          <p>
+            Expires: N/A
+          </p>
+        </div>
+        <div
+          class="border-t border-emerald-800 pt-3 flex justify-between items-center"
+        >
+          <p
+            class="text-2xl font-bold text-emerald-300"
+          >
+            €30,000
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex items-center justify-between mt-6"
+    >
+      <button
+        class="px-4 py-2 rounded-lg border border-emerald-700 text-emerald-100 hover:bg-emerald-700/30 disabled:opacity-40 disabled:cursor-not-allowed transition"
+        disabled=""
+      >
+        ← Prev
+      </button>
+      <span
+        class="text-emerald-300 text-sm font-medium"
+      >
+        Page 1 of 2
+      </span>
+      <button
+        class="px-4 py-2 rounded-lg border border-emerald-700 text-emerald-100 hover:bg-emerald-700/30 disabled:opacity-40 disabled:cursor-not-allowed transition"
+      >
+        Next →
+      </button>
+    </div>
+  </section>
+</DocumentFragment>
+`;
