@@ -7,8 +7,8 @@ workflow:
 stages: [test, package, docker, deploy]
 
 variables:
-  BACKEND_IMAGE: "$CI_REGISTRY_IMAGE/backend"
-  FRONTEND_IMAGE: "$CI_REGISTRY_IMAGE/frontend"
+  BACKEND_IMAGE: "proftas/backend"
+  FRONTEND_IMAGE: "proftas/frontend"
   COMPOSE_PROJECT_NAME: ci
   DOCKER_HOST: tcp://docker:2375
   DOCKER_TLS_CERTDIR: ""
@@ -48,8 +48,8 @@ build_and_push:
     - docker:27.3.1-dind
   needs: [backend_package, frontend_tests]
   script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
-
+    # using docker hub instead since GitLab registry has limitations 
+    - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USER" --password-stdin
     - TAG="$CI_COMMIT_SHORT_SHA"
 
     - docker compose -f docker-compose.yaml build
@@ -73,8 +73,9 @@ deploy_to_netlab:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "infra"' # Temporarily for testing... to be removed later if the code is fixed
   script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
-    
+    # using docker hub
+    - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USER" --password-stdin 
+
     - export BACKEND_IMAGE="$BACKEND_IMAGE"
     - export FRONTEND_IMAGE="$FRONTEND_IMAGE"
     - export TAG="$CI_COMMIT_SHORT_SHA"
