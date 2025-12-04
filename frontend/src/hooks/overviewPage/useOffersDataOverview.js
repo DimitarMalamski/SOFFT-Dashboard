@@ -6,7 +6,6 @@ export default function useOffersDataOverview() {
     // --- state ---
     const [offers, setOffers] = useState([]);
     const [filteredOffers, setFilteredOffers] = useState([]);
-
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -14,11 +13,11 @@ export default function useOffersDataOverview() {
         dateRange: "",
         startDate: null,
         endDate: null,
-        productType: "",
-        brand: "",
-        salesman: "",
-        incoterm: "",
-        country: "",
+        salesmen: [],
+        countries: [],
+        productTypes: [],
+        brands: [],
+        incoterms: [],
     });
 
     const [options, setOptions] = useState({
@@ -34,11 +33,9 @@ export default function useOffersDataOverview() {
         setLoading(true);
         SalesOffersAPI.getSalesOffers()
             .then((data) => {
-                console.log('>>> RAW offers sample (first item):', data?.[0]);
                 setOffers(data);
                 setFilteredOffers(data);
 
-                // extract unique dropdown values
                 const sets = {
                     salesmen: new Set(),
                     productTypes: new Set(),
@@ -48,27 +45,23 @@ export default function useOffersDataOverview() {
                 };
 
                 data.forEach((offer) => {
-                    if (offer.salesPerson?.[0]?.name) {
-                        sets.salesmen.add(offer.salesPerson[0].name);
-                    }
+                    offer.salesPerson?.forEach((p) => {
+                        if (p.name) sets.salesmen.add(p.name);
+                    });
 
-                    if (offer.salesOfferLine?.[0]?.product?.productType)
-                        sets.productTypes.add(
-                            offer.salesOfferLine[0].product.productType.toUpperCase()
-                        );
+                    offer.salesOfferLine?.forEach((line) => {
+                        if (line.product?.productType)
+                            sets.productTypes.add(line.product.productType.toUpperCase());
 
-                    if (offer.salesOfferLine?.[0]?.product?.brand)
-                        sets.brands.add(offer.salesOfferLine[0].product.brand.toUpperCase());
+                        if (line.product?.brand)
+                            sets.brands.add(line.product.brand.toUpperCase());
 
-                    if (offer.salesOfferLine?.[0]?.delivery?.incoterm)
-                        sets.incoterms.add(
-                            offer.salesOfferLine[0].delivery.incoterm.toUpperCase()
-                        );
+                        if (line.delivery?.incoterm)
+                            sets.incoterms.add(line.delivery.incoterm.toUpperCase());
 
-                    if (offer.salesOfferLine?.[0]?.delivery?.destinationCountryCode)
-                        sets.countries.add(
-                            offer.salesOfferLine[0].delivery.destinationCountryCode
-                        );
+                        if (line.delivery?.destinationCountryCode)
+                            sets.countries.add(line.delivery.destinationCountryCode);
+                    });
                 });
 
                 setOptions({
@@ -80,27 +73,24 @@ export default function useOffersDataOverview() {
                 });
             })
             .catch((err) => {
-                console.error("Error fetching offers:", err);
                 setError(err);
                 setOffers([]);
                 setFilteredOffers([]);
-                setOptions({ salesmen: [], productTypes: [], brands: [], incoterms: [], countries: [] });
             })
             .finally(() => setLoading(false));
     }, []);
 
-    // --- Apply filters ---
     const applyFilters = () => {
         const filtered = filterOffersOverview(offers, filters);
         setFilteredOffers(filtered);
     };
 
-    const { productType } = filters;
-
-    // --- handle brand reset when productType changes ---
-    useEffect(() => {
-        setFilters((prev) => ({ ...prev, brand: "" }));
-    }, [productType]);
+    // const { productType } = filters;
+    //
+    // // --- handle brand reset when productType changes ---
+    // useEffect(() => {
+    //     setFilters((prev) => ({ ...prev, brand: "" }));
+    // }, [productType]);
 
     return {
         offers,

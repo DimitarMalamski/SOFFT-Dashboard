@@ -84,12 +84,14 @@ export default function Dashboard() {
                     chartOptions={chartOptions}
                 />
 
-                <FilterBar
-                    filters={filters}
-                    setFilters={setFilters}
-                    options={options}
-                    applyFilters={applyFilters}
-                />
+                <div className="mt-4">
+                    <FilterBar
+                        filters={filters}
+                        setFilters={setFilters}
+                        options={options}
+                        applyFilters={applyFilters}
+                    />
+                </div>
 
                 <ChartSection
                     selectedChart={selectedChart}

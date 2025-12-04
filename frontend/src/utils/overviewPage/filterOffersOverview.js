@@ -1,57 +1,66 @@
 export function filterOffersOverview(offers, filters) {
     return offers.filter((offer) => {
-        const matchesSalesman =
-            !filters.salesman ||
+
+        const matchesSalesmen =
+            filters.salesmen.length === 0 ||
             offer.salesPersons?.some((p) =>
-                p.name?.toLowerCase().includes(filters.salesman.toLowerCase())
+                filters.salesmen.includes(p.name)
             );
 
         const matchesProductType =
-            !filters.productType ||
+            filters.productTypes.length === 0 ||
             offer.salesOfferLine?.some((line) =>
-                line.product?.productType
-                    ?.toLowerCase()
-                    .includes(filters.productType.toLowerCase())
+                filters.productTypes.includes(line.product?.productType?.toUpperCase())
             );
 
         const matchesBrand =
-            !filters.brand ||
+            filters.brands.length === 0 ||
             offer.salesOfferLine?.some((line) =>
-                line.product?.brand?.toLowerCase().includes(filters.brand.toLowerCase())
+                filters.brands.includes(line.product?.brand?.toUpperCase())
             );
 
         const matchesIncoterm =
-            !filters.incoterm ||
+            filters.incoterms.length === 0 ||
             offer.salesOfferLine?.some((line) =>
-                line.delivery?.incoterm
-                    ?.toUpperCase()
-                    .includes(filters.incoterm.toUpperCase())
+                filters.incoterms.includes(line.delivery?.incoterm?.toUpperCase())
             );
 
         const matchesCountry =
-            !filters.country ||
+            filters.countries.length === 0 ||
             offer.salesOfferLine?.some((line) =>
-                line.delivery?.destinationCountryCode
-                    ?.toUpperCase()
-                    .includes(filters.country.toUpperCase())
+                filters.countries.includes(line.delivery?.destinationCountryCode)
             );
 
-        let matchesDate = true;
         const offerDate = offer.expiresAt ? new Date(offer.expiresAt) : null;
+        let matchesDate = true;
 
-        if (filters.startDate && filters.endDate && offerDate) {
-            matchesDate =
-                offerDate >= new Date(filters.startDate) &&
-                offerDate <= new Date(filters.endDate);
-        } else if (filters.dateRange && offerDate) {
-            const now = new Date();
-            const days = parseInt(filters.dateRange.replace("d", ""), 10);
-            const cutoff = new Date(now.setDate(now.getDate() - days));
+        if (filters.dateRange === "today" && offerDate) {
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            matchesDate = offerDate >= today;
+        }
+
+        if (filters.dateRange === "7d" && offerDate) {
+            const cutoff = new Date();
+            cutoff.setDate(cutoff.getDate() - 7);
             matchesDate = offerDate >= cutoff;
         }
 
+        if (filters.dateRange === "30d" && offerDate) {
+            const cutoff = new Date();
+            cutoff.setDate(cutoff.getDate() - 30);
+            matchesDate = offerDate >= cutoff;
+        }
+
+        if (filters.dateRange === "custom" && offerDate) {
+            const { startDate, endDate } = filters;
+            matchesDate =
+                (!startDate || offerDate >= new Date(startDate)) &&
+                (!endDate || offerDate <= new Date(endDate));
+        }
+
         return (
-            matchesSalesman &&
+            matchesSalesmen &&
             matchesProductType &&
             matchesBrand &&
             matchesIncoterm &&
