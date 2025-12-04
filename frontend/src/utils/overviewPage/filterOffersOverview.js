@@ -3,7 +3,7 @@ export function filterOffersOverview(offers, filters) {
 
         const matchesSalesmen =
             filters.salesmen.length === 0 ||
-            offer.salesPersons?.some((p) =>
+            offer.salesPerson?.some((p) =>
                 filters.salesmen.includes(p.name)
             );
 
@@ -31,7 +31,7 @@ export function filterOffersOverview(offers, filters) {
                 filters.countries.includes(line.delivery?.destinationCountryCode)
             );
 
-        const offerDate = offer.expiresAt ? new Date(offer.expiresAt) : null;
+        const offerDate = offer.createdAt ? new Date(offer.createdAt + "Z") : null;
         let matchesDate = true;
 
         if (filters.dateRange === "today" && offerDate) {

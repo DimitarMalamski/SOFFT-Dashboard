@@ -28,7 +28,6 @@ export default function useOffersDataOverview() {
         countries: [],
     });
 
-    // --- Fetch data on mount ---
     useEffect(() => {
         setLoading(true);
         SalesOffersAPI.getSalesOffers()
@@ -85,6 +84,21 @@ export default function useOffersDataOverview() {
         setFilteredOffers(filtered);
     };
 
+    const resetFilter = () => {
+        setFilters({
+            dateRange: "",
+            startDate: null,
+            endDate: null,
+            salesmen: [],
+            countries: [],
+            productTypes: [],
+            brands: [],
+            incoterms: [],
+        });
+
+        setFilteredOffers(offers);
+    };
+
     // const { productType } = filters;
     //
     // // --- handle brand reset when productType changes ---
@@ -99,6 +113,7 @@ export default function useOffersDataOverview() {
         setFilters,
         options,
         applyFilters,
+        resetFilter,
         loading,
         error
     };

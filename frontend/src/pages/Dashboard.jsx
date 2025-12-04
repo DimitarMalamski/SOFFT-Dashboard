@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import useOffersDataOverview from "../hooks/overviewPage/useOffersDataOverview.js";
 import FilterBar from "../components/Dashboard/FilterBar.jsx";
 import ChartSection from "../components/Dashboard/ChartSection.jsx";
-import { chartOptions } from "../config/chartOptions.js";
+import {chartOptions} from "../config/chartOptions.js";
 import ChartSelector from "../components/Dashboard/ChartSelector.jsx";
 import {
     transformData,
@@ -26,6 +26,7 @@ export default function Dashboard() {
         setFilters,
         options,
         applyFilters,
+        resetFilter,
         loading,
         error
     } = useOffersDataOverview();
@@ -50,60 +51,73 @@ export default function Dashboard() {
         );
     }
 
-  const allSalesmen = transformSalesMan(offers);
-  const leaders = allSalesmen.slice(0, 6);
-  const chartData = transformData(filteredOffers, selectedChart);
-  const trendPoints = getLast7DaysOrders(offers);
-  const conversions = getConversionStats(offers);
-  const { points: ttsPoints, avg: avgTts } = getTimeToSale(offers);
+    const allSalesmen = transformSalesMan(offers);
+    const leaders = allSalesmen;
+    const chartData = transformData(filteredOffers, selectedChart);
+    const trendPoints = getLast7DaysOrders(offers);
+    const conversions = getConversionStats(offers);
+    const {points: ttsPoints, avg: avgTts} = getTimeToSale(offers);
 
-  return (
-    <div className='min-h-0 flex flex-col gap-4'>
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-        <SalesTrendChart title='Orders (last 7 days)' points={trendPoints} />
-        <ConversionsCard
-          title='Conversion rate'
-          wins={conversions.wins}
-          total={conversions.total}
-          prevWins={conversions.wins * 0.8}
-          prevTotal={conversions.total}
-        />
-        <TimeToSaleCard
-          title='Avg time to sale'
-          points={ttsPoints}
-          prevAvg={avgTts + 1.2}
-        />
-      </div>
+    return (
+        <div className="flex flex-col gap-8">
 
-      <div className='bg-emerald-900 p-4 shadow-md rounded-md mt-4 min-h-0'>
-        <div className='grid grid-cols-1 lg:grid-cols-3 gap-4 min-h-0'>
-            <section className='lg:col-span-2 min-h-0'>
-                <ChartSelector
-                    selectedChart={selectedChart}
-                    setSelectedChart={setSelectedChart}
-                    chartOptions={chartOptions}
-                />
+            <div>
+                <h2 className="text-emerald-200 text-lg font-semibold mb-3">
+                    Overview Metrics
+                </h2>
 
-                <div className="mt-4">
-                    <FilterBar
-                        filters={filters}
-                        setFilters={setFilters}
-                        options={options}
-                        applyFilters={applyFilters}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <SalesTrendChart title="Orders (last 7 days)" points={trendPoints}/>
+                    <ConversionsCard
+                        title="Conversion rate"
+                        wins={conversions.wins}
+                        total={conversions.total}
+                        prevWins={conversions.wins * 0.8}
+                        prevTotal={conversions.total}
+                    />
+                    <TimeToSaleCard
+                        title="Avg time to sale"
+                        points={ttsPoints}
+                        prevAvg={avgTts + 1.2}
                     />
                 </div>
+            </div>
 
-                <ChartSection
-                    selectedChart={selectedChart}
-                    chartOptions={chartOptions}
-                    chartData={chartData}
-                />
-            </section>
-          <aside className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-0'>
-            <Leaderboard salesmanData={leaders} />
-          </aside>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <section className="lg:col-span-2 flex flex-col gap-6">
+                    <div className="bg-emerald-900 rounded-md p-4 shadow-sm">
+                        <ChartSelector
+                            selectedChart={selectedChart}
+                            setSelectedChart={setSelectedChart}
+                            chartOptions={chartOptions}
+                        />
+                    </div>
+
+                    <div className="bg-emerald-900 rounded-md p-4 shadow-sm">
+                        <FilterBar
+                            filters={filters}
+                            setFilters={setFilters}
+                            options={options}
+                            applyFilters={applyFilters}
+                            resetFilter={resetFilter}
+                        />
+                    </div>
+
+                    <div className="bg-emerald-900 rounded-md p-4 shadow-sm">
+                        <ChartSection
+                            selectedChart={selectedChart}
+                            chartOptions={chartOptions}
+                            chartData={chartData}
+                        />
+                    </div>
+                </section>
+
+                <aside className="bg-emerald-900 rounded-md p-4 shadow-sm h-[845px] flex flex-col overflow-hidden">
+                    <Leaderboard salesmanData={leaders}/>
+                </aside>
+
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
