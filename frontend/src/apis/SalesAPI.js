@@ -1,6 +1,8 @@
 import axios from "axios";
+import.meta.env.VITE_API_URL;
 
-const SALES_BASE_URL = "http://localhost:8080/api/salesoffers/sales";
+const BASE_URL = import.meta.env.VITE_API_URL;
+const SALES_BASE_URL = `${BASE_URL}/api/salesoffers/sales`;
 
 const SalesAPI = {
     getAllSales: async (statuses = ["Approved", "Completed"]) => {

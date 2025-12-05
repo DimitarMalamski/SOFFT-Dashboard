@@ -1,6 +1,9 @@
 import axios from "axios";
+import.meta.env.VITE_API_URL;
 
-const GEN_AI_BASE_URL = "http://localhost:8080/api/ai/generate-insight";
+const BASE_URL = import.meta.env.VITE_API_URL;
+
+const GEN_AI_BASE_URL = `${BASE_URL}/api/ai/generate-insight`;
 
 const GenAIAPI = {
     generateInsights: () =>
