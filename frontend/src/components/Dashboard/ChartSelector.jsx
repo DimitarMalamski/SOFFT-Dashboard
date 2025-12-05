@@ -15,7 +15,8 @@ export default function ChartSelector({ selectedChart, setSelectedChart, chartOp
     }, []);
 
     const active = chartOptions.find((o) => o.value === selectedChart);
-    const ActiveIcon = active.icon;
+    const FallbackIcon = () => <span />;
+    const ActiveIcon = active?.icon || FallbackIcon;
 
     return (
         <div className="relative flex flex-col gap-1" ref={ref}>
@@ -47,7 +48,7 @@ export default function ChartSelector({ selectedChart, setSelectedChart, chartOp
                     bg-emerald-900 border border-emerald-700 rounded-md shadow-lg
                 ">
                     {chartOptions.map((opt) => {
-                        const Icon = opt.icon;
+                        const Icon = opt.icon || FallbackIcon;
 
                         return (
                             <button

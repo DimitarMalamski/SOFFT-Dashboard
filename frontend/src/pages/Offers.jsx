@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import StatsBar from "../components/Offers/StatsBar/StatsBar.jsx";
 import ChartsSection from "../components/Offers/ChartsSection/ChartsSection.jsx";
 import OffersGrid from "../components/Offers/OffersGrid/OffersGrid.jsx";
-import FilterBar from "../components/Offers/FilterBar/FilterBar.jsx";
+import FilterBarOffers from "../components/Offers/FilterBar/FilterBarOffers.jsx";
 import LayoutButton from "../components/Offers/FilterBar/LayoutButton.jsx";
 import { LayoutGrid, BarChart3 } from "lucide-react";
 import useOffersData from "../hooks/offersPage/useOffersData.js";
@@ -61,7 +61,7 @@ export default function OffersPage() {
             </div>
 
             {layout === "grid" && (
-                <FilterBar offers={offers} onFilterChange={setFilters} />
+                <FilterBarOffers offers={offers} onFilterChange={setFilters} />
             )}
 
             {layout === "charts" ? (

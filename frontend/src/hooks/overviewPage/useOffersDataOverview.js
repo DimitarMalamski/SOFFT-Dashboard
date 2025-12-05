@@ -32,6 +32,7 @@ export default function useOffersDataOverview() {
         setLoading(true);
         SalesOffersAPI.getSalesOffers()
             .then((data) => {
+                console.log("🔥 Incoming offer sample:", data[0]);
                 setOffers(data);
                 setFilteredOffers(data);
 
@@ -45,7 +46,8 @@ export default function useOffersDataOverview() {
 
                 data.forEach((offer) => {
                     offer.salesPerson?.forEach((p) => {
-                        if (p.name) sets.salesmen.add(p.name);
+                        const name = p.name?.trim();
+                        if (name) sets.salesmen.add(name);
                     });
 
                     offer.salesOfferLine?.forEach((line) => {

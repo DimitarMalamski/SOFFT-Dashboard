@@ -4,17 +4,17 @@ describe("transformChartData utility", () => {
     const mockOffers = [
         {
             status: "Pending",
-            salesPersonName: [{ name: "Alice" }],
+            salesPersons: [{ name: "Alice" }],
             createdAt: "2025-11-10T10:00:00",
         },
         {
             status: "Declined",
-            salesPersonName: [{ name: "Bob" }],
+            salesPersons: [{ name: "Bob" }],
             createdAt: "2025-11-11T12:00:00",
         },
         {
             status: "Pending",
-            salesPersonName: [{ name: "Alice" }],
+            salesPersons: [{ name: "Alice" }],
             createdAt: "2025-11-11T13:00:00",
         },
     ];

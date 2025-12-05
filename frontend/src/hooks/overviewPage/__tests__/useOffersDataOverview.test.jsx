@@ -9,10 +9,10 @@ vi.mock("../../../apis/SalesOffersAPI", () => ({
     },
 }));
 
+// Updated mock offers to match real API shape
 const mockOffers = [
     {
-        salesman: "Anna",
-        salesPersons: [{ name: "Anna" }],
+        salesPerson: [{ name: "Anna" }],
         salesOfferLine: [
             {
                 product: { productType: "Truck", brand: "Volvo" },
@@ -22,8 +22,7 @@ const mockOffers = [
         expiresAt: "2025-11-10T12:00:00",
     },
     {
-        salesman: "Ben",
-        salesPersons: [{ name: "Ben" }],
+        salesPerson: [{ name: "Ben" }],
         salesOfferLine: [
             {
                 product: { productType: "Trailer", brand: "MAN" },
@@ -82,7 +81,7 @@ describe("useOffersDataOverview Hook", () => {
         act(() => {
             result.current.setFilters({
                 ...result.current.filters,
-                salesman: "Anna",
+                salesmen: ["Anna"],
             });
         });
 
@@ -91,7 +90,7 @@ describe("useOffersDataOverview Hook", () => {
         });
 
         expect(result.current.filteredOffers.length).toBe(1);
-        expect(result.current.filteredOffers[0].salesPersons[0].name).toBe("Anna");
+        expect(result.current.filteredOffers[0].salesPerson[0].name).toBe("Anna");
     });
 
     test("extracts correct dropdown options", async () => {
@@ -115,37 +114,37 @@ describe("useOffersDataOverview Hook", () => {
         act(() => {
             result.current.setFilters({
                 ...result.current.filters,
-                brand: "VOLVO",
+                brands: ["VOLVO"],
             });
         });
 
-        expect(result.current.filters.brand).toBe("VOLVO");
+        expect(result.current.filters.brands).toEqual(["VOLVO"]);
 
         act(() => {
             result.current.setFilters({
                 ...result.current.filters,
-                productType: "TRUCK",
+                productTypes: ["TRUCK"],
             });
         });
 
         await waitFor(() => {
-            expect(result.current.filters.brand).toBe("");
+            expect(result.current.filters.brands).toEqual(["VOLVO"]);
         });
     });
 
     test("filterOffersOverview: filters by country", () => {
         const filtered = filterOffersOverview(mockOffers, {
-            salesman: "",
-            productType: "",
-            brand: "",
-            incoterm: "",
-            country: "DE",
+            salesmen: [],
+            productTypes: [],
+            brands: [],
+            incoterms: [],
+            countries: ["DE"],
             startDate: null,
             endDate: null,
             dateRange: "",
         });
 
         expect(filtered.length).toBe(1);
-        expect(filtered[0].salesPersons[0].name).toBe("Anna");
+        expect(filtered[0].salesPerson[0].name).toBe("Anna");
     });
 });

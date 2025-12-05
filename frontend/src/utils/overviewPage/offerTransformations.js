@@ -1,18 +1,15 @@
-// --- CHART DATA TRANSFORMATION ---
 export function transformData(raw, selected) {
     switch (selected) {
+
         case "offersPerSalesman": {
             const counts = {};
-            raw.forEach((offer) => {
-                if (offer.salesPerson?.length) {
-                    offer.salesPerson.forEach((p) => {
-                        const name = p?.name?.trim();
-                        if (!name) return;
-                        counts[name] = (counts[name] || 0) + 1;
-                    });
-                }
+            raw.forEach(offer => {
+                offer.salesPerson?.forEach(p => {
+                    const name = p?.name?.trim();
+                    if (!name) return;
+                    counts[name] = (counts[name] || 0) + 1;
+                });
             });
-
             return Object.entries(counts)
                 .map(([salesman, count]) => ({ salesman, count }))
                 .sort((a, b) => b.count - a.count);
@@ -20,62 +17,60 @@ export function transformData(raw, selected) {
 
         case "offersPerCountry": {
             const counts = {};
-            raw.forEach((offer) => {
-                const country = offer.salesOfferLine?.[0]?.delivery?.destinationCountryCode?.trim();
+            raw.forEach(offer => {
+                const country = offer.salesOfferLine?.[0]?.delivery?.destinationCountryCode;
                 if (!country) return;
                 counts[country] = (counts[country] || 0) + 1;
             });
-            return Object.entries(counts)
-                .map(([country, count]) => ({ country, count }))
-                .sort((a, b) => b.count - a.count);
+            return Object.entries(counts).map(([country, count]) => ({ country, count }));
         }
 
         case "totalValueOverTime": {
-            const totalsByDate = {};
-            raw.forEach((offer) => {
-                const date = offer.expiresAt?.split("T")[0] || "Unknown";
+            const totals = {};
+            raw.forEach(offer => {
+                const date = offer.expiresAt?.split("T")[0];
                 const total = offer.salesOfferLine?.reduce(
-                    (sum, line) => sum + (line.productPrice?.amount || 0),
+                    (sum, l) => sum + (l.productPrice?.amount || 0),
                     0
                 ) || 0;
-                totalsByDate[date] = (totalsByDate[date] || 0) + total;
+                totals[date] = (totals[date] || 0) + total;
             });
-            return Object.entries(totalsByDate).map(([date, total]) => ({ date, total }));
+            return Object.entries(totals).map(([date, total]) => ({ date, total }));
         }
 
         case "conversionRate": {
-            const statsByDate = {};
-            raw.forEach((offer) => {
+            const stats = {};
+            raw.forEach(offer => {
                 const date = offer.updatedAt?.split(" ")[0];
                 if (!date) return;
 
-                statsByDate[date] ??= { offers: 0, orders: 0 };
-                statsByDate[date].offers++;
+                stats[date] ??= { offers: 0, accepted: 0 };
+                stats[date].offers++;
 
-                const accepted = offer.statusDescription === "Accepted";
-                const hasOrders = offer.salesOfferOrders?.length > 0;
-                if (accepted && hasOrders) statsByDate[date].orders++;
+                if (offer.statusDescription === "Accepted") {
+                    stats[date].accepted++;
+                }
             });
 
-            return Object.entries(statsByDate).map(([date, stats]) => ({
+            return Object.entries(stats).map(([date, s]) => ({
                 date,
-                rate: stats.offers > 0 ? (stats.orders / stats.offers) * 100 : 0,
+                rate: (s.accepted / s.offers) * 100
             }));
         }
 
         case "leadTimeAnalysis": {
-            console.log(">>> RAW offers (sample 2):", raw.slice(0, 5));
-            const leadTimes = raw.map(offer => {
-                const offerDate = new Date(offer.createdAt);
-                const transportDays = offer.salesOfferLine?.[0]?.delivery?.transportDays || 0;
-                const leadTime = transportDays;
+            return raw
+                .filter(o => o.statusDescription === "Accepted")
+                .map(o => {
+                    const offerDate = new Date(o.createdAt);
+                    const salesOrderDate = new Date(o.salesOfferOrders?.[0]?.createdAt);
+                    const diff = (salesOrderDate - offerDate) / (86400000); // ms → days
 
-                return {
-                    referenceId: offer.referenceId,
-                    leadTime
-                };
-            });
-            return leadTimes;
+                    return {
+                        referenceId: o.referenceId,
+                        leadTime: Math.round(diff)
+                    };
+                });
         }
 
         default:
@@ -83,46 +78,50 @@ export function transformData(raw, selected) {
     }
 }
 
-// --- DASHBOARD CARD HELPERS ---
 export function getLast7DaysOrders(raw) {
     const ordersByDay = {};
-    raw.forEach((offer) => {
-        const reserved = offer.salesOfferLine?.[0]?.reservedUntil;
-        if (!reserved) return;
-        const date = new Date(reserved);
-        if (isNaN(date)) return; // защита от некорректной даты
-        const label = date.toLocaleDateString('en-US', { weekday: 'short' });
-        ordersByDay[label] = (ordersByDay[label] || 0) + 1;
+
+    raw.forEach(offer => {
+        offer.salesOfferOrders?.forEach(order => {
+            const date = new Date(order.createdAt);
+            if (isNaN(date)) return;
+            const label = date.toLocaleDateString("en-US", { weekday: "short" });
+            ordersByDay[label] = (ordersByDay[label] || 0) + 1;
+        });
     });
 
-    const daysOrder = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    return daysOrder.map(d => ({ label: d, value: ordersByDay[d] || 0 }));
+    const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    return days.map(d => ({ label: d, value: ordersByDay[d] || 0 }));
 }
 
-// Conversion stats
 export function getConversionStats(raw) {
+    let wins = 0;
     let total = raw.length;
-    let wins = raw.filter(offer => offer.status === 1 || offer.status === 2).length;
+
+    raw.forEach(o => {
+        if (o.statusDescription === "Accepted" && o.salesOfferOrders?.length > 0) {
+            wins++;
+        }
+    });
 
     return { wins, total };
 }
 
-// Time to sale (lead time)
 export function getTimeToSale(raw) {
-    const accepted = raw.filter(
-        offer => (offer.status === 1 || offer.status === 2) && offer.salesOfferLine?.length
+    const accepted = raw.filter(o =>
+        o.statusDescription === "Accepted" &&
+        o.salesOfferOrders?.length
     );
 
-    const points = accepted.map((offer, i) => {
-        const offerDate = new Date(offer.createdAt);
-        const reservedDate = new Date(offer.salesOfferLine[0].reservedUntil);
-        if (isNaN(offerDate) || isNaN(reservedDate)) return null;
-        const diffDays = (reservedDate - offerDate) / (1000 * 60 * 60 * 24);
-        return { label: `D${i + 1}`, value: Number(diffDays.toFixed(1)) };
-    }).filter(Boolean); // убираем null
+    const points = accepted.map((o, i) => {
+        const start = new Date(o.createdAt);
+        const end = new Date(o.salesOfferOrders[0].createdAt);
+        const diff = (end - start) / 86400000;
+        return { label: `D${i + 1}`, value: diff };
+    });
 
     const avg = points.length
-        ? points.reduce((s, p) => s + p.value, 0) / points.length
+        ? points.reduce((sum, p) => sum + p.value, 0) / points.length
         : 0;
 
     return { points, avg };
@@ -130,17 +129,13 @@ export function getTimeToSale(raw) {
 
 export function transformSalesMan(offers) {
     const counts = {};
-    offers.forEach((offer) => {
-        if (offer.salesPerson?.length) {
-            offer.salesPerson.forEach((p) => {
-                if (!p.name) return;
-                const name = p.name.trim();
 
-                if (!name) return;
-
-                counts[name] = (counts[name] || 0) + 1;
-            });
-        }
+    offers.forEach(o => {
+        o.salesPerson?.forEach(p => {
+            const name = p?.name?.trim();
+            if (!name) return;
+            counts[name] = (counts[name] || 0) + 1;
+        });
     });
 
     return Object.entries(counts)

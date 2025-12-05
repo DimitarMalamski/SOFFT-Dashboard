@@ -5,12 +5,12 @@ describe("SalesFilters Component", () => {
     const mockSales = [
         {
             status: "Pending",
-            salesPersonName: [{ name: "Anna Stevenson" }],
+            salesPersons: [{ name: "Anna Stevenson" }],
             depotName: "North Hub",
         },
         {
             status: "Approved",
-            salesPersonName: [{ name: "John Smith" }],
+            salesPersons: [{ name: "John Smith" }],
             depotName: "London Storage",
         },
     ];
@@ -78,10 +78,11 @@ describe("SalesFilters Component", () => {
         );
 
         const label = screen.getByText("Salesperson");
-        const dropdown = label.closest("div").querySelector("div.p-2");
-        fireEvent.click(dropdown);
 
-        // After opening, options appear:
+        const dropdownButton = label.parentElement.querySelector("div.cursor-pointer");
+
+        fireEvent.click(dropdownButton);
+
         expect(screen.getByText("Anna Stevenson")).toBeInTheDocument();
         expect(screen.getByText("John Smith")).toBeInTheDocument();
     });
@@ -97,8 +98,9 @@ describe("SalesFilters Component", () => {
         );
 
         const label = screen.getByText("Salesperson");
-        const dropdown = label.closest("div").querySelector("div.p-2");
-        fireEvent.click(dropdown);
+        const dropdownButton = label.parentElement.querySelector("div.cursor-pointer");
+
+        fireEvent.click(dropdownButton);
 
         const checkbox = screen.getByLabelText("Anna Stevenson");
         fireEvent.click(checkbox);

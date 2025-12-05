@@ -3,7 +3,7 @@ import MultiSelectDropdown from "../../Shared/MultiSelectDropdown.jsx";
 import { RotateCcw } from "lucide-react";
 import { useOfferFilters } from "../../../hooks/offersPage/useOfferFilters.js";
 
-export default function FilterBar({ offers, onFilterChange }) {
+export default function FilterBarOffers({ offers, onFilterChange }) {
     const { filters, options, handleChange, handleReset, hasActiveFilters } =
         useOfferFilters(offers, onFilterChange);
 

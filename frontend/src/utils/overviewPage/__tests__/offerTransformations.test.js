@@ -9,7 +9,7 @@ import {
 describe("transformData", () => {
     const baseOffers = [
         {
-            salesPersons: [{ name: "Anna" }],
+            salesPerson: [{ name: "Anna" }],
             salesOfferLine: [
                 {
                     delivery: { destinationCountryCode: "DE" },
@@ -25,7 +25,7 @@ describe("transformData", () => {
             referenceId: 1
         },
         {
-            salesPersons: [{ name: "Ben" }],
+            salesPerson: [{ name: "Ben" }],
             salesOfferLine: [
                 {
                     delivery: { destinationCountryCode: "FR" },
@@ -68,14 +68,13 @@ describe("transformData", () => {
     test("conversionRate", () => {
         const result = transformData(baseOffers, "conversionRate");
         expect(result).toEqual([
-            { date: "2025-11-10", rate: 50 } // 1/2 accepted
+            { date: "2025-11-10", rate: 50 }
         ]);
     });
 
     test("leadTimeAnalysis", () => {
         const result = transformData(baseOffers, "leadTimeAnalysis");
 
-        // Lead time = (Nov 11 - Nov 9) = 2 days
         expect(result).toEqual([
             { referenceId: 1, leadTime: 2 }
         ]);
@@ -86,10 +85,6 @@ describe("transformData", () => {
     });
 });
 
-
-// ---------------------------------------------------------
-// getLast7DaysOrders
-// ---------------------------------------------------------
 describe("getLast7DaysOrders", () => {
     test("returns correct daily order map", () => {
         const offers = [
@@ -111,10 +106,6 @@ describe("getLast7DaysOrders", () => {
     });
 });
 
-
-// ---------------------------------------------------------
-// getConversionStats
-// ---------------------------------------------------------
 describe("getConversionStats", () => {
     test("counts wins and totals", () => {
         const offers = [
@@ -132,10 +123,6 @@ describe("getConversionStats", () => {
     });
 });
 
-
-// ---------------------------------------------------------
-// getTimeToSale
-// ---------------------------------------------------------
 describe("getTimeToSale", () => {
     test("maps accepted offers into points + average", () => {
         const offers = [
@@ -162,16 +149,12 @@ describe("getTimeToSale", () => {
     });
 });
 
-
-// ---------------------------------------------------------
-// transformSalesMan
-// ---------------------------------------------------------
 describe("transformSalesMan", () => {
     test("counts occurrences and sorts descending", () => {
         const offers = [
-            { salesPersons: [{ name: "Anna" }] },
-            { salesPersons: [{ name: "Anna" }] },
-            { salesPersons: [{ name: "Ben" }] }
+            { salesPerson: [{ name: "Anna" }] },
+            { salesPerson: [{ name: "Anna" }] },
+            { salesPerson: [{ name: "Ben" }] }
         ];
 
         const result = transformSalesMan(offers);
@@ -184,9 +167,9 @@ describe("transformSalesMan", () => {
 
     test("ignores missing or blank names", () => {
         const offers = [
-            { salesPersons: [{ name: " " }] },
-            { salesPersons: [{ name: null }] },
-            { salesPersons: [] },
+            { salesPerson: [{ name: " " }] },
+            { salesPerson: [{ name: null }] },
+            { salesPerson: [] },
             {}
         ];
 

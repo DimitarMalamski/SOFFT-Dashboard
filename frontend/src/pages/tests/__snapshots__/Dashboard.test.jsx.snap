@@ -3,29 +3,36 @@
 exports[`Dashboard Page > matches snapshot when data loads 1`] = `
 <div>
   <div
-    class="min-h-0 flex flex-col gap-4"
+    class="flex flex-col gap-8"
   >
-    <div
-      class="grid grid-cols-1 md:grid-cols-3 gap-4"
-    >
+    <div>
+      <h2
+        class="text-emerald-200 text-lg font-semibold mb-3"
+      >
+        Overview Metrics
+      </h2>
       <div
-        data-testid="trend-chart"
-      />
-      <div
-        data-testid="conversions-chart"
-      />
-      <div
-        data-testid="time-to-sale-chart"
-      />
+        class="grid grid-cols-1 md:grid-cols-3 gap-4"
+      >
+        <div
+          data-testid="trend-chart"
+        />
+        <div
+          data-testid="conversions-chart"
+        />
+        <div
+          data-testid="time-to-sale-chart"
+        />
+      </div>
     </div>
     <div
-      class="bg-emerald-900 p-4 shadow-md rounded-md mt-4 min-h-0"
+      class="grid grid-cols-1 lg:grid-cols-3 gap-6"
     >
-      <div
-        class="grid grid-cols-1 lg:grid-cols-3 gap-4 min-h-0"
+      <section
+        class="lg:col-span-2 flex flex-col gap-6"
       >
-        <section
-          class="lg:col-span-2 min-h-0"
+        <div
+          class="bg-emerald-900 rounded-md p-4 shadow-sm"
         >
           <select
             data-testid="chart-selector"
@@ -41,21 +48,29 @@ exports[`Dashboard Page > matches snapshot when data loads 1`] = `
               Country
             </option>
           </select>
+        </div>
+        <div
+          class="bg-emerald-900 rounded-md p-4 shadow-sm"
+        >
           <div
             data-testid="filter-bar"
           />
+        </div>
+        <div
+          class="bg-emerald-900 rounded-md p-4 shadow-sm"
+        >
           <div
             data-testid="chart-section"
           />
-        </section>
-        <aside
-          class="bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-0"
-        >
-          <div
-            data-testid="leaderboard"
-          />
-        </aside>
-      </div>
+        </div>
+      </section>
+      <aside
+        class="bg-emerald-900 rounded-md p-4 shadow-sm h-[845px] flex flex-col overflow-hidden"
+      >
+        <div
+          data-testid="leaderboard"
+        />
+      </aside>
     </div>
   </div>
 </div>

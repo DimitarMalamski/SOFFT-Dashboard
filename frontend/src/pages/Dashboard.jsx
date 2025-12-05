@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import useOffersDataOverview from "../hooks/overviewPage/useOffersDataOverview.js";
-import FilterBar from "../components/Dashboard/FilterBar.jsx";
+import FilterBarDashboard from "../components/Dashboard/FilterBarDashboard.jsx";
 import ChartSection from "../components/Dashboard/ChartSection.jsx";
 import {chartOptions} from "../config/chartOptions.js";
 import ChartSelector from "../components/Dashboard/ChartSelector.jsx";
@@ -95,7 +95,7 @@ export default function Dashboard() {
                     </div>
 
                     <div className="bg-emerald-900 rounded-md p-4 shadow-sm">
-                        <FilterBar
+                        <FilterBarDashboard
                             filters={filters}
                             setFilters={setFilters}
                             options={options}

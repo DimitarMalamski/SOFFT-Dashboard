@@ -6,7 +6,7 @@ vi.mock("../../hooks/overviewPage/useOffersDataOverview", () => ({
     default: vi.fn(),
 }));
 
-vi.mock("../../components/Dashboard/FilterBar", () => ({
+vi.mock("../../components/Dashboard/FilterBarDashboard", () => ({
     default: () => <div data-testid="filter-bar" />,
 }));
 

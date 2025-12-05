@@ -4,10 +4,12 @@ import ChartSelector from "../ChartSelector.jsx";
 
 describe("ChartSelector Component", () => {
 
+    const DummyIcon = () => <svg data-testid="icon" />;
+
     const chartOptions = [
-        { label: "Sales by Country", value: "sales-country", chart: "bar" },
-        { label: "Sales by Brand", value: "sales-brand", chart: "bar" },
-        { label: "Sales Trend", value: "sales-trend", chart: "line" },
+        { label: "Sales by Country", value: "sales-country", chart: "bar", icon: DummyIcon },
+        { label: "Sales by Brand", value: "sales-brand", chart: "bar", icon: DummyIcon },
+        { label: "Sales Trend", value: "sales-trend", chart: "line", icon: DummyIcon },
     ];
 
     const setSelectedChart = vi.fn();
@@ -25,8 +27,8 @@ describe("ChartSelector Component", () => {
             />
         );
 
-        expect(screen.getByText("Select chart:")).toBeInTheDocument();
-        expect(screen.getByRole("combobox")).toBeInTheDocument();
+        expect(screen.getByText("Select chart")).toBeInTheDocument();
+        expect(screen.getByRole("button")).toBeInTheDocument();
     });
 
     test("renders all chart options", () => {
@@ -38,7 +40,9 @@ describe("ChartSelector Component", () => {
             />
         );
 
-        expect(screen.getByText("Sales by Country")).toBeInTheDocument();
+        // open dropdown
+        fireEvent.click(screen.getByRole("button"));
+
         expect(screen.getByText("Sales by Brand")).toBeInTheDocument();
         expect(screen.getByText("Sales Trend")).toBeInTheDocument();
     });
@@ -52,8 +56,9 @@ describe("ChartSelector Component", () => {
             />
         );
 
-        const select = screen.getByRole("combobox");
-        expect(select.value).toBe("sales-brand");
+        const selectButton = screen.getByRole("button");
+
+        expect(selectButton).toHaveTextContent("Sales by Brand");
     });
 
     test("calls setSelectedChart when selecting a new option", () => {
@@ -65,9 +70,9 @@ describe("ChartSelector Component", () => {
             />
         );
 
-        const select = screen.getByRole("combobox");
+        fireEvent.click(screen.getByRole("button")); // open dropdown
 
-        fireEvent.change(select, { target: { value: "sales-trend" } });
+        fireEvent.click(screen.getByText("Sales Trend")); // click option
 
         expect(setSelectedChart).toHaveBeenCalledWith("sales-trend");
     });

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -17,7 +17,7 @@ const REVERSE_DATE_RANGE_MAP = Object.fromEntries(
     Object.entries(DATE_RANGE_MAP).map(([label, value]) => [value, label])
 );
 
-export default function FilterBar({
+export default function FilterBarDashboard({
   filters,
   setFilters,
   options,

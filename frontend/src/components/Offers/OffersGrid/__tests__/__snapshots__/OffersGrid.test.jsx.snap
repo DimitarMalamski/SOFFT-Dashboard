@@ -60,14 +60,9 @@ exports[`OffersGrid Component > matches snapshot 1`] = `
               Salespeople:
             </span>
             <span
-              class="inline-flex flex-wrap gap-1 items-center"
+              class="text-gray-400"
             >
-              <span
-                class="px-2 py-0.5 bg-emerald-800/60 border border-emerald-700
-                       text-emerald-100 text-xs rounded-full whitespace-nowrap"
-              >
-                Alice
-              </span>
+              N/A
             </span>
           </div>
           <p>

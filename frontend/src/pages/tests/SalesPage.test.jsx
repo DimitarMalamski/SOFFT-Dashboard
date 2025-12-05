@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import SalesPage from "../Sales.jsx";
 import * as useSalesDataHook from "../../hooks/salesPage/useSalesData.js";
 

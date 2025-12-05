@@ -1,0 +1,28 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CompactMultiSelect Component > matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="relative w-full"
+  >
+    <label
+      class="text-[11px] text-emerald-200 block mb-1"
+    >
+      Test Label
+    </label>
+    <button
+      class="w-full flex justify-between items-center bg-emerald-900 border border-emerald-700 rounded-md px-2 py-1 text-xs text-emerald-50 hover:bg-emerald-800"
+      type="button"
+    >
+      <span>
+        1 selected
+      </span>
+      <span
+        class="text-emerald-300"
+      >
+        ▾
+      </span>
+    </button>
+  </div>
+</DocumentFragment>
+`;

@@ -3,9 +3,11 @@ export function filterOffersOverview(offers, filters) {
 
         const matchesSalesmen =
             filters.salesmen.length === 0 ||
-            offer.salesPerson?.some((p) =>
-                filters.salesmen.includes(p.name)
-            );
+            offer.salesPerson?.some((p) => {
+                const name = p?.name?.trim();
+                if (!name) return false;
+                return filters.salesmen.includes(name);
+            });
 
         const matchesProductType =
             filters.productTypes.length === 0 ||

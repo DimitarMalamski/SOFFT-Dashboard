@@ -5,12 +5,12 @@ describe("extractFilterOptions", () => {
         {
             status: "Pending",
             depotName: "North Hub",
-            salesPersonName: [{ name: "Anna" }, { name: "Ben" }],
+            salesPersons: [{ name: "Anna" }, { name: "Ben" }],
         },
         {
             status: "Declined",
             depotName: "South Hub",
-            salesPersonName: [{ name: "Anna" }],
+            salesPersons: [{ name: "Anna" }],
         },
     ];
 

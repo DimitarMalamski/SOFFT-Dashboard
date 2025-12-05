@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import FilterBar from "../FilterBar.jsx";
+import FilterBarOffers from "../FilterBarOffers.jsx";
 import * as hook from "../../../../hooks/offersPage/useOfferFilters.js";
 
-describe("FilterBar Component", () => {
+describe("FilterBarDashboard Component", () => {
     const mockHandleChange = vi.fn();
     const mockHandleReset = vi.fn();
 
@@ -25,7 +25,7 @@ describe("FilterBar Component", () => {
     });
 
     test("renders dropdowns with correct options", () => {
-        render(<FilterBar offers={[]} onFilterChange={vi.fn()} />);
+        render(<FilterBarOffers offers={[]} onFilterChange={vi.fn()} />);
 
         expect(screen.getByText("Statuses")).toBeInTheDocument();
         expect(screen.getByText("Salespersons")).toBeInTheDocument();
@@ -40,7 +40,7 @@ describe("FilterBar Component", () => {
     });
 
     test("calls handleChange when a dropdown option is clicked", () => {
-        render(<FilterBar offers={[]} onFilterChange={vi.fn()} />);
+        render(<FilterBarOffers offers={[]} onFilterChange={vi.fn()} />);
 
         fireEvent.click(screen.getAllByText("All")[0]);
 
@@ -50,13 +50,64 @@ describe("FilterBar Component", () => {
     });
 
     test("shows and triggers reset button", () => {
-        render(<FilterBar offers={[]} onFilterChange={vi.fn()} />);
+        render(<FilterBarOffers offers={[]} onFilterChange={vi.fn()} />);
 
         const resetButton = screen.getByRole("button", { name: /reset/i });
         expect(resetButton).toBeInTheDocument();
 
         fireEvent.click(resetButton);
         expect(mockHandleReset).toHaveBeenCalled();
+    });
+
+    test("opens all dropdowns independently", () => {
+        render(<FilterBarOffers offers={[]} onFilterChange={vi.fn()} />);
+
+        const [_, salespersons, depots] = screen.getAllByText("All");
+
+        fireEvent.click(salespersons);
+        expect(screen.getByText("Anna")).toBeInTheDocument();
+        expect(screen.getByText("Ben")).toBeInTheDocument();
+
+        fireEvent.click(depots);
+        expect(screen.getByText("North Hub")).toBeInTheDocument();
+        expect(screen.getByText("South Hub")).toBeInTheDocument();
+    });
+
+    test("calls handleChange for salespersons filter", () => {
+        render(<FilterBarOffers offers={[]} onFilterChange={vi.fn()} />);
+
+        fireEvent.click(screen.getAllByText("All")[1]); // Salespersons dropdown
+        fireEvent.click(screen.getByLabelText("Anna"));
+
+        expect(mockHandleChange).toHaveBeenCalledWith("salespersons", ["Anna"]);
+    });
+
+    test("calls handleChange for depots filter", () => {
+        render(<FilterBarOffers offers={[]} onFilterChange={vi.fn()} />);
+
+        fireEvent.click(screen.getAllByText("All")[2]);
+        fireEvent.click(screen.getByLabelText("North Hub"));
+
+        expect(mockHandleChange).toHaveBeenCalledWith("depots", ["North Hub"]);
+    });
+
+    test("passes correct props to all dropdowns", () => {
+        render(<FilterBarOffers offers={[]} onFilterChange={vi.fn()} />);
+
+        const dropdowns = screen.getAllByText("All");
+
+        expect(dropdowns.length).toBe(3);
+
+        expect(screen.getByText("Statuses")).toBeInTheDocument();
+        expect(screen.getByText("Salespersons")).toBeInTheDocument();
+        expect(screen.getByText("Depots")).toBeInTheDocument();
+    });
+
+    test("reset button includes RotateCcw icon", () => {
+        render(<FilterBarOffers offers={[]} onFilterChange={vi.fn()} />);
+
+        const resetButton = screen.getByRole("button", { name: /reset/i });
+        expect(resetButton.querySelector("svg")).not.toBeNull();
     });
 
     test("does not show reset button when no active filters", () => {
@@ -68,14 +119,14 @@ describe("FilterBar Component", () => {
             hasActiveFilters: false,
         });
 
-        render(<FilterBar offers={[]} onFilterChange={vi.fn()} />);
+        render(<FilterBarOffers offers={[]} onFilterChange={vi.fn()} />);
 
         expect(screen.queryByRole("button", { name: /reset/i })).toBeNull();
     });
 
     test("matches snapshot", () => {
         const { asFragment } = render(
-            <FilterBar offers={[]} onFilterChange={vi.fn()} />
+            <FilterBarOffers offers={[]} onFilterChange={vi.fn()} />
         );
 
         expect(asFragment()).toMatchSnapshot();
