@@ -1,6 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import axios from "axios";
 import SalesAPI from "../SalesAPI.js";
+import.meta.env.VITE_API_URL;
+
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 vi.mock("axios");
 
@@ -21,7 +24,7 @@ describe("SalesAPI", () => {
         expect(result).toEqual([{ id: 1 }, { id: 2 }]);
 
         expect(axios.get).toHaveBeenCalledWith(
-            "http://localhost:8080/api/salesoffers/sales?statuses=Approved&statuses=Completed"
+            `${BASE_URL}/api/salesoffers/sales?statuses=Approved&statuses=Completed`
         );
     });
 
@@ -34,7 +37,7 @@ describe("SalesAPI", () => {
         expect(result).toEqual([{ id: 99 }]);
 
         expect(axios.get).toHaveBeenCalledWith(
-            "http://localhost:8080/api/salesoffers/sales?statuses=Pending&statuses=Declined"
+            `${BASE_URL}/api/salesoffers/sales?statuses=Pending&statuses=Declined`
         );
     });
 
