@@ -11,7 +11,7 @@ export default function OffersPage() {
     const {
         offers,
         filteredOffers,
-        setFilters,
+        setFilteredOffers,
         loading,
         error,
     } = useOffersData();
@@ -61,7 +61,7 @@ export default function OffersPage() {
             </div>
 
             {layout === "grid" && (
-                <FilterBarOffers offers={offers} onFilterChange={setFilters} />
+                <FilterBarOffers offers={offers} onFilterChange={setFilteredOffers} />
             )}
 
             {layout === "charts" ? (
