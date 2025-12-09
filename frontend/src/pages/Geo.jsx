@@ -1,9 +1,9 @@
-import DashboardMap from "../components/GEO/DashboardMap.jsx";
+import GeoDashboardPage from "../components/GEO/GeoDashboardPage.jsx";
 
 export default function Geo() {
     return (
         <div className="p-4">
-            <DashboardMap />
+            <GeoDashboardPage />
         </div>
     );
 }
