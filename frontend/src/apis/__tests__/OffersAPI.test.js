@@ -1,6 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import axios from "axios";
 import OffersAPI from "../OffersAPI.js";
+import.meta.env.VITE_API_URL;
+
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 
 vi.mock("axios");
 
@@ -30,7 +34,7 @@ describe("OffersAPI", () => {
         await OffersAPI.getOffersByStatus();
 
         expect(axios.get).toHaveBeenCalledWith(
-            "http://localhost:8080/api/salesoffers/sales",
+            `${BASE_URL}/api/salesoffers/sales`,
             { params: { statuses: ["Pending", "Declined"] } }
         );
     });
