@@ -25,26 +25,33 @@ public class ProductDTO {
     private SellerDTO seller;
     private LocationDTO location;
 
+
     public ProductDTO(Product product, SellerDTO seller, LocationDTO location) {
-        this.id = product.getId();
-        this.truckId = product.getTruckId();
+
+        if (product == null) {
+            product = new Product();
+        }
+
+        this.id = product.getId() != null ? product.getId() : 0;
+        this.truckId = product.getTruckId() != null ? product.getTruckId() : 0;
         this.productType = product.getProductType();
         this.brand = product.getBrand();
         this.model = product.getModel();
         this.type = product.getTypeCode();
         this.configuration = product.getConfiguration();
         this.imageUrl = product.getImageUrl();
-        this.status = product.getStatus();
+        this.status = product.getStatus() != null ? product.getStatus() : 0;
         this.color = product.getColor();
         this.firstRegistrationDate = product.getFirstRegistrationDate();
         this.productionDate = product.getProductionDate();
-        this.mileage = product.getMileage();
+        this.mileage = product.getMileage() != null ? product.getMileage() : 0;
         this.enginePower = product.getEnginePower();
         this.licensePlate = product.getLicensePlate();
         this.vin = product.getVin();
         this.seller = seller;
         this.location = location;
     }
+
 
     public ProductDTO() {
     }
