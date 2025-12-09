@@ -3,37 +3,36 @@
 exports[`ChartSelector Component > matches snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="mb-2"
+    class="relative flex flex-col gap-1"
   >
     <label
-      class="block mb-2 text-xs/5 text-emerald-100"
-      for="chart-select"
+      class="text-xs font-medium text-emerald-200"
     >
-      Select chart:
+      Select chart
     </label>
-    <select
-      class="bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2 shadow-sm"
-      id="chart-select"
+    <button
+      class="
+                    flex items-center justify-between
+                    bg-emerald-900 border border-emerald-700 rounded-md
+                    px-3 py-1.5 h-[32px] text-xs text-emerald-50
+                    hover:bg-emerald-800 transition
+                "
+      type="button"
     >
-      <option
-        class="bg-emerald-950 text-white"
-        value="sales-country"
+      <span
+        class="flex items-center gap-2"
       >
+        <svg
+          data-testid="icon"
+        />
         Sales by Country
-      </option>
-      <option
-        class="bg-emerald-950 text-white"
-        value="sales-brand"
+      </span>
+      <span
+        class="text-emerald-300"
       >
-        Sales by Brand
-      </option>
-      <option
-        class="bg-emerald-950 text-white"
-        value="sales-trend"
-      >
-        Sales Trend
-      </option>
-    </select>
+        ▾
+      </span>
+    </button>
   </div>
 </DocumentFragment>
 `;

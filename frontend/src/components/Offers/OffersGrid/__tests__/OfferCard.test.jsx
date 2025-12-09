@@ -10,7 +10,7 @@ describe("OfferCard Component", () => {
         depotName: "North Hub",
         expiresAt: "2025-11-10T11:37:32.58",
         totalPrice: 85000,
-        salesPersonName: [{ name: "Anna Svensson" }],
+        salesPersons: [{ name: "Anna Svensson" }],
     };
 
     test("renders offer details correctly", () => {

@@ -11,10 +11,10 @@ vi.mock("../../components/Offers/ChartsSection/ChartsSection.jsx", () => ({
 vi.mock("../../components/Offers/OffersGrid/OffersGrid.jsx", () => ({
     default: () => <div data-testid="offers-grid" />,
 }));
-vi.mock("../../components/Offers/FilterBar/FilterBar.jsx", () => ({
+vi.mock("../../components/Offers/FilterBar/FilterBarOffers.jsx", () => ({
     default: () => <div data-testid="filter-bar" />,
 }));
-vi.mock("../../components/Offers/FilterBar/LayoutButton.jsx", () => ({
+vi.mock("../../components/Offers/FilterBarDashboard/LayoutButton.jsx", () => ({
     default: ({ title, onClick, active }) => (
         <button
             data-testid={title}
@@ -86,7 +86,7 @@ describe("OffersPage Component", () => {
         vi.spyOn(useOffersDataHook, "default").mockReturnValue(baseHookData);
 
         render(<OffersPage />);
-        const gridButton = screen.getByTestId("Grid view");
+        const gridButton = screen.getByTitle("Grid view");
         fireEvent.click(gridButton);
 
         expect(screen.getByTestId("filter-bar")).toBeInTheDocument();
@@ -99,10 +99,10 @@ describe("OffersPage Component", () => {
         vi.spyOn(useOffersDataHook, "default").mockReturnValue(baseHookData);
 
         render(<OffersPage />);
-        const gridButton = screen.getByTestId("Grid view");
+        const gridButton = screen.getByTitle("Grid view");
         fireEvent.click(gridButton);
 
-        const chartsButton = screen.getByTestId("Charts view");
+        const chartsButton = screen.getByTitle("Charts view");
         fireEvent.click(chartsButton);
 
         expect(screen.getByTestId("charts-section")).toBeInTheDocument();

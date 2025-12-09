@@ -4,17 +4,17 @@ describe("filterOffers Utility", () => {
     const offers = [
         {
             status: "Pending",
-            salesPersonName: [{ name: "Anna Svensson" }],
+            salesPersons: [{ name: "Anna Svensson" }],
             depotName: "North Hub",
         },
         {
             status: "Declined",
-            salesPersonName: [{ name: "John Smith" }],
+            salesPersons: [{ name: "John Smith" }],
             depotName: "London Storage",
         },
         {
             status: "Pending",
-            salesPersonName: [{ name: "Ben Thomas" }],
+            salesPersons: [{ name: "Ben Thomas" }],
             depotName: "Paris Hub",
         },
     ];
@@ -53,7 +53,7 @@ describe("filterOffers Utility", () => {
         const result = filterOffers(offers, filters);
 
         expect(result).toHaveLength(1);
-        expect(result[0].salesPersonName[0].name).toBe("John Smith");
+        expect(result[0].salesPersons[0].name).toBe("John Smith");
     });
 
     test("filters by depot name correctly", () => {
@@ -81,7 +81,7 @@ describe("filterOffers Utility", () => {
                 ...o,
                 status: o.status.toLowerCase(),
                 depotName: o.depotName.toLowerCase(),
-                salesPersonName: o.salesPersonName.map(p => ({ name: p.name.toLowerCase() }))
+                salesPersonName: o.salesPersons.map(p => ({ name: p.name.toLowerCase() }))
             })),
             filters
         );

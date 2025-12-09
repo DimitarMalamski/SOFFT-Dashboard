@@ -1,7 +1,14 @@
 import { useState, useMemo } from "react";
-import { extractFilterOptions } from "../../utils/offersPage/extractFilterOptions.js";
 
-export function useOfferFilters(offers, onFilterChange) {
+const DATE_RANGE_OPTIONS = [
+    "All Dates",
+    "Today",
+    "Last 7 Days",
+    "Last 30 Days",
+    "Custom",
+];
+
+export function useSalesFilters(sales) {
     const [filters, setFilters] = useState({
         statuses: [],
         salespersons: [],
@@ -11,35 +18,35 @@ export function useOfferFilters(offers, onFilterChange) {
         endDate: null,
     });
 
-    const options = useMemo(() => extractFilterOptions(offers), [offers]);
-
     function applyDateFilters(list, f) {
         let filtered = [...list];
         const now = new Date();
 
+        const getCompletedDate = (s) => new Date(s.completedAt || s.createdAt);
+
         if (f.dateRange === "Today") {
-            filtered = filtered.filter(o => {
-                const created = new Date(o.createdAt);
-                return created.toDateString() === now.toDateString();
+            filtered = filtered.filter(s => {
+                const d = getCompletedDate(s);
+                return d.toDateString() === now.toDateString();
             });
         }
 
         if (f.dateRange === "Last 7 Days") {
             const past = new Date(now);
             past.setDate(now.getDate() - 7);
-            filtered = filtered.filter(o => new Date(o.createdAt) >= past);
+            filtered = filtered.filter(s => getCompletedDate(s) >= past);
         }
 
         if (f.dateRange === "Last 30 Days") {
             const past = new Date(now);
             past.setDate(now.getDate() - 30);
-            filtered = filtered.filter(o => new Date(o.createdAt) >= past);
+            filtered = filtered.filter(s => getCompletedDate(s) >= past);
         }
 
         if (f.dateRange === "Custom" && f.startDate && f.endDate) {
-            filtered = filtered.filter(o => {
-                const created = new Date(o.createdAt);
-                return created >= f.startDate && created <= f.endDate;
+            filtered = filtered.filter(s => {
+                const d = getCompletedDate(s);
+                return d >= f.startDate && d <= f.endDate;
             });
         }
 
@@ -50,52 +57,47 @@ export function useOfferFilters(offers, onFilterChange) {
         let filtered = [...list];
 
         if (f.statuses.length > 0) {
-            filtered = filtered.filter(o => f.statuses.includes(o.status));
+            filtered = filtered.filter(s => f.statuses.includes(s.status));
         }
 
         if (f.salespersons.length > 0) {
-            filtered = filtered.filter(o =>
-                o.salesPersons?.some(sp => f.salespersons.includes(sp.name))
+            filtered = filtered.filter(s =>
+                s.salesPersons?.some(p => f.salespersons.includes(p.name))
             );
         }
 
         if (f.depots.length > 0) {
-            filtered = filtered.filter(o => f.depots.includes(o.depotName));
+            filtered = filtered.filter(s => f.depots.includes(s.depotName));
         }
 
         filtered = applyDateFilters(filtered, f);
-
         return filtered;
     }
 
-    const handleChange = (field, value) => {
+    const filtered = useMemo(() => applyAllFilters(sales, filters), [sales, filters]);
+
+    function updateFilter(field, value) {
         let updated = { ...filters, [field]: value };
 
+        // If switching away from custom, clear dates
         if (field === "dateRange" && value !== "Custom") {
             updated.startDate = null;
             updated.endDate = null;
         }
 
         setFilters(updated);
+    }
 
-        const filtered = applyAllFilters(offers, updated);
-
-        onFilterChange(filtered);
-    };
-
-    const handleReset = () => {
-        const reset = {
+    function resetFilters() {
+        setFilters({
             statuses: [],
             salespersons: [],
             depots: [],
             dateRange: "All Dates",
             startDate: null,
-            endDate: null
-        };
-
-        setFilters(reset);
-        onFilterChange(offers);
-    };
+            endDate: null,
+        });
+    }
 
     const hasActiveFilters =
         filters.statuses.length > 0 ||
@@ -105,5 +107,12 @@ export function useOfferFilters(offers, onFilterChange) {
         filters.startDate !== null ||
         filters.endDate !== null;
 
-    return { filters, options, handleChange, handleReset, hasActiveFilters };
+    return {
+        filters,
+        filtered,
+        updateFilter,
+        resetFilters,
+        hasActiveFilters,
+        DATE_RANGE_OPTIONS,
+    };
 }

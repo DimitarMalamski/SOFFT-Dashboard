@@ -139,9 +139,14 @@ exports[`SalesPage Integration Test > match snapshot 1`] = `
                 class="max-w-[250px]"
               >
                 <span
-                  class="text-gray-400"
+                  class="inline-flex flex-wrap gap-1 items-center"
                 >
-                  N/A
+                  <span
+                    class="px-2 py-0.5 bg-emerald-800/60 border border-emerald-700
+                       text-emerald-100 text-xs rounded-full whitespace-nowrap"
+                  >
+                    Anna Svensson
+                  </span>
                 </span>
               </div>
             </td>
@@ -200,9 +205,14 @@ exports[`SalesPage Integration Test > match snapshot 1`] = `
                 class="max-w-[250px]"
               >
                 <span
-                  class="text-gray-400"
+                  class="inline-flex flex-wrap gap-1 items-center"
                 >
-                  N/A
+                  <span
+                    class="px-2 py-0.5 bg-emerald-800/60 border border-emerald-700
+                       text-emerald-100 text-xs rounded-full whitespace-nowrap"
+                  >
+                    John Smith
+                  </span>
                 </span>
               </div>
             </td>

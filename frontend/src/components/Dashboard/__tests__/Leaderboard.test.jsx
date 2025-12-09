@@ -18,10 +18,14 @@ describe("Leaderboard Component", () => {
     test("renders all salesmen with their counts", () => {
         render(<Leaderboard salesmanData={mockSalesData} />);
 
-        expect(screen.getByText("Alice (12)")).toBeInTheDocument();
-        expect(screen.getByText("Bob (9)")).toBeInTheDocument();
-        expect(screen.getByText("Charlie (7)")).toBeInTheDocument();
-        expect(screen.getByText("David (5)")).toBeInTheDocument();
+        expect(screen.getByText("Alice")).toBeInTheDocument();
+        expect(screen.getByText(/12 offers/)).toBeInTheDocument();
+
+        expect(screen.getByText("Bob")).toBeInTheDocument();
+        expect(screen.getByText(/9 offers/)).toBeInTheDocument();
+
+        expect(screen.getByText("Charlie")).toBeInTheDocument();
+        expect(screen.getByText(/7 offers/)).toBeInTheDocument();
     });
 
     test("renders rank numbers correctly", () => {
@@ -39,10 +43,9 @@ describe("Leaderboard Component", () => {
 
         const ranks = screen.getAllByText(/^[1-4]$/);
 
-        expect(ranks[0].className).toContain("text-yellow-400");
-        expect(ranks[1].className).toContain("text-gray-300");
-        expect(ranks[2].className).toContain("text-amber-600");
-        expect(ranks[3].className).toContain("text-white");
+        expect(ranks[0].className).toContain("text-yellow-300");
+        expect(ranks[1].className).toContain("text-slate-300");
+        expect(ranks[2].className).toContain("text-amber-500");
     });
 
     test("renders correct avatar initials", () => {

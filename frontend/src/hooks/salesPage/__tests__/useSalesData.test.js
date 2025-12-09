@@ -10,12 +10,12 @@ describe("useSalesData Hook", () => {
     const mockSales = [
         {
             status: "Approved",
-            salesPersonName: [{ name: "Anna" }],
+            salesPersons: [{ name: "Anna" }],
             depotName: "North Hub",
         },
         {
             status: "Completed",
-            salesPersonName: [{ name: "Ben" }],
+            salesPersons: [{ name: "Ben" }],
             depotName: "South Hub",
         },
     ];
@@ -82,7 +82,7 @@ describe("useSalesData Hook", () => {
         });
 
         expect(result.current.filtered).toHaveLength(1);
-        expect(result.current.filtered[0].salesPersonName[0].name).toBe("Anna");
+        expect(result.current.filtered[0].salesPersons[0].name).toBe("Anna");
     });
 
     test("filters by depot", async () => {

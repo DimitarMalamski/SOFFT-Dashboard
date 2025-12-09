@@ -1,6 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import axios from "axios";
 import SalesOffersAPI from "../SalesOffersAPI.js";
+import.meta.env.VITE_API_URL;
+
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 vi.mock("axios");
 
@@ -18,7 +21,7 @@ describe("SalesOffersAPI", () => {
         expect(result).toEqual([{ id: 1 }]);
 
         expect(axios.get).toHaveBeenCalledWith(
-            "http://localhost:8080/api/salesoffers/simple"
+            `${BASE_URL}/api/salesoffers/simple`
         );
     });
 
@@ -31,7 +34,7 @@ describe("SalesOffersAPI", () => {
         expect(result).toEqual([{ country: "DE", count: 5 }]);
 
         expect(axios.get).toHaveBeenCalledWith(
-            "http://localhost:8080/api/salesoffers/per-country"
+            `${BASE_URL}/api/salesoffers/per-country`
         );
     });
 

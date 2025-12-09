@@ -5,17 +5,18 @@ import SalesFilters from "../components/Sales/SalesFilters.jsx";
 import SalesTable from "../components/Sales/SalesTable.jsx";
 import ChartSalesByPerson from "../components/Sales/ChartSalesByPerson.jsx";
 import ChartSalesByDepot from "../components/Sales/ChartSalesByDepot.jsx";
+import {useSalesFilters} from "../hooks/salesPage/useSalesFilters.js";
 
 export default function SalesPage() {
+    const { sales, loading, error } = useSalesData();
     const {
-        sales,
-        filtered,
         filters,
-        setFilters,
+        filtered,
+        updateFilter,
         resetFilters,
-        loading,
-        error,
-    } = useSalesData();
+        hasActiveFilters,
+        DATE_RANGE_OPTIONS
+    } = useSalesFilters(sales);
 
     const {
         currentPage,
@@ -58,9 +59,11 @@ export default function SalesPage() {
         <div className="p-6 flex flex-col gap-6 bg-emerald-900 min-h-screen text-emerald-50">
             <SalesFilters
                 filters={filters}
-                setFilters={setFilters}
-                sales={sales}
+                updateFilter={updateFilter}
                 resetFilters={resetFilters}
+                hasActiveFilters={hasActiveFilters}
+                DATE_RANGE_OPTIONS={DATE_RANGE_OPTIONS}
+                sales={sales}
             />
             <SalesTable
                 data={currentData}

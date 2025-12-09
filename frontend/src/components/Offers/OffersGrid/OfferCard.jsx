@@ -9,11 +9,6 @@ export default function OfferCard({ offer }) {
     const expiresAt = offer.expiresAt ? offer.expiresAt.split("T")[0] : "N/A";
     const totalPrice = Number(offer.totalPrice) || 0;
 
-    const salesPersons =
-        offer.salesPersons?.length > 0
-            ? offer.salesPersons.map((p) => p.name).join(", ")
-            : "N/A";
-
     return (
         <div
             key={offer.uuid}

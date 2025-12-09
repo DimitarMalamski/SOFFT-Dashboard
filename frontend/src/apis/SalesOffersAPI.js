@@ -1,6 +1,8 @@
 import axios from "axios";
+import.meta.env.VITE_API_URL;
 
-const SALE_OFFERS_BASE_URL = "http://localhost:8080/api/salesoffers";
+const BASE_URL = import.meta.env.VITE_API_URL;
+const SALE_OFFERS_BASE_URL = `${BASE_URL}/api/salesoffers`;
 
 const SalesOffersAPI = {
     getSalesOffers: () => axios.get(`${SALE_OFFERS_BASE_URL}/simple`)
