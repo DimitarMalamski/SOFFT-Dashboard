@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useOffersDataOverview from "../hooks/overviewPage/useOffersDataOverview.js";
 import FilterBar from "../components/Dashboard/FilterBar.jsx";
 import ChartSection from "../components/Dashboard/ChartSection.jsx";
 import { chartOptions } from "../config/chartOptions.js";
 import ChartSelector from "../components/Dashboard/ChartSelector.jsx";
 import {
-    transformData,
-    getLast7DaysOrders,
-    getConversionStats,
-    getTimeToSale,
-    transformSalesMan,
+  transformData,
+  getLast7DaysOrders,
+  getConversionStats,
+  getTimeToSale,
+  transformSalesMan,
 } from '../utils/overviewPage/offerTransformations.js';
 import Leaderboard from '../components/Dashboard/Leaderboard.jsx';
 import SalesTrendChart from '../components/Charts/SalesTrendChart.jsx';
@@ -17,38 +17,38 @@ import ConversionsCard from '../components/Charts/ConversionsChart.jsx';
 import TimeToSaleCard from '../components/Charts/TimeToSaleChart.jsx';
 
 export default function Dashboard() {
-    const [selectedChart, setSelectedChart] = useState(chartOptions[0].value);
+  const [selectedChart, setSelectedChart] = useState(chartOptions[0].value);
 
-    const {
-        offers,
-        filteredOffers,
-        filters,
-        setFilters,
-        options,
-        applyFilters,
-        loading,
-        error
-    } = useOffersDataOverview();
+  const {
+    offers,
+    filteredOffers,
+    filters,
+    setFilters,
+    options,
+    applyFilters,
+    loading,
+    error
+  } = useOffersDataOverview();
 
-    if (loading) {
-        return (
-            <div className="flex items-center justify-center h-dvh">
-                <div
-                    data-testid="loading-spinner"
-                    className="w-12 h-12 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin"></div>
-            </div>
-        );
-    }
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-dvh">
+        <div
+          data-testid="loading-spinner"
+          className="w-12 h-12 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
-    if (error) {
-        return (
-            <div className="flex items-center justify-center h-dvh">
-                <div className="text-red-400 text-lg">
-                    Failed to load data. Please try again later.
-                </div>
-            </div>
-        );
-    }
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-dvh">
+        <div className="text-red-400 text-lg">
+          Failed to load data. Please try again later.
+        </div>
+      </div>
+    );
+  }
 
   const allSalesmen = transformSalesMan(offers);
   const leaders = allSalesmen.slice(0, 6);
@@ -77,26 +77,26 @@ export default function Dashboard() {
 
       <div className='bg-emerald-900 p-4 shadow-md rounded-md mt-4 min-h-0'>
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-4 min-h-0'>
-            <section className='lg:col-span-2 min-h-0'>
-                <ChartSelector
-                    selectedChart={selectedChart}
-                    setSelectedChart={setSelectedChart}
-                    chartOptions={chartOptions}
-                />
+          <section className='lg:col-span-2 min-h-0'>
+            <ChartSelector
+              selectedChart={selectedChart}
+              setSelectedChart={setSelectedChart}
+              chartOptions={chartOptions}
+            />
 
-                <FilterBar
-                    filters={filters}
-                    setFilters={setFilters}
-                    options={options}
-                    applyFilters={applyFilters}
-                />
+            <FilterBar
+              filters={filters}
+              setFilters={setFilters}
+              options={options}
+              applyFilters={applyFilters}
+            />
 
-                <ChartSection
-                    selectedChart={selectedChart}
-                    chartOptions={chartOptions}
-                    chartData={chartData}
-                />
-            </section>
+            <ChartSection
+              selectedChart={selectedChart}
+              chartOptions={chartOptions}
+              chartData={chartData}
+            />
+          </section>
           <aside className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-0'>
             <Leaderboard salesmanData={leaders} />
           </aside>

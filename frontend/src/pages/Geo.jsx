@@ -1,9 +1,11 @@
-import DashboardMap from "../components/GEO/DashboardMap.jsx";
+import GeoDashboardPage from "../components/GEO/GeoDashboardPage.jsx";
+import OfferSummaryCards from "../components/GEO/OfferSummaryCards.jsx";
 
 export default function Geo() {
     return (
-        <div className="p-4">
-            <DashboardMap />
+        <div className="">
+            <OfferSummaryCards />
+            <GeoDashboardPage />
         </div>
     );
 }
