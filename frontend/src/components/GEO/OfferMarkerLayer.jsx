@@ -6,13 +6,24 @@ import { Marker, Popup } from "react-leaflet";
 function OfferMarkersLayer({ points, currentZoom, minZoom = 7, onSelectOffer }) {
     if (currentZoom < minZoom) return null;
 
+    const greenMarker = new L.Icon({
+        iconUrl:
+            "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+        shadowSize: [41, 41],
+    });
+
     return (
         <Fragment>
             {points.map((offer) => (
                 <Marker
-                    color="green"
                     key={offer.id}
                     position={[offer.latitude, offer.longitude]}
+                    icon={greenMarker}
                     eventHandlers={{
                         click() {
                             if (onSelectOffer) onSelectOffer(offer);
@@ -29,20 +40,6 @@ function OfferMarkersLayer({ points, currentZoom, minZoom = 7, onSelectOffer }) 
                             <br />
                             Value: €{offer.offerValue.toLocaleString("nl-NL")}
                             <br />
-                            <button
-                                style={{
-                                    marginTop: "8px",
-                                    padding: "4px 8px",
-                                    borderRadius: "4px",
-                                    border: "none",
-                                    cursor: "pointer",
-                                }}
-                                onClick={() => {
-                                    if (onSelectOffer) onSelectOffer(offer);
-                                }}
-                            >
-                                View details
-                            </button>
                         </div>
                     </Popup>
                 </Marker>

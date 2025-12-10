@@ -31,54 +31,50 @@ export const offerPoints = [
   },
 
   // Amsterdam region
-  { id: "SO-001", countryCode: "NL", latitude: 52.3702, longitude: 4.8952, status: "Pending", offerValue: 54000, customerName: "Amsterdam Truck Center" },
-  { id: "SO-002", countryCode: "NL", latitude: 52.3680, longitude: 4.9036, status: "Draft", offerValue: 47000, customerName: "Holland Fleet Services" },
-  { id: "SO-003", countryCode: "NL", latitude: 52.3791, longitude: 4.9123, status: "Confirmed", offerValue: 61000, customerName: "City Logistics BV" },
-  { id: "SO-004", countryCode: "NL", latitude: 52.3650, longitude: 4.8884, status: "Canceled", offerValue: 35000, customerName: "Metro Transportgroep" },
-  { id: "SO-005", countryCode: "NL", latitude: 52.3861, longitude: 4.8744, status: "Pending", offerValue: 82000, customerName: "Noord-Holland Vehicles" },
+  { id: "SO-151", countryCode: "NL", latitude: 52.3702, longitude: 4.8952, status: "Pending", offerValue: 54000, customerName: "Amsterdam Truck Center" },
+  { id: "SO-152", countryCode: "NL", latitude: 52.3680, longitude: 4.9036, status: "Draft", offerValue: 47000, customerName: "Holland Fleet Services" },
+  { id: "SO-153", countryCode: "NL", latitude: 52.3791, longitude: 4.9123, status: "Confirmed", offerValue: 61000, customerName: "City Logistics BV" },
+  { id: "SO-154", countryCode: "NL", latitude: 52.3650, longitude: 4.8884, status: "Canceled", offerValue: 35000, customerName: "Metro Transportgroep" },
+  { id: "SO-155", countryCode: "NL", latitude: 52.3861, longitude: 4.8744, status: "Pending", offerValue: 82000, customerName: "Noord-Holland Vehicles" },
 
   // Rotterdam region
-  { id: "SO-006", countryCode: "NL", latitude: 51.9244, longitude: 4.4777, status: "Pending", offerValue: 76000, customerName: "Rotterdam Transportgroep" },
-  { id: "SO-007", countryCode: "NL", latitude: 51.9271, longitude: 4.4824, status: "Draft", offerValue: 42000, customerName: "Haven Fleet Services" },
-  { id: "SO-008", countryCode: "NL", latitude: 51.9198, longitude: 4.4741, status: "Confirmed", offerValue: 94000, customerName: "Maas Logistics BV" },
-  { id: "SO-009", countryCode: "NL", latitude: 51.9302, longitude: 4.4532, status: "Pending", offerValue: 58000, customerName: "Port Trucks Holland" },
-  { id: "SO-010", countryCode: "NL", latitude: 51.9382, longitude: 4.5060, status: "Confirmed", offerValue: 69000, customerName: "Rijnmond Transport" },
+  { id: "SO-156", countryCode: "NL", latitude: 51.9244, longitude: 4.4777, status: "Pending", offerValue: 76000, customerName: "Rotterdam Transportgroep" },
+  { id: "SO-157", countryCode: "NL", latitude: 51.9271, longitude: 4.4824, status: "Draft", offerValue: 42000, customerName: "Haven Fleet Services" },
+  { id: "SO-158", countryCode: "NL", latitude: 51.9198, longitude: 4.4741, status: "Confirmed", offerValue: 94000, customerName: "Maas Logistics BV" },
+  { id: "SO-159", countryCode: "NL", latitude: 51.9302, longitude: 4.4532, status: "Pending", offerValue: 58000, customerName: "Port Trucks Holland" },
+  { id: "SO-160", countryCode: "NL", latitude: 51.9382, longitude: 4.5060, status: "Confirmed", offerValue: 69000, customerName: "Rijnmond Transport" },
 
   // Utrecht region
-  { id: "SO-011", countryCode: "NL", latitude: 52.0907, longitude: 5.1214, status: "Pending", offerValue: 55000, customerName: "Utrecht Mobility BV" },
-  { id: "SO-012", countryCode: "NL", latitude: 52.0952, longitude: 5.1139, status: "Draft", offerValue: 48000, customerName: "Domstad Vehicles" },
-  { id: "SO-013", countryCode: "NL", latitude: 52.0862, longitude: 5.1303, status: "Confirmed", offerValue: 87000, customerName: "Central Transport Group" },
-  { id: "SO-014", countryCode: "NL", latitude: 52.1012, longitude: 5.0902, status: "Canceled", offerValue: 33000, customerName: "Holland Trailer Services" },
-  { id: "SO-015", countryCode: "NL", latitude: 52.0780, longitude: 5.1280, status: "Pending", offerValue: 72000, customerName: "Utrecht Trucks & More" },
+  { id: "SO-111", countryCode: "NL", latitude: 52.0907, longitude: 5.1214, status: "Pending", offerValue: 55000, customerName: "Utrecht Mobility BV" },
+  { id: "SO-112", countryCode: "NL", latitude: 52.0952, longitude: 5.1139, status: "Draft", offerValue: 48000, customerName: "Domstad Vehicles" },
+  { id: "SO-113", countryCode: "NL", latitude: 52.0862, longitude: 5.1303, status: "Confirmed", offerValue: 87000, customerName: "Central Transport Group" },
+  { id: "SO-114", countryCode: "NL", latitude: 52.1012, longitude: 5.0902, status: "Canceled", offerValue: 33000, customerName: "Holland Trailer Services" },
+  { id: "SO-115", countryCode: "NL", latitude: 52.0780, longitude: 5.1280, status: "Pending", offerValue: 72000, customerName: "Utrecht Trucks & More" },
 
   // Eindhoven region
-  { id: "SO-016", countryCode: "NL", latitude: 51.4416, longitude: 5.4697, status: "Pending", offerValue: 62000, customerName: "Eindhoven Truck Services" },
-  { id: "SO-017", countryCode: "NL", latitude: 51.4503, longitude: 5.4795, status: "Draft", offerValue: 39000, customerName: "Brainport Logistics Group" },
-  { id: "SO-018", countryCode: "NL", latitude: 51.4320, longitude: 5.4592, status: "Confirmed", offerValue: 91000, customerName: "Kempen Transportcentrum" },
-  { id: "SO-019", countryCode: "NL", latitude: 51.4444, longitude: 5.5033, status: "Pending", offerValue: 55000, customerName: "Zuidoost Fleet BV" },
-  { id: "SO-020", countryCode: "NL", latitude: 51.4349, longitude: 5.4561, status: "Confirmed", offerValue: 78000, customerName: "EHV Logistics" },
-
+  { id: "SO-116", countryCode: "NL", latitude: 51.4416, longitude: 5.4697, status: "Pending", offerValue: 62000, customerName: "Eindhoven Truck Services" },
+  { id: "SO-117", countryCode: "NL", latitude: 51.4503, longitude: 5.4795, status: "Draft", offerValue: 39000, customerName: "Brainport Logistics Group" },
+  { id: "SO-118", countryCode: "NL", latitude: 51.4320, longitude: 5.4592, status: "Confirmed", offerValue: 91000, customerName: "Kempen Transportcentrum" },
+  { id: "SO-119", countryCode: "NL", latitude: 51.4444, longitude: 5.5033, status: "Pending", offerValue: 55000, customerName: "Zuidoost Fleet BV" },
+  { id: "SO-120", countryCode: "NL", latitude: 51.4349, longitude: 5.4561, status: "Confirmed", offerValue: 78000, customerName: "EHV Logistics" },
   // Groningen region
-  { id: "SO-021", countryCode: "NL", latitude: 53.2194, longitude: 6.5665, status: "Draft", offerValue: 41000, customerName: "Groningen Freight BV" },
-  { id: "SO-022", countryCode: "NL", latitude: 53.2161, longitude: 6.5802, status: "Pending", offerValue: 60000, customerName: "Noord Transportbedrijf" },
-  { id: "SO-023", countryCode: "NL", latitude: 53.2305, longitude: 6.5688, status: "Confirmed", offerValue: 72000, customerName: "Groninger Trucks" },
-  { id: "SO-024", countryCode: "NL", latitude: 53.2098, longitude: 6.5634, status: "Canceled", offerValue: 29000, customerName: "City North Vehicles" },
-  { id: "SO-025", countryCode: "NL", latitude: 53.2400, longitude: 6.5550, status: "Pending", offerValue: 81000, customerName: "Wadden Logistics" },
-
+  { id: "SO-121", countryCode: "NL", latitude: 53.2194, longitude: 6.5665, status: "Draft", offerValue: 41000, customerName: "Groningen Freight BV" },
+  { id: "SO-122", countryCode: "NL", latitude: 53.2161, longitude: 6.5802, status: "Pending", offerValue: 60000, customerName: "Noord Transportbedrijf" },
+  { id: "SO-123", countryCode: "NL", latitude: 53.2305, longitude: 6.5688, status: "Confirmed", offerValue: 72000, customerName: "Groninger Trucks" },
+  { id: "SO-124", countryCode: "NL", latitude: 53.2098, longitude: 6.5634, status: "Canceled", offerValue: 29000, customerName: "City North Vehicles" },
+  { id: "SO-125", countryCode: "NL", latitude: 53.2400, longitude: 6.5550, status: "Pending", offerValue: 81000, customerName: "Wadden Logistics" },
   // Zwolle region
-  { id: "SO-026", countryCode: "NL", latitude: 52.5168, longitude: 6.0830, status: "Pending", offerValue: 58000, customerName: "Zwolle Truck Service" },
-  { id: "SO-027", countryCode: "NL", latitude: 52.5120, longitude: 6.0950, status: "Draft", offerValue: 42000, customerName: "IJssel Fleet Group" },
-  { id: "SO-028", countryCode: "NL", latitude: 52.5252, longitude: 6.0973, status: "Confirmed", offerValue: 67000, customerName: "Overijssel Transportbedrijf" },
-  { id: "SO-029", countryCode: "NL", latitude: 52.4983, longitude: 6.0771, status: "Pending", offerValue: 73000, customerName: "Zwolle Mobility BV" },
-  { id: "SO-030", countryCode: "NL", latitude: 52.5350, longitude: 6.1100, status: "Canceled", offerValue: 31000, customerName: "Truck Solutions IJsselland" },
-
+  { id: "SO-126", countryCode: "NL", latitude: 52.5168, longitude: 6.0830, status: "Pending", offerValue: 58000, customerName: "Zwolle Truck Service" },
+  { id: "SO-127", countryCode: "NL", latitude: 52.5120, longitude: 6.0950, status: "Draft", offerValue: 42000, customerName: "IJssel Fleet Group" },
+  { id: "SO-128", countryCode: "NL", latitude: 52.5252, longitude: 6.0973, status: "Confirmed", offerValue: 67000, customerName: "Overijssel Transportbedrijf" },
+  { id: "SO-129", countryCode: "NL", latitude: 52.4983, longitude: 6.0771, status: "Pending", offerValue: 73000, customerName: "Zwolle Mobility BV" },
+  { id: "SO-130", countryCode: "NL", latitude: 52.5350, longitude: 6.1100, status: "Canceled", offerValue: 31000, customerName: "Truck Solutions IJsselland" },
   // Maastricht region
-  { id: "SO-031", countryCode: "NL", latitude: 50.8514, longitude: 5.6910, status: "Draft", offerValue: 39000, customerName: "Limburg Logistics BV" },
-  { id: "SO-032", countryCode: "NL", latitude: 50.8543, longitude: 5.6970, status: "Pending", offerValue: 51000, customerName: "Maastricht Mobility Services" },
-  { id: "SO-033", countryCode: "NL", latitude: 50.8610, longitude: 5.7035, status: "Confirmed", offerValue: 76000, customerName: "Zuid NL Transport" },
-  { id: "SO-034", countryCode: "NL", latitude: 50.8431, longitude: 5.6804, status: "Pending", offerValue: 81000, customerName: "Europoort Freight BV" },
-  { id: "SO-035", countryCode: "NL", latitude: 50.8575, longitude: 5.7101, status: "Canceled", offerValue: 27000, customerName: "Limburg Heavy Transport" },
-
+  { id: "SO-131", countryCode: "NL", latitude: 50.8514, longitude: 5.6910, status: "Draft", offerValue: 39000, customerName: "Limburg Logistics BV" },
+  { id: "SO-132", countryCode: "NL", latitude: 50.8543, longitude: 5.6970, status: "Pending", offerValue: 51000, customerName: "Maastricht Mobility Services" },
+  { id: "SO-133", countryCode: "NL", latitude: 50.8610, longitude: 5.7035, status: "Confirmed", offerValue: 76000, customerName: "Zuid NL Transport" },
+  { id: "SO-134", countryCode: "NL", latitude: 50.8431, longitude: 5.6804, status: "Pending", offerValue: 81000, customerName: "Europoort Freight BV" },
+  { id: "SO-135", countryCode: "NL", latitude: 50.8575, longitude: 5.7101, status: "Canceled", offerValue: 27000, customerName: "Limburg Heavy Transport" },
   // Arnhem / Nijmegen
   { id: "SO-036", countryCode: "NL", latitude: 51.9851, longitude: 5.8987, status: "Pending", offerValue: 62000, customerName: "Arnhem Logistics Group" },
   { id: "SO-037", countryCode: "NL", latitude: 51.9894, longitude: 5.9223, status: "Draft", offerValue: 45000, customerName: "Gelderland Fleet BV" },
@@ -87,19 +83,17 @@ export const offerPoints = [
   { id: "SO-040", countryCode: "NL", latitude: 51.8014, longitude: 5.8480, status: "Canceled", offerValue: 32000, customerName: "Oost Nederland Trucking" },
 
   // Tilburg / Breda
-  { id: "SO-041", countryCode: "NL", latitude: 51.5555, longitude: 5.0913, status: "Pending", offerValue: 68000, customerName: "Tilburg Freight BV" },
-  { id: "SO-042", countryCode: "NL", latitude: 51.5870, longitude: 4.7759, status: "Confirmed", offerValue: 75000, customerName: "Breda Transportbedrijf" },
-  { id: "SO-043", countryCode: "NL", latitude: 51.5630, longitude: 5.0800, status: "Draft", offerValue: 44000, customerName: "Brabant Vehicle Group" },
-  { id: "SO-044", countryCode: "NL", latitude: 51.5950, longitude: 4.7800, status: "Pending", offerValue: 83000, customerName: "West-Brabant Logistics" },
-  { id: "SO-045", countryCode: "NL", latitude: 51.6001, longitude: 4.8200, status: "Canceled", offerValue: 36000, customerName: "Kempenland Transport" },
-
+  { id: "SO-141", countryCode: "NL", latitude: 51.5555, longitude: 5.0913, status: "Pending", offerValue: 68000, customerName: "Tilburg Freight BV" },
+  { id: "SO-142", countryCode: "NL", latitude: 51.5870, longitude: 4.7759, status: "Confirmed", offerValue: 75000, customerName: "Breda Transportbedrijf" },
+  { id: "SO-143", countryCode: "NL", latitude: 51.5630, longitude: 5.0800, status: "Draft", offerValue: 44000, customerName: "Brabant Vehicle Group" },
+  { id: "SO-144", countryCode: "NL", latitude: 51.5950, longitude: 4.7800, status: "Pending", offerValue: 83000, customerName: "West-Brabant Logistics" },
+  { id: "SO-145", countryCode: "NL", latitude: 51.6001, longitude: 4.8200, status: "Canceled", offerValue: 36000, customerName: "Kempenland Transport" },
   // The Hague region
-  { id: "SO-046", countryCode: "NL", latitude: 52.0705, longitude: 4.3007, status: "Pending", offerValue: 59000, customerName: "Den Haag Mobility Group" },
-  { id: "SO-047", countryCode: "NL", latitude: 52.0801, longitude: 4.3169, status: "Draft", offerValue: 41000, customerName: "Hofstad Fleet Services" },
-  { id: "SO-048", countryCode: "NL", latitude: 52.0617, longitude: 4.3246, status: "Confirmed", offerValue: 91000, customerName: "Randstad Transport" },
-  { id: "SO-049", countryCode: "NL", latitude: 52.0938, longitude: 4.2836, status: "Pending", offerValue: 64000, customerName: "South Holland Vehicles" },
-  { id: "SO-050", countryCode: "NL", latitude: 52.0550, longitude: 4.3015, status: "Canceled", offerValue: 28000, customerName: "Haaglanden Trucks BV" },
-
+  { id: "SO-146", countryCode: "NL", latitude: 52.0705, longitude: 4.3007, status: "Pending", offerValue: 59000, customerName: "Den Haag Mobility Group" },
+  { id: "SO-147", countryCode: "NL", latitude: 52.0801, longitude: 4.3169, status: "Draft", offerValue: 41000, customerName: "Hofstad Fleet Services" },
+  { id: "SO-148", countryCode: "NL", latitude: 52.0617, longitude: 4.3246, status: "Confirmed", offerValue: 91000, customerName: "Randstad Transport" },
+  { id: "SO-149", countryCode: "NL", latitude: 52.0938, longitude: 4.2836, status: "Pending", offerValue: 64000, customerName: "South Holland Vehicles" },
+  { id: "SO-150", countryCode: "NL", latitude: 52.0550, longitude: 4.3015, status: "Canceled", offerValue: 28000, customerName: "Haaglanden Trucks BV" },
   // Germany
   {
     id: "SO-004",
