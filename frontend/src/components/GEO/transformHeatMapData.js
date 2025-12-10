@@ -4,11 +4,13 @@
 export function transformHeatmapDataFromOffers(offers) {
   if (!offers || offers.length === 0) return [];
 
+  const maxOffers = 10; // adjust for your project scaling
+  const intensityScale = Math.min(offers.length / maxOffers, 1);
+
   return offers.map((offer) => [
     offer.latitude,
     offer.longitude,
-    // You can scale intensity by value if you like, but 1 is fine for now
-    1,
+    0.3 * intensityScale // reduces strength dramatically
   ]);
 }
 

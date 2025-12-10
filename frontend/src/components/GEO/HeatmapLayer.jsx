@@ -11,9 +11,10 @@ function HeatmapLayer({ points }) {
         if (!map || !points || points.length === 0) return;
 
         const heatLayer = window.L.heatLayer(points, {
-            radius: 35,
-            blur: 20,
+            radius: 20,
+            blur: 12,
             maxZoom: 6,
+            max: 0.4
         });
 
         heatLayer.addTo(map);

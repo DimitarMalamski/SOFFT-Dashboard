@@ -10,6 +10,7 @@ function OfferMarkersLayer({ points, currentZoom, minZoom = 7, onSelectOffer }) 
         <Fragment>
             {points.map((offer) => (
                 <Marker
+                    color="green"
                     key={offer.id}
                     position={[offer.latitude, offer.longitude]}
                     eventHandlers={{
