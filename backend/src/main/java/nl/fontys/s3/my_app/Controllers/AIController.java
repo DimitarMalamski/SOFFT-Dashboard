@@ -1,9 +1,8 @@
 package nl.fontys.s3.my_app.Controllers;
 
+import nl.fontys.s3.my_app.models.dtos.AI.ChatMessageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import nl.fontys.s3.my_app.Services.AIService;
 
@@ -21,5 +20,11 @@ public class AIController {
     public ResponseEntity<String> generateInsight() {
         String insight = aiService.generateInsight();
         return ResponseEntity.ok(insight);
+    }
+
+    @PostMapping
+    public ResponseEntity<String> sendMessage(@RequestBody ChatMessageRequest request) {
+        String response = aiService.sendMessage(request);
+        return ResponseEntity.ok(response);
     }
 }
