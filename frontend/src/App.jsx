@@ -7,6 +7,7 @@ import Settings from "./pages/Settings.jsx";
 import Geo from "./pages/Geo.jsx";
 import Insights from "./pages/Insights.jsx";
 import GenAI from "./pages/GenAI.jsx";
+import GenAIChatPage from "./pages/GenAIChatPage.jsx";
 
 
 export default function App () {
@@ -22,6 +23,7 @@ export default function App () {
           <Route path="/insights"  element={<Insights />} />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/genai-chat"  element={<GenAIChatPage />} />
         </Route>
       </Routes>
   )
