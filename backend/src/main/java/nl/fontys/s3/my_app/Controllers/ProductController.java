@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("api/products")
 @CrossOrigin(origins = "*")
 public class ProductController {
 
@@ -39,6 +39,4 @@ public class ProductController {
     public ProductDTO getProductById(@PathVariable Integer id) {
         return productService.getProductById(id);
     }
-
-
 }

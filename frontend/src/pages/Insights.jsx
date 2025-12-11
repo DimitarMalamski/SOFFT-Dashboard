@@ -32,7 +32,6 @@ export default function Insights() {
 
                 <div className="flex flex-col md:flex-row gap-6 items-end">
 
-                    {/* Search */}
                     <div className="w-full md:w-1/3">
                         <label className="text-sm text-gray-200 mb-1 block">Search</label>
                         <input
@@ -46,7 +45,6 @@ export default function Insights() {
                         />
                     </div>
 
-                    {/* Class */}
                     <div className="w-full md:w-1/4">
                         <label className="text-sm text-gray-200 mb-1 block">Class</label>
                         <select
@@ -63,7 +61,6 @@ export default function Insights() {
                         </select>
                     </div>
 
-                    {/* Color */}
                     <div className="w-full md:w-1/4">
                         <label className="text-sm text-gray-200 mb-1 block">Color</label>
                         <select
@@ -81,7 +78,6 @@ export default function Insights() {
                         </select>
                     </div>
 
-                    {/* Reset Button */}
                     <button
                         className="px-6 py-2 rounded-lg border border-[#009688] text-white
                                 hover:bg-[#00695c] transition"
