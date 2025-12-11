@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import nl.fontys.s3.my_app.models.dtos.SalesOffer.SalesOfferDTO;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -34,10 +33,14 @@ public class AIService {
         this.mapper = mapper;
     }
 
+    // private List<SalesOfferDTO> fetchData(int daysBack) {
+    //     LocalDateTime now = LocalDateTime.now();
+    //     LocalDateTime start = now.minusDays(daysBack);
+    //     return salesOfferService.getSalesOffersBetween(start, now);
+    // }
+
     private List<SalesOfferDTO> fetchData(int daysBack) {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime start = now.minusDays(daysBack);
-        return salesOfferService.getSalesOffersBetween(start, now);
+        return salesOfferService.getAllSalesOffersDTO().stream().limit(daysBack).toList();
     }
 
     private Map<String, Object> aggregate(List<SalesOfferDTO> salesOffers) {
@@ -45,7 +48,7 @@ public class AIService {
     }
 
     public String generateInsight() {
-        List<SalesOfferDTO> raw = fetchData(30);
+        List<SalesOfferDTO> raw = fetchData(50);
         Map<String, Object> aggregatedData = aggregate(raw);
 
         String dataJson = "";
@@ -55,10 +58,12 @@ public class AIService {
             e.printStackTrace();
         }
 
+        log.info("FINAL JSON SENT TO AI: {}", dataJson);
+
         String prompt = """
             You are an AI analyst for BAS World.
             The following JSON contains aggregated sales KPIs
-            (for the last 30 days). Using this data ONLY, produce
+            (for the last 50 days). Using this data ONLY, produce
             a concise insight (max 300 words) covering:
 
             - trends,
@@ -96,16 +101,31 @@ public class AIService {
 
     public String sendMessage(ChatMessageRequest request) {
 
-        List<SalesOfferDTO> raw = fetchData(30);
+        List<SalesOfferDTO> raw = fetchData(50);
+        Map<String, Object> aggregatedData = aggregate(raw);
 
         String rawJson = "";
         try {
-            rawJson = mapper.writeValueAsString(raw);
+            rawJson = mapper.writeValueAsString(aggregatedData);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        String prompt = request.getMessage() + "\nDATA:\n" + rawJson;
+        log.info("Aggregated data: {}", aggregatedData);
+        log.info("RawJson: {}", rawJson);
+
+        String prompt = """
+            You are an AI sales analyst for BAS World.
+            
+            User asks:
+            "%s"
+            
+            Use ONLY the aggregated JSON data below to answer.
+            Do NOT invent data. If the answer requires unavailable information, say so briefly.
+            
+            DATA:
+            %s
+            """.formatted(request.getMessage(), rawJson);
 
         ResponseEntity<String> response = restTemplate.postForEntity(
                 ollamaUrl + "/api/generate",

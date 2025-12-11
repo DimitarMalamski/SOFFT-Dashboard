@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import GenAIAPI from "../apis/GenAIAPI.js";
 
 export default function GenAI() {
@@ -6,20 +7,24 @@ const [loading, setLoading] = useState(false);
 const [insight, setInsight] = useState(null);
 const [error, setError] = useState(null);
 
+useEffect(() => {
+    const saved = localStorage.getItem("genaiInsight");
+    if (saved) setInsight(saved);
+}, []);
+
 const fetchInsight = async () => {
     setLoading(true);
     setError(null);
     try {
         const res = await GenAIAPI.generateInsights();
-
         setInsight(res.data);
+        localStorage.setItem("genaiInsight", res.data);
     } catch (err) {
         setError(err.message);
     } finally {
         setLoading(false);
     }
 };
-
 
 return (
 <div className="min-h-dvh flex flex-col gap-4 p-4">
@@ -52,7 +57,10 @@ return (
         )}
 
         {!loading && !error && !insight && (
-        <div className="text-emerald-300">Click the button above to generate insights.</div>
+        <>
+            <div className="text-emerald-300">Click the button above to generate insights.</div>
+            <Link to="/genai-chat" className="text-emerald-300 underline">Or use our AI-powered chat!</Link>
+        </>
         )}
     </div>
 </div>
