@@ -12,7 +12,8 @@ export function transformData(raw, selected) {
             });
             return Object.entries(counts)
                 .map(([salesman, count]) => ({ salesman, count }))
-                .sort((a, b) => b.count - a.count);
+                .sort((a, b) => b.count - a.count)
+                .slice(0, 10);
         }
 
         case "offersPerCountry": {
