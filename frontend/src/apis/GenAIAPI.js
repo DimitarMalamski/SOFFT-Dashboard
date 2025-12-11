@@ -8,7 +8,7 @@ const GEN_AI_BASE_URL = `${BASE_URL}/api/ai`;
 const GenAIAPI = {
     generateInsights: () =>
         axios
-            .get(GEN_AI_BASE_URL + "/generate-insights")
+            .get(GEN_AI_BASE_URL + "/generate-insight")
             .then((response) => response),
     sendMessage: (message) =>
         axios
