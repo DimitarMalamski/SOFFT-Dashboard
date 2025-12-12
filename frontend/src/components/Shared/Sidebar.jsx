@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   BarChart3,
@@ -6,22 +6,22 @@ import {
   CheckCircle,
   Flag,
   Activity,
-  Settings as SettingsIcon,
   ChevronsLeft,
   ChevronsRight,
   X,
+    Lightbulb
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import logo from '../assets/BAS_logo.svg';
+import { motion } from 'framer-motion';
 
 const _MOTION_ = motion;
 
 const NAV = [
-  { to: '/dashboard', icon: BarChart3, label: 'Overview' },
-  { to: '/offers', icon: Tag, label: 'Offers' },
-  { to: '/sales', icon: CheckCircle, label: 'Sales' },
-  { to: '/geo', icon: Flag, label: 'GEO' },
-  { to: '/insights', icon: Activity, label: 'Product insight' },
+    { to: '/dashboard', icon: BarChart3, label: 'Overview' },
+    { to: '/offers', icon: Tag, label: 'Offers' },
+    { to: '/sales', icon: CheckCircle, label: 'Sales' },
+    { to: '/geo', icon: Flag, label: 'GEO' },
+    { to: '/insights', icon: Lightbulb, label: 'Product insight' },
+    { to: '/genai', icon: Activity, label: 'Gen AI' },
 ];
 
 const itemHeight = 'h-12';
@@ -29,10 +29,12 @@ const itemBase = 'no-underline group flex items-center gap-3 outline-none';
 const itemPad = 'px-4 py-3';
 const easeOut = [0.2, 0.0, 0.2, 1];
 
-export default function Sidebar({ open = true, onClose = () => {} }) {
-  const [collapsed, setCollapsed] = useState(false);
-
-  // ESC closes on mobile (no type annotation)
+export default function Sidebar({
+    open = true,
+    collapsed,
+    setCollapsed,
+    onClose = () => {},
+}) {
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => e.key === 'Escape' && onClose();
@@ -189,57 +191,6 @@ export default function Sidebar({ open = true, onClose = () => {} }) {
             );
           })}
         </motion.nav>
-
-        <div className='mt-auto border-t border-emerald-800/80 px-2 py-2 shrink-0'>
-          <NavLink
-            to='/settings'
-            onClick={onClose}
-            title={collapsed ? 'Settings' : undefined}
-            className={({ isActive }) =>
-              [
-                itemBase,
-                rounding,
-                collapsed
-                  ? `w-full ${itemHeight} py-0 px-0 justify-center`
-                  : `w-full ${itemHeight} ${itemPad}`,
-                'text-emerald-50/90 hover:text-white transition-colors',
-                'focus-visible:ring-2 focus-visible:ring-emerald-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-900',
-                collapsed && 'gap-0',
-                !isActive && 'hover:bg-emerald-800/50',
-                isActive && [
-                  'bg-emerald-800/60 font-semibold',
-                  'shadow-[inset_4px_0_0_0_rgba(110,231,183,1)]',
-                ],
-              ]
-                .filter(Boolean)
-                .join(' ')
-            }
-          >
-            <span
-              className={[
-                'flex items-center',
-                collapsed ? 'w-full justify-center' : 'w-full min-w-0',
-              ].join(' ')}
-            >
-              <span className='w-8 h-8 shrink-0 flex items-center justify-center'>
-                <SettingsIcon className='h-5 w-5 translate-z-0' aria-hidden />
-              </span>
-              <motion.span
-                className={[
-                  'min-w-0 flex-1 truncate',
-                  collapsed
-                    ? 'ml-0 max-w-0 opacity-0 -translate-x-1 overflow-hidden'
-                    : 'ml-2 max-w-full opacity-100 translate-x-0',
-                ].join(' ')}
-                initial={false}
-                animate={{}}
-                transition={{ duration: 0.18, ease: easeOut }}
-              >
-                Settings
-              </motion.span>
-            </span>
-          </NavLink>
-        </div>
       </motion.aside>
     </>
   );

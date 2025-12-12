@@ -1,0 +1,34 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`StatusChart Component > matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="bg-emerald-900/30 border border-emerald-800 rounded-xl p-4 shadow-md"
+  >
+    <h2
+      class="text-emerald-100 font-semibold mb-3 text-sm uppercase"
+    >
+      Offers by Status
+    </h2>
+    <div>
+      <div
+        data-testid="pie-chart"
+      >
+        <div
+          data-testid="pie"
+        >
+          <div
+            data-testid="cell"
+          />
+          <div
+            data-testid="cell"
+          />
+        </div>
+        <div
+          data-testid="tooltip"
+        />
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

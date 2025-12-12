@@ -8,13 +8,13 @@ import nl.fontys.s3.my_app.models.SalesOfferLine;
 
 public class SalesOfferLineDTO {
     private String uuid;
-    private int status;
+    private Integer status;
     private LocalDateTime reservedUntil;
-    private int financingType;
-    private boolean isProductSeenPhysically;
+    private Integer financingType;
+    private Boolean isProductSeenPhysically;
     private Integer leasingCompanyId;
     private BigDecimal vatRatePercent;
-    private boolean isDepositApplicable;
+    private Boolean isDepositApplicable;
     private ProductDTO product;
     private ProductPriceDTO productPrice;
     private DeliveryDTO delivery;
@@ -43,17 +43,17 @@ public class SalesOfferLineDTO {
     public String getUuid() { return uuid; }
     public void setUuid(String uuid) { this.uuid = uuid; }
 
-    public int getStatus() { return status; }
-    public void setStatus(int status) { this.status = status; }
+    public Integer getStatus() { return status; }
+    public void setStatus(Integer status) { this.status = status; }
 
     public LocalDateTime getReservedUntil() { return reservedUntil; }
     public void setReservedUntil(LocalDateTime reservedUntil) { this.reservedUntil = reservedUntil; }
 
-    public int getFinancingType() { return financingType; }
-    public void setFinancingType(int financingType) { this.financingType = financingType; }
+    public Integer getFinancingType() { return financingType; }
+    public void setFinancingType(Integer financingType) { this.financingType = financingType; }
 
-    public boolean isProductSeenPhysically() { return isProductSeenPhysically; }
-    public void setProductSeenPhysically(boolean productSeenPhysically) { isProductSeenPhysically = productSeenPhysically; }
+    public Boolean isProductSeenPhysically() { return isProductSeenPhysically; }
+    public void setProductSeenPhysically(Boolean productSeenPhysically) { isProductSeenPhysically = productSeenPhysically; }
 
     public Integer getLeasingCompanyId() { return leasingCompanyId; }
     public void setLeasingCompanyId(Integer leasingCompanyId) { this.leasingCompanyId = leasingCompanyId; }
@@ -61,8 +61,8 @@ public class SalesOfferLineDTO {
     public BigDecimal getVatRatePercent() { return vatRatePercent; }
     public void setVatRatePercent(BigDecimal vatRatePercent) { this.vatRatePercent = vatRatePercent; }
 
-    public boolean isDepositApplicable() { return isDepositApplicable; }
-    public void setDepositApplicable(boolean depositApplicable) { isDepositApplicable = depositApplicable; }
+    public Boolean isDepositApplicable() { return isDepositApplicable; }
+    public void setDepositApplicable(Boolean depositApplicable) { isDepositApplicable = depositApplicable; }
 
     public ProductDTO getProduct() { return product; }
     public void setProduct(ProductDTO product) { this.product = product; }

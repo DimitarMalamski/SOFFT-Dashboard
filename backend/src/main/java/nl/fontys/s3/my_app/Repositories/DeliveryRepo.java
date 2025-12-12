@@ -1,5 +1,7 @@
 package nl.fontys.s3.my_app.Repositories;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +14,5 @@ public interface DeliveryRepo extends JpaRepository<Delivery, Long> {
     Optional<Delivery> findByUuid(String uuid);
     Optional<Delivery> findByFromAddressUuid(String fromAddressUuid);
     Optional<Delivery> findByToAddressUuid(String toAddressUuid);
+    List<Delivery> findAllByUuidIn(Collection<String> uuids);
 }

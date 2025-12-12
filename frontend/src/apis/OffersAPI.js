@@ -1,17 +1,14 @@
 import axios from "axios";
+import.meta.env.VITE_API_URL;
 
-const OFFERS_BASE_URL = "http://localhost:8080/offers";
+const BASE_URL = import.meta.env.VITE_API_URL;
+const OFFERS_BASE_URL = `${BASE_URL}/api/salesoffers/sales`;
 
 const OffersAPI = {
-    getOffersBySearchQuery: (searchQuery = "") =>
+    getOffersByStatus: () =>
         axios
-            .get(OFFERS_BASE_URL, {params: {searchQuery}})
-            .then(response => response.data.offers),
-    getOffers: () => axios.get(`${OFFERS_BASE_URL}`)
-            .then(response => response.data.offers),
+            .get(OFFERS_BASE_URL, { params: { statuses: ["Pending", "Declined"] } })
+            .then((response) => response.data.data),
 };
 
 export default OffersAPI;
-
-
-// This is an example implementation of a module responsible for communication with the backend API to fetch offers.

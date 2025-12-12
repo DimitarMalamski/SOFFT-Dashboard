@@ -1,0 +1,77 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Dashboard Page > matches snapshot when data loads 1`] = `
+<div>
+  <div
+    class="flex flex-col gap-8"
+  >
+    <div>
+      <h2
+        class="text-emerald-200 text-lg font-semibold mb-3"
+      >
+        Overview Metrics
+      </h2>
+      <div
+        class="grid grid-cols-1 md:grid-cols-3 gap-4"
+      >
+        <div
+          data-testid="trend-chart"
+        />
+        <div
+          data-testid="conversions-chart"
+        />
+        <div
+          data-testid="time-to-sale-chart"
+        />
+      </div>
+    </div>
+    <div
+      class="grid grid-cols-1 lg:grid-cols-3 gap-6"
+    >
+      <section
+        class="lg:col-span-2 flex flex-col gap-6"
+      >
+        <div
+          class="bg-emerald-900 rounded-md p-4 shadow-sm"
+        >
+          <select
+            data-testid="chart-selector"
+          >
+            <option
+              value="offersPerSalesman"
+            >
+              Salesman
+            </option>
+            <option
+              value="offersPerCountry"
+            >
+              Country
+            </option>
+          </select>
+        </div>
+        <div
+          class="bg-emerald-900 rounded-md p-4 shadow-sm"
+        >
+          <div
+            data-testid="filter-bar"
+          />
+        </div>
+        <div
+          class="bg-emerald-900 rounded-md p-4 shadow-sm"
+        >
+          <div
+            data-testid="chart-section"
+          />
+        </div>
+      </section>
+      <aside
+        class="bg-emerald-900 rounded-md p-4 shadow-sm h-[845px] flex flex-col overflow-hidden"
+      >
+        <div
+          data-testid="leaderboard"
+        />
+      </aside>
+    </div>
+  </div>
+</div>
+`;

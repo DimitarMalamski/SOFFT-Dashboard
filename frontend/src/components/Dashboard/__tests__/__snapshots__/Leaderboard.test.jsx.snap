@@ -1,0 +1,131 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Leaderboard Component > matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="flex flex-col h-full"
+  >
+    <h2
+      class="text-base sm:text-lg font-semibold mb-4 text-emerald-100"
+    >
+      Leaderboard
+    </h2>
+    <div
+      class="overflow-y-auto flex-1 pr-1 space-y-1"
+    >
+      <div
+        class="flex items-center gap-4 p-2 rounded hover:bg-emerald-800/40 transition"
+      >
+        <div
+          class="text-lg font-bold w-6 text-center text-yellow-300"
+        >
+          1
+        </div>
+        <div
+          class="w-8 h-8 rounded-full bg-emerald-800 flex items-center justify-center text-sm font-semibold"
+        >
+          A
+        </div>
+        <div
+          class="flex flex-col"
+        >
+          <span
+            class="text-sm sm:text-base font-medium"
+          >
+            Alice
+          </span>
+          <span
+            class="text-xs text-emerald-400 font-medium"
+          >
+            12 offers
+          </span>
+        </div>
+      </div>
+      <div
+        class="flex items-center gap-4 p-2 rounded hover:bg-emerald-800/40 transition"
+      >
+        <div
+          class="text-lg font-bold w-6 text-center text-slate-300"
+        >
+          2
+        </div>
+        <div
+          class="w-8 h-8 rounded-full bg-emerald-800 flex items-center justify-center text-sm font-semibold"
+        >
+          B
+        </div>
+        <div
+          class="flex flex-col"
+        >
+          <span
+            class="text-sm sm:text-base font-medium"
+          >
+            Bob
+          </span>
+          <span
+            class="text-xs text-emerald-400 font-medium"
+          >
+            9 offers
+          </span>
+        </div>
+      </div>
+      <div
+        class="flex items-center gap-4 p-2 rounded hover:bg-emerald-800/40 transition"
+      >
+        <div
+          class="text-lg font-bold w-6 text-center text-amber-500"
+        >
+          3
+        </div>
+        <div
+          class="w-8 h-8 rounded-full bg-emerald-800 flex items-center justify-center text-sm font-semibold"
+        >
+          C
+        </div>
+        <div
+          class="flex flex-col"
+        >
+          <span
+            class="text-sm sm:text-base font-medium"
+          >
+            Charlie
+          </span>
+          <span
+            class="text-xs text-emerald-400 font-medium"
+          >
+            7 offers
+          </span>
+        </div>
+      </div>
+      <div
+        class="flex items-center gap-4 p-2 rounded hover:bg-emerald-800/40 transition"
+      >
+        <div
+          class="text-lg font-bold w-6 text-center text-emerald-300"
+        >
+          4
+        </div>
+        <div
+          class="w-8 h-8 rounded-full bg-emerald-800 flex items-center justify-center text-sm font-semibold"
+        >
+          D
+        </div>
+        <div
+          class="flex flex-col"
+        >
+          <span
+            class="text-sm sm:text-base font-medium"
+          >
+            David
+          </span>
+          <span
+            class="text-xs text-emerald-400 font-medium"
+          >
+            5 offers
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

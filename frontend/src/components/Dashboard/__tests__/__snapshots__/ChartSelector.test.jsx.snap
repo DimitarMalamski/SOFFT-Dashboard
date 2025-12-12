@@ -1,0 +1,38 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ChartSelector Component > matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="relative flex flex-col gap-1"
+  >
+    <label
+      class="text-xs font-medium text-emerald-200"
+    >
+      Select chart
+    </label>
+    <button
+      class="
+                    flex items-center justify-between
+                    bg-emerald-900 border border-emerald-700 rounded-md
+                    px-3 py-1.5 h-[32px] text-xs text-emerald-50
+                    hover:bg-emerald-800 transition
+                "
+      type="button"
+    >
+      <span
+        class="flex items-center gap-2"
+      >
+        <svg
+          data-testid="icon"
+        />
+        Sales by Country
+      </span>
+      <span
+        class="text-emerald-300"
+      >
+        ▾
+      </span>
+    </button>
+  </div>
+</DocumentFragment>
+`;

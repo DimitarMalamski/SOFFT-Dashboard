@@ -15,7 +15,11 @@ export default defineConfig([
     ],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: {
+          ...globals.browser,
+          ...globals.vitest,
+          ...globals.node,
+      },
       parserOptions: {
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
@@ -26,4 +30,13 @@ export default defineConfig([
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
+
+    {
+        files: ['**/__tests__/**/*.{js,jsx}', '**/*.test.{js,jsx}'],
+        languageOptions: {
+            globals: {
+                ...globals.node,
+            },
+        },
+    },
 ])

@@ -1,276 +1,123 @@
-import React, { useEffect, useState } from 'react';
-import MockOffersAPI from '../mock-apis/MockDataAPI';
-import LineChartType from '../components/LineChartType';
-import BarChartType from '../components/BarChartType';
-import Leaderboard from '../components/Leaderboard.jsx';
+import React, {useState} from 'react';
+import useOffersDataOverview from "../hooks/overviewPage/useOffersDataOverview.js";
+import FilterBarDashboard from "../components/Dashboard/FilterBarDashboard.jsx";
+import ChartSection from "../components/Dashboard/ChartSection.jsx";
+import {chartOptions} from "../config/chartOptions.js";
+import ChartSelector from "../components/Dashboard/ChartSelector.jsx";
+import {
+    transformData,
+    getLast7DaysOrders,
+    getConversionStats,
+    getTimeToSale,
+    transformSalesMan,
+} from '../utils/overviewPage/offerTransformations.js';
+import Leaderboard from '../components/Dashboard/Leaderboard.jsx';
 import SalesTrendChart from '../components/Charts/SalesTrendChart.jsx';
 import ConversionsCard from '../components/Charts/ConversionsChart.jsx';
 import TimeToSaleCard from '../components/Charts/TimeToSaleChart.jsx';
-import SalesOffersAPI from '../apis/SalesOffersAPI';
-
-const chartOptions = [
-  {
-    label: 'Offers created per salesman',
-    value: 'offersPerSalesman',
-    chart: 'bar',
-  },
-  { label: 'Offers per country', value: 'offersPerCountry', chart: 'bar' },
-  {
-    label: 'Total value of offers over time',
-    value: 'totalValueOverTime',
-    chart: 'line',
-  },
-  {
-    label: 'Conversion rate from offer to order',
-    value: 'conversionRate',
-    chart: 'line',
-  },
-  {
-    label: 'Lead time analysis (from offer to acceptance)',
-    value: 'leadTimeAnalysis',
-    chart: 'line',
-  },
-];
-
-function transformData(raw, selected) {
-  switch (selected) {
-      case "offersPerSalesman":{
-        const counts = {};
-        raw.forEach((offer) => {
-          let name = "Unknown";
-          if (offer.salesPersons && offer.salesPersons.length > 0 && offer.salesPersons[0].name) {
-            name = offer.salesPersons[0].name;
-          }
-
-        if (!counts[name]) {
-          counts[name] = 0;
-        }
-        counts[name]++;
-          });
-
-        return Object.entries(counts).map(([salesman, count]) => ({ salesman, count }));
-      }
-
-      case "offersPerCountry": {
-        const counts = {};
-        raw.forEach((offer) => {
-          let country = "Unknown";
-          if (offer.customerCompany && offer.customerCompany.country) {
-            country = offer.customerCompany.country;
-          }
-
-          if (!counts[country]) {
-            counts[country] = 0;
-          }
-          counts[country]++;
-          });
-          return Object.entries(counts).map(([country, count]) => ({ country, count }));
-      }
-      case "totalValueOverTime": {
-        const totalsByDate = {};
-          raw.forEach((offer) => {
-          if (!offer.updatedAt || !offer.totalPriceExcludingVat) return;
-
-          const date = offer.updatedAt.split(" ")[0];
-          const amount = offer.totalPriceExcludingVat.amount || 0;
-
-          if (!totalsByDate[date]) {
-            totalsByDate[date] = 0;
-          }
-          totalsByDate[date] += amount;
-          });
-          return Object.entries(totalsByDate).map(([date, total]) => ({ date, total }));
-      }
-      case "conversionRate": {
-        const statsByDate = {};
-        raw.forEach((offer) => {
-          if (!offer.updatedAt) return;
-
-          const date = offer.updatedAt.split(" ")[0];
-            if (!statsByDate[date]) {
-              statsByDate[date] = { offers: 0, orders: 0 };
-            }
-            statsByDate[date].offers++;
-
-          const accepted = offer.statusDescription === "Accepted";
-          const hasOrders = offer.salesOfferOrders && offer.salesOfferOrders.length > 0;
-
-          if (accepted && hasOrders) {
-            statsByDate[date].orders++;
-          }
-          });
-          return Object.entries(statsByDate).map(([date, stats]) => {
-              const rate = stats.offers > 0 ? (stats.orders / stats.offers) * 100 : 0;
-              return { date, rate };
-          });
-      }
-      case "leadTimeAnalysis": {
-        const acceptedOffers = raw.filter(
-          (offer) =>
-            offer.statusDescription === "Accepted" &&
-            offer.salesOfferOrders &&
-            offer.salesOfferOrders.length > 0
-        );
-        return acceptedOffers.map((offer) => {
-          const offerDate = new Date(offer.createdAt);
-          const orderDate = new Date(offer.salesOfferOrders[0].createdAt);
-          const leadTimeDays = (orderDate - offerDate) / (1000 * 60 * 60 * 24);
-          return {
-            referenceId: offer.referenceId,
-            leadTime: Number(leadTimeDays.toFixed(2)),
-          };
-        });
-      }
-      default:
-        return [];
-  }
-}
-
-const demoTrend = [
-  { label: 'Mon', value: 120 },
-  { label: 'Tue', value: 98 },
-  { label: 'Wed', value: 160 },
-  { label: 'Thu', value: 130 },
-  { label: 'Fri', value: 90 },
-  { label: 'Sat', value: 200 },
-  { label: 'Sun', value: 340 },
-];
-
-const demoConversions = { wins: 18, total: 42, prevWins: 12, prevTotal: 40 };
-
-const demoTtsPoints = [
-  { label: 'D1', value: 12 },
-  { label: 'D2', value: 9 },
-  { label: 'D3', value: 14 },
-  { label: 'D4', value: 11 },
-  { label: 'D5', value: 10 },
-];
-const prevAvgTts = 12.8;
 
 export default function Dashboard() {
-  const [offers, setOffers] = useState([]);
-  const [selectedChart, setSelectedChart] = useState(chartOptions[0].value);
+    const [selectedChart, setSelectedChart] = useState(chartOptions[0].value);
 
-  useEffect(() => {
-    // MockOffersAPI.getOffers().then((data) => setOffers(data));
-    SalesOffersAPI.getSalesOffers().then((data) => setOffers(data));
-    console.log('Fetched offers:', offers);
-  }, []);
+    const {
+        offers,
+        filteredOffers,
+        filters,
+        setFilters,
+        options,
+        applyFilters,
+        resetFilter,
+        loading,
+        error
+    } = useOffersDataOverview();
 
-  const chartConfig = chartOptions.find((opt) => opt.value === selectedChart);
-  const chartData = transformData(offers, selectedChart);
-  console.log('Chart:', selectedChart, 'Transformed Data:', chartData);
-
-  let chartProps = {};
-  switch (selectedChart) {
-    case 'offersPerSalesman':
-      chartProps = {
-        data: chartData,
-        xKey: 'salesman',
-        yKey: 'count',
-        label: 'Offers',
-      };
-      break;
-    case 'offersPerCountry':
-      chartProps = {
-        data: chartData,
-        xKey: 'country',
-        yKey: 'count',
-        label: 'Offers',
-      };
-      break;
-    case 'totalValueOverTime':
-      chartProps = {
-        data: chartData,
-        xKey: 'date',
-        yKey: 'total',
-        label: 'Total Value',
-      };
-      break;
-    case 'conversionRate':
-      chartProps = {
-        data: chartData,
-        xKey: 'date',
-        yKey: 'rate',
-        label: 'Conversion Rate (%)',
-      };
-      break;
-    case 'leadTimeAnalysis':
-      chartProps = {
-        data: chartData,
-        xKey: 'referenceId',
-        yKey: 'leadTime',
-        label: 'Lead Time (days)',
-      };
-      break;
-    default:
-      chartProps = {};
-  }
-
-  return (
-    <div className='h-dvh max-h-dvh min-h-0 overflow-y-auto'>
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-        <SalesTrendChart title='Orders (last 7 days)' points={demoTrend} />
-        <ConversionsCard
-          title='Conversion rate'
-          wins={demoConversions.wins}
-          total={demoConversions.total}
-          prevWins={demoConversions.prevWins}
-          prevTotal={demoConversions.prevTotal}
-        />
-        <TimeToSaleCard
-          title='Avg time to sale'
-          points={demoTtsPoints}
-          prevAvg={prevAvgTts}
-        />
-      </div>
-
-      <div className='bg-emerald-900 p-4 shadow-md rounded-md mt-4 min-h-0'>
-        <div className='grid grid-cols-1 lg:grid-cols-3 gap-4 min-h-0'>
-          {/* Left: select + big chart (2/3 on lg+) */}
-          <section className='lg:col-span-2 min-h-0'>
-            <div className='mb-2'>
-              <label
-                htmlFor='chart-select'
-                className='block mb-2 text-xs/5 text-emerald-100'
-              >
-                Select chart:
-              </label>
-              <select
-                id='chart-select'
-                value={selectedChart}
-                onChange={(e) => setSelectedChart(e.target.value)}
-                className='bg-emerald-950 text-white border border-emerald-700 rounded-md px-3 py-2 shadow-sm'
-              >
-                {chartOptions.map((opt) => (
-                  <option
-                    key={opt.value}
-                    value={opt.value}
-                    className='bg-emerald-950 text-white'
-                  >
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-dvh">
+                <div
+                    data-testid="loading-spinner"
+                    className="w-12 h-12 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin"></div>
             </div>
+        );
+    }
 
-            <div className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-[400px] flex items-center justify-center overflow-hidden'>
-              {chartData.length === 0 ? (
-                <div className='text-emerald-100 text-xl text-center'>
-                  No data to display for this chart.
+    if (error) {
+        return (
+            <div className="flex items-center justify-center h-dvh">
+                <div className="text-red-400 text-lg">
+                    Failed to load data. Please try again later.
                 </div>
-              ) : chartConfig.chart === 'line' ? (
-                <LineChartType {...chartProps} />
-              ) : (
-                <BarChartType {...chartProps} />
-              )}
             </div>
-          </section>
-          <aside className='bg-emerald-950 rounded-md shadow-sm p-2 sm:p-2.5 min-h-0'>
-            <Leaderboard />
-          </aside>
+        );
+    }
+
+    const allSalesmen = transformSalesMan(offers);
+    const leaders = allSalesmen;
+    const chartData = transformData(filteredOffers, selectedChart);
+    const trendPoints = getLast7DaysOrders(offers);
+    const conversions = getConversionStats(offers);
+    const {points: ttsPoints, avg: avgTts} = getTimeToSale(offers);
+
+    return (
+        <div className="flex flex-col gap-8">
+
+            <div>
+                <h2 className="text-emerald-200 text-lg font-semibold mb-3">
+                    Overview Metrics
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <SalesTrendChart title="Orders (last 7 days)" points={trendPoints}/>
+                    <ConversionsCard
+                        title="Conversion rate"
+                        wins={conversions.wins}
+                        total={conversions.total}
+                        prevWins={conversions.wins * 0.8}
+                        prevTotal={conversions.total}
+                    />
+                    <TimeToSaleCard
+                        title="Avg time to sale"
+                        points={ttsPoints}
+                        prevAvg={avgTts + 1.2}
+                    />
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <section className="lg:col-span-2 flex flex-col gap-6">
+                    <div className="bg-emerald-900 rounded-md p-4 shadow-sm">
+                        <ChartSelector
+                            selectedChart={selectedChart}
+                            setSelectedChart={setSelectedChart}
+                            chartOptions={chartOptions}
+                        />
+                    </div>
+
+                    <div className="bg-emerald-900 rounded-md p-4 shadow-sm">
+                        <FilterBarDashboard
+                            filters={filters}
+                            setFilters={setFilters}
+                            options={options}
+                            applyFilters={applyFilters}
+                            resetFilter={resetFilter}
+                        />
+                    </div>
+
+                    <div className="bg-emerald-900 rounded-md p-4 shadow-sm">
+                        <ChartSection
+                            selectedChart={selectedChart}
+                            chartOptions={chartOptions}
+                            chartData={chartData}
+                        />
+                    </div>
+                </section>
+
+                <aside className="bg-emerald-900 rounded-md p-4 shadow-sm h-[845px] flex flex-col overflow-hidden">
+                    <Leaderboard salesmanData={leaders}/>
+                </aside>
+
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
