@@ -9,17 +9,19 @@ import {
   ChevronsLeft,
   ChevronsRight,
   X,
+    Lightbulb
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const _MOTION_ = motion;
 
 const NAV = [
-  { to: '/dashboard', icon: BarChart3, label: 'Overview' },
-  { to: '/offers', icon: Tag, label: 'Offers' },
-  { to: '/sales', icon: CheckCircle, label: 'Sales' },
-  { to: '/geo', icon: Flag, label: 'GEO' },
-  { to: '/genai', icon: Activity, label: 'Gen AI' },
+    { to: '/dashboard', icon: BarChart3, label: 'Overview' },
+    { to: '/offers', icon: Tag, label: 'Offers' },
+    { to: '/sales', icon: CheckCircle, label: 'Sales' },
+    { to: '/geo', icon: Flag, label: 'GEO' },
+    { to: '/insights', icon: Lightbulb, label: 'Product insight' },
+    { to: '/genai', icon: Activity, label: 'Gen AI' },
 ];
 
 const itemHeight = 'h-12';
