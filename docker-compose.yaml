@@ -5,8 +5,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: api
-    expose:
-      - "8080"
+    ports:
+      - "80:80"
     networks:
       default:
         aliases:
@@ -31,7 +31,7 @@ services:
     depends_on:
       - api
     ports:
-      - "8080:80"
+      - "80:80"
     restart: unless-stopped
     environment:
       - VITE_API_URL
