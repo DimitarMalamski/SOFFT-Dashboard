@@ -27,14 +27,14 @@ services:
     image: ${FRONTEND_IMAGE}:${TAG}  # download the frontend specific version from GitLab
     build:
       context: ./frontend
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL}
     container_name: web
     depends_on:
       - api
     ports:
       - "80:80"
     restart: unless-stopped
-    environment:
-      - VITE_API_URL
 
   ollama:
     image: ollama/ollama:latest
