@@ -11,7 +11,7 @@ import HeatmapLayer from "../GEO/HeatmapLayer.jsx";
 import OfferMarkersLayer from "../GEO/OfferMarkerLayer.jsx";
 
 import { offerPoints } from "../GEO/mock/MockGeoData.js";
-import { transformHeatmapDataFromOffers } from "../GEO/TransformHeatMapData.js";
+import { transformHeatmapDataFromOffers } from "../GEO/transformHeatMapData.js";
 import OrderTypeSelector from "./OrderTypeSelector.jsx";
 
 const options = {
