@@ -22,7 +22,7 @@ describe("ProductsAPI", () => {
         });
 
         expect(axios.get).toHaveBeenCalledWith(
-            "http://localhost:8080/products/paged",
+            "http://localhost:8080/api/products/paged",
             {
                 params: {
                     page: 1,
@@ -50,7 +50,7 @@ describe("ProductsAPI", () => {
 
         const result = await ProductsAPI.getById(10);
 
-        expect(axios.get).toHaveBeenCalledWith("http://localhost:8080/products/10");
+        expect(axios.get).toHaveBeenCalledWith("http://localhost:8080/api/products/10");
         expect(result).toEqual({ id: 10, brand: "MAN" });
     });
 

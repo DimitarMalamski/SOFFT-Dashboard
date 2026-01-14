@@ -51,7 +51,7 @@ export default function Dashboard() {
         );
     }
 
-    const allSalesmen = transformSalesMan(offers);
+    const allSalesmen = transformSalesMan(filteredOffers);
     const leaders = allSalesmen;
     const chartData = transformData(filteredOffers, selectedChart);
     const trendPoints = getLast7DaysOrders(offers);

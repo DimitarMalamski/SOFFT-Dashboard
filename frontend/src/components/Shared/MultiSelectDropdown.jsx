@@ -44,7 +44,7 @@ export default function MultiSelectDropdown({
             <div
                 onClick={() => setOpen((o) => !o)}
                 className="p-2 bg-emerald-900 border border-emerald-700 text-emerald-50 rounded-md cursor-pointer"
-                data-testid={props["data-testid"]}
+                data-testid={`${label.toLowerCase().replace(/\s+/g, "-")}-dropdown`}
             >
                 {display}
             </div>

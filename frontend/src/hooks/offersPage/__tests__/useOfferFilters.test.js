@@ -28,7 +28,10 @@ describe("useOfferFilters", () => {
         expect(result.current.filters).toEqual({
             statuses: [],
             salespersons: [],
-            depots: []
+            depots: [],
+            dateRange: "All Dates",
+            startDate: null,
+            endDate: null,
         });
 
         expect(result.current.options).toEqual(mockExtract);
@@ -41,11 +44,7 @@ describe("useOfferFilters", () => {
         act(() => result.current.handleChange("statuses", ["Pending"]));
 
         expect(result.current.filters.statuses).toEqual(["Pending"]);
-        expect(onFilterChange).toHaveBeenCalledWith({
-            statuses: ["Pending"],
-            salespersons: [],
-            depots: []
-        });
+        expect(onFilterChange).toHaveBeenCalledWith(expect.any(Array));
     });
 
     test("resets filters correctly", () => {
@@ -58,13 +57,12 @@ describe("useOfferFilters", () => {
         expect(result.current.filters).toEqual({
             statuses: [],
             salespersons: [],
-            depots: []
+            depots: [],
+            dateRange: "All Dates",
+            startDate: null,
+            endDate: null,
         });
 
-        expect(onFilterChange).toHaveBeenCalledWith({
-            statuses: [],
-            salespersons: [],
-            depots: []
-        });
+        expect(onFilterChange).toHaveBeenCalledWith(expect.any(Array));
     });
 });

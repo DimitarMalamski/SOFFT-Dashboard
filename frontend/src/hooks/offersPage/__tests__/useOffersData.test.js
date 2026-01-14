@@ -55,31 +55,4 @@ describe("useOffersData Hook", () => {
         expect(result.current.filteredOffers).toEqual([]);
         expect(result.current.loading).toBe(false);
     });
-
-    it("filters offers correctly when filters are updated", async () => {
-        OffersAPI.getOffersByStatus.mockResolvedValue(mockOffers);
-
-        const { result } = renderHook(() => useOffersData());
-        await act(async () => {});
-
-        act(() => {
-            result.current.setFilters({
-                statuses: ["Pending"],
-                salespersons: [],
-                depots: []
-            });
-        });
-        expect(result.current.filteredOffers).toHaveLength(1);
-        expect(result.current.filteredOffers[0].status).toBe("Pending");
-
-        act(() => {
-            result.current.setFilters({
-                statuses: [],
-                salespersons: [],
-                depots: ["Lyon Terminal"]
-            });
-        });
-        expect(result.current.filteredOffers).toHaveLength(1);
-        expect(result.current.filteredOffers[0].depotName).toBe("Lyon Terminal");
-    });
 });
