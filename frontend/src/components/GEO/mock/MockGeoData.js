@@ -1,6 +1,21 @@
 // src/mock/mockGeoData.js
 
-export const offerPoints = [
+export const salesPeople = [
+  "John de Vries",
+  "Emma Jansen",
+  "Lucas van Dijk",
+  "Sophie Müller",
+  "Mark Thompson",
+  "Isabella Rossi",
+  "Liam Smith",
+  "Olivia Johnson",
+  "Noah Brown",
+  "Ava Davis",
+];
+  
+
+
+const rawOfferPoints = [
   // Netherlands
   {
     id: "SO-001",
@@ -285,3 +300,12 @@ export const offerPoints = [
     customerName: "Oslo Transportfirma",
   },
 ];
+
+function addSalesPersonToOfferPoints(offerPoints) {
+  return offerPoints.map((offer, index) => ({
+    ...offer,
+    salesPerson: salesPeople[index % salesPeople.length],
+  }));
+}
+
+export const offerPoints = addSalesPersonToOfferPoints(rawOfferPoints);
