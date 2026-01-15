@@ -1,6 +1,6 @@
 import { Menu } from "lucide-react";
 
-export default function OrderTypeSelector({ label, value, onChange, options }) {
+export default function GeoFilterSelector({ label, value, onChange, options }) {
   return (
     <div className="flex flex-col gap-2 w-full">
       {label && (
@@ -25,7 +25,7 @@ export default function OrderTypeSelector({ label, value, onChange, options }) {
             <option
               key={opt.value}
               value={opt.value}
-              className="bg-emerald-950 text-emerald-100 cursor-pointer"
+              className="bg-emerald-950 text-emerald-100 hover:cursor-pointer"
             >
               {opt.label}
             </option>

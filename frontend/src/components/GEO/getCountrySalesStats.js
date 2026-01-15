@@ -21,3 +21,4 @@ export function getCountrySalesStats(offers) {
     topCountry: stats.length > 0 ? stats[0] : null,
   };
 }
+
