@@ -11,7 +11,7 @@ import HeatmapLayer from "../GEO/HeatmapLayer.jsx";
 import OfferMarkersLayer from "../GEO/OfferMarkerLayer.jsx";
 
 import { offerPoints } from "../GEO/mock/MockGeoData.js";
-import { transformHeatmapDataFromOffers } from "../GEO/TransformHeatMapData.js";
+import { transformHeatmapDataFromOffers } from "../GEO/transformHeatMapData.js";
 import GeoFilterSelector from "./GeoFilterSelector.jsx";
 
 const salesPeople = [
@@ -63,20 +63,20 @@ function GeoDashboardPage() {
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [salesPersonFilter, setSalesPersonFilter] = useState("ALL");
 
-  
+
   const filteredOffers = useMemo(() => {
-  return offerPoints.filter((offer) => {
-    const salesPersonMatch =
-      salesPersonFilter === "ALL" || offer.salesPerson === salesPersonFilter;
+    return offerPoints.filter((offer) => {
+      const salesPersonMatch =
+        salesPersonFilter === "ALL" || offer.salesPerson === salesPersonFilter;
 
-    const statusMatch =
-      statusFilter === "ALL" || offer.status === statusFilter;
+      const statusMatch =
+        statusFilter === "ALL" || offer.status === statusFilter;
 
-    return salesPersonMatch && statusMatch;
-  });
-}, [offerPoints, salesPersonFilter, statusFilter]);
+      return salesPersonMatch && statusMatch;
+    });
+  }, [offerPoints, salesPersonFilter, statusFilter]);
 
-  
+
 
   function resetFilters() {
     setStatusFilter("ALL");
@@ -131,7 +131,7 @@ function GeoDashboardPage() {
             Reset Filters
           </button>
         </div>
-        
+
       </div>
 
 
