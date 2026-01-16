@@ -33,9 +33,11 @@ describe("SalesFilters Component", () => {
         render(
             <SalesFilters
                 filters={defaultFilters}
-                setFilters={setFilters}
+                updateFilter={setFilters}
                 sales={mockSales}
                 resetFilters={resetFilters}
+                hasActiveFilters={true}
+                DATE_RANGE_OPTIONS={["All Dates"]}
             />
         );
 
@@ -51,9 +53,11 @@ describe("SalesFilters Component", () => {
         render(
             <SalesFilters
                 filters={defaultFilters}
-                setFilters={setFilters}
+                updateFilter={setFilters}
                 sales={mockSales}
                 resetFilters={resetFilters}
+                hasActiveFilters={true}
+                DATE_RANGE_OPTIONS={["All Dates"]}
             />
         );
 
@@ -63,21 +67,27 @@ describe("SalesFilters Component", () => {
         const checkboxLabel = screen.getByText("Pending").closest("label");
         fireEvent.click(checkboxLabel);
 
-        expect(setFilters).toHaveBeenCalledTimes(1);
-        expect(typeof setFilters.mock.calls[0][0]).toBe("function");
+        expect(setFilters).toHaveBeenCalledWith(
+            expect.any(String),
+            expect.any(Array)
+        );
+
+        expect(setFilters).toHaveBeenCalledWith("statuses", expect.any(Array));
     });
 
     test("opens salesperson dropdown", () => {
         render(
             <SalesFilters
                 filters={defaultFilters}
-                setFilters={setFilters}
+                updateFilter={setFilters}
                 sales={mockSales}
                 resetFilters={resetFilters}
+                hasActiveFilters={true}
+                DATE_RANGE_OPTIONS={["All Dates"]}
             />
         );
 
-        const label = screen.getByText("Salesperson");
+        const label = screen.getByText("Salespersons");
 
         const dropdownButton = label.parentElement.querySelector("div.cursor-pointer");
 
@@ -91,13 +101,15 @@ describe("SalesFilters Component", () => {
         render(
             <SalesFilters
                 filters={defaultFilters}
-                setFilters={setFilters}
+                updateFilter={setFilters}
                 sales={mockSales}
                 resetFilters={resetFilters}
+                hasActiveFilters={true}
+                DATE_RANGE_OPTIONS={["All Dates"]}
             />
         );
 
-        const label = screen.getByText("Salesperson");
+        const label = screen.getByText("Salespersons");
         const dropdownButton = label.parentElement.querySelector("div.cursor-pointer");
 
         fireEvent.click(dropdownButton);
@@ -105,16 +117,21 @@ describe("SalesFilters Component", () => {
         const checkbox = screen.getByLabelText("Anna Stevenson");
         fireEvent.click(checkbox);
 
-        expect(setFilters).toHaveBeenCalledTimes(1);
+        expect(setFilters).toHaveBeenCalledWith(
+            expect.any(String),
+            expect.any(Array)
+        );
     });
 
     test("calls resetFilters when reset button clicked", () => {
         render(
             <SalesFilters
                 filters={defaultFilters}
-                setFilters={setFilters}
+                updateFilter={setFilters}
                 sales={mockSales}
                 resetFilters={resetFilters}
+                hasActiveFilters={true}
+                DATE_RANGE_OPTIONS={["All Dates"]}
             />
         );
 

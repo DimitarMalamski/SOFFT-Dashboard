@@ -31,9 +31,10 @@ describe("FilterBarDashboard Component", () => {
         expect(screen.getByText("Salespersons")).toBeInTheDocument();
         expect(screen.getByText("Depots")).toBeInTheDocument();
 
-        expect(screen.getAllByText("All")).toHaveLength(3);
+        expect(screen.getAllByText("All")).toHaveLength(4);
 
-        fireEvent.click(screen.getAllByText("All")[0]);
+        const statusDropdown = screen.getByText("Statuses").nextSibling;
+        fireEvent.click(statusDropdown);
 
         expect(screen.getByText("Pending")).toBeInTheDocument();
         expect(screen.getByText("Declined")).toBeInTheDocument();
@@ -42,9 +43,10 @@ describe("FilterBarDashboard Component", () => {
     test("calls handleChange when a dropdown option is clicked", () => {
         render(<FilterBarOffers offers={[]} onFilterChange={vi.fn()} />);
 
-        fireEvent.click(screen.getAllByText("All")[0]);
+        const statusDropdown = screen.getByText("Statuses").nextSibling;
+        fireEvent.click(statusDropdown);
 
-        fireEvent.click(screen.getByLabelText("Pending"));
+        fireEvent.click(screen.getByText("Pending"));
 
         expect(mockHandleChange).toHaveBeenCalledWith("statuses", ["Pending"]);
     });
@@ -62,7 +64,10 @@ describe("FilterBarDashboard Component", () => {
     test("opens all dropdowns independently", () => {
         render(<FilterBarOffers offers={[]} onFilterChange={vi.fn()} />);
 
-        const [_, salespersons, depots] = screen.getAllByText("All");
+        const allDropdowns = screen.getAllByText("All");
+
+        const salespersons = allDropdowns[2];
+        const depots = allDropdowns[3];
 
         fireEvent.click(salespersons);
         expect(screen.getByText("Anna")).toBeInTheDocument();
@@ -76,8 +81,8 @@ describe("FilterBarDashboard Component", () => {
     test("calls handleChange for salespersons filter", () => {
         render(<FilterBarOffers offers={[]} onFilterChange={vi.fn()} />);
 
-        fireEvent.click(screen.getAllByText("All")[1]); // Salespersons dropdown
-        fireEvent.click(screen.getByLabelText("Anna"));
+        fireEvent.click(screen.getAllByText("All")[2]);
+        fireEvent.click(screen.getByText("Anna"));
 
         expect(mockHandleChange).toHaveBeenCalledWith("salespersons", ["Anna"]);
     });
@@ -85,8 +90,8 @@ describe("FilterBarDashboard Component", () => {
     test("calls handleChange for depots filter", () => {
         render(<FilterBarOffers offers={[]} onFilterChange={vi.fn()} />);
 
-        fireEvent.click(screen.getAllByText("All")[2]);
-        fireEvent.click(screen.getByLabelText("North Hub"));
+        fireEvent.click(screen.getAllByText("All")[3]);
+        fireEvent.click(screen.getByText("North Hub"));
 
         expect(mockHandleChange).toHaveBeenCalledWith("depots", ["North Hub"]);
     });
@@ -96,7 +101,7 @@ describe("FilterBarDashboard Component", () => {
 
         const dropdowns = screen.getAllByText("All");
 
-        expect(dropdowns.length).toBe(3);
+        expect(dropdowns.length).toBe(4);
 
         expect(screen.getByText("Statuses")).toBeInTheDocument();
         expect(screen.getByText("Salespersons")).toBeInTheDocument();

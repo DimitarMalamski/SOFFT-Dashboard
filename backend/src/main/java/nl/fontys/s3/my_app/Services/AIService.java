@@ -1,6 +1,5 @@
 package nl.fontys.s3.my_app.Services;
 
-import lombok.extern.slf4j.Slf4j;
 import nl.fontys.s3.my_app.models.dtos.AI.ChatMessageRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +11,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import nl.fontys.s3.my_app.models.dtos.SalesOffer.SalesOfferDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-@Slf4j
 @Service
 public class AIService {
 
@@ -24,127 +23,145 @@ public class AIService {
     private final DataAggregationService dataAggregationService;
     private final ObjectMapper mapper;
 
-    @Value("${ai.ollama.url}")
-    private String ollamaUrl;
-
     public AIService(SalesOfferService salesOfferService, DataAggregationService dataAggregationService, ObjectMapper mapper) {
         this.salesOfferService = salesOfferService;
         this.dataAggregationService = dataAggregationService;
         this.mapper = mapper;
     }
 
-    // private List<SalesOfferDTO> fetchData(int daysBack) {
-    //     LocalDateTime now = LocalDateTime.now();
-    //     LocalDateTime start = now.minusDays(daysBack);
-    //     return salesOfferService.getSalesOffersBetween(start, now);
-    // }
+    @Value("${ai.ollama.url}")
+    private String ollamaUrl;
 
-    private List<SalesOfferDTO> fetchData(int daysBack) {
-        return salesOfferService.getAllSalesOffersDTO().stream().limit(daysBack).toList();
-    }
+    private String cachedAgg30;
+    private String cachedAgg50;
+    private LocalDateTime lastComputed30 = LocalDateTime.MIN;
+    private LocalDateTime lastComputed50 = LocalDateTime.MIN;
+
+     private List<SalesOfferDTO> fetchData(int daysBack) {
+         LocalDateTime now = LocalDateTime.now();
+         LocalDateTime start = now.minusDays(daysBack);
+         return salesOfferService.getSalesOffersBetween(start, now);
+     }
+
+//    private List<SalesOfferDTO> fetchData(int daysBack) {
+//        return salesOfferService.getAllSalesOffersDTO().stream().limit(daysBack).toList();
+//    }
 
     private Map<String, Object> aggregate(List<SalesOfferDTO> salesOffers) {
         return dataAggregationService.aggregate(salesOffers);
     }
 
-    public String generateInsight() {
-        List<SalesOfferDTO> raw = fetchData(50);
-        Map<String, Object> aggregatedData = aggregate(raw);
-
-        String dataJson = "";
-        try {
-            dataJson = mapper.writeValueAsString(aggregatedData);
-        } catch (Exception e) {
-            e.printStackTrace();
+    private String getAggregatedJson(int days) {
+        if (days == 30 && lastComputed30.isAfter(LocalDateTime.now().minusMinutes(80))) {
+            return cachedAgg30;
+        } else if (days == 50 && lastComputed50.isAfter(LocalDateTime.now().minusMinutes(80))) {
+            return cachedAgg50;
         }
 
-        log.info("FINAL JSON SENT TO AI: {}", dataJson);
+        List<SalesOfferDTO> raw = fetchData(days);
+        Map<String, Object> aggregated = aggregate(raw);
 
-        String prompt = """
-            You are an AI analyst for BAS World.
-            The following JSON contains aggregated sales KPIs
-            (for the last 50 days). Using this data ONLY, produce
-            a concise insight (max 300 words) covering:
-
-            - trends,
-            - anomalies,
-            - conversion patterns,
-            - opportunities to improve sales,
-            - country and salesman performance.
-
-            Do NOT invent data. Do NOT shorten or limit your insights to any smaller period. Only describe patterns you see.
-
-            DATA:
-            %s
-            """.formatted(dataJson);
-
-        ResponseEntity<String> response = restTemplate.postForEntity(
-                ollamaUrl + "/api/generate",
-                Map.of("model", "mistral",
-                        "prompt", prompt,
-                        "stream", false,
-                        "options", Map.of("num_ctx", 23000)
-                ),
-                String.class
-        );
-
-        String body = response.getBody();
-        if (body == null) return "No response from AI service.";
+        if (aggregated.isEmpty()) {
+            aggregated.put("info", "No sales offers in this period.");
+        }
 
         try {
-            JsonNode json = new ObjectMapper().readTree(body);
-            return json.has("response") ? json.get("response").asText() : body;
+            String json = mapper.writeValueAsString(aggregated);
+            if (days == 30) {
+                cachedAgg30 = json;
+                lastComputed30 = LocalDateTime.now();
+            } else {
+                cachedAgg50 = json;
+                lastComputed50 = LocalDateTime.now();
+            }
+            return json;
         } catch (Exception e) {
-            return "Error parsing AI response: " + e.getMessage();
+            throw new RuntimeException(e);
         }
     }
 
-    public String sendMessage(ChatMessageRequest request) {
-
-        List<SalesOfferDTO> raw = fetchData(50);
-        Map<String, Object> aggregatedData = aggregate(raw);
-
-        String rawJson = "";
-        try {
-            rawJson = mapper.writeValueAsString(aggregatedData);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        log.info("Aggregated data: {}", aggregatedData);
-        log.info("RawJson: {}", rawJson);
-
-        String prompt = """
-            You are an AI sales analyst for BAS World.
-            
-            User asks:
-            "%s"
-            
-            Use ONLY the aggregated JSON data below to answer.
-            Do NOT invent data. If the answer requires unavailable information, say so briefly.
-            
-            DATA:
-            %s
-            """.formatted(request.getMessage(), rawJson);
-
+    private JsonNode callOllama(String endpoint, Map<String, Object> body) {
         ResponseEntity<String> response = restTemplate.postForEntity(
-                ollamaUrl + "/api/generate",
-                Map.of("model", "mistral",
-                        "prompt", prompt,
-                        "stream", false,
-                        "options", Map.of("num_ctx", 23000)
-                ),
+                ollamaUrl + endpoint,
+                body,
                 String.class
         );
 
-        String body = response.getBody();
-        if (body == null) return "No response from AI service.";
-
         try {
-            JsonNode json = new ObjectMapper().readTree(body);
-            return json.has("response") ? json.get("response").asText() : body;
+            return mapper.readTree(response.getBody());
         } catch (Exception e) {
-            return "Error parsing AI response: " + e.getMessage();
+            throw new RuntimeException("Failed to parse Ollama response", e);
         }
+    }
+
+    public String generateInsight() {
+        String data = getAggregatedJson(50);
+
+        String prompt = """
+        You are an AI analyst for BAS World.
+
+        The following JSON contains aggregated sales KPIs
+        for the last 50 days.
+
+        Using ONLY this data, provide:
+        - trends
+        - anomalies
+        - conversion patterns
+        - sales improvement opportunities
+        - country and salesman performance
+
+        Do NOT invent data.
+
+        DATA:
+        %s
+        """.formatted(data);
+
+        JsonNode json = callOllama(
+                "/api/generate",
+                Map.of(
+                        "model", "mistral",
+                        "prompt", prompt,
+                        "stream", false,
+                        "options", Map.of("num_ctx", 16000)
+                )
+        );
+
+        return json.path("response").asText("No response from AI");
+    }
+
+    public String sendMessage(ChatMessageRequest request) {
+        String data = getAggregatedJson(30);
+
+        JsonNode json = callOllama(
+                "/api/chat",
+                Map.of(
+                        "model", "mistral",
+                        "messages", List.of(
+                                Map.of(
+                                        "role", "system",
+                                        "content", """
+                                        You are an AI sales analyst for BAS World.
+                                        You may ONLY use the provided aggregated KPIs.
+                                        If the answer is not present in the data, say so.
+                                        """
+                                ),
+                                Map.of(
+                                        "role", "user",
+                                        "content", request.getMessage()
+                                ),
+                                Map.of(
+                                        "role", "user",
+                                        "content", "AGGREGATED DATA (30 DAYS):\n" + data
+                                )
+                        ),
+                        "stream", false,
+                        "options", Map.of("num_ctx", 16000)
+                )
+        );
+
+        return json
+                .path("message")
+                .path("content")
+                .asText("No response from AI");
     }
 }

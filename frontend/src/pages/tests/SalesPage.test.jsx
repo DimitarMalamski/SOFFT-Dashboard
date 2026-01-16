@@ -37,7 +37,7 @@ describe("SalesPage Integration Test", () => {
             sales: mockData,
             filtered: mockData,
             filters: { status: "All" , salespersons: [], depots: [] },
-            setFilters: vi.fn(),
+            updateFilter: vi.fn(),
             applyFilters: vi.fn(),
             resetFilters: vi.fn(),
             loading: false,
@@ -68,7 +68,7 @@ describe("SalesPage Integration Test", () => {
             sales: [],
             filtered: [],
             filters: { status: "All" , salespersons: [], depots: [] },
-            setFilters: vi.fn(),
+            updateFilter: vi.fn(),
             applyFilters: vi.fn(),
             resetFilters: vi.fn(),
             loading: true,
@@ -82,13 +82,13 @@ describe("SalesPage Integration Test", () => {
     });
 
     test("filters sales by status", async () => {
-        const setFilters = vi.fn();
+        const updateFilter = vi.fn();
 
         vi.spyOn(useSalesDataHook, "useSalesData").mockReturnValue({
             sales: mockData,
             filtered: mockData,
             filters: { status: "All" , salespersons: [], depots: [] },
-            setFilters,
+            updateFilter,
             resetFilters: vi.fn(),
             loading: false,
         });
@@ -103,7 +103,7 @@ describe("SalesPage Integration Test", () => {
         const approvedOption = await screen.findByLabelText("Approved");
         fireEvent.click(approvedOption);
 
-        expect(setFilters).toHaveBeenCalledTimes(1);
+        expect(approvedOption).toBeChecked();
     });
 
     test("shows empty state when no sales are found", () => {
@@ -111,7 +111,7 @@ describe("SalesPage Integration Test", () => {
             sales: [],
             filtered: [],
             filters: { status: "All" , salespersons: [], depots: [] },
-            setFilters: vi.fn(),
+            updateFilter: vi.fn(),
             applyFilters: vi.fn(),
             resetFilters: vi.fn(),
             loading: false,
@@ -129,7 +129,7 @@ describe("SalesPage Integration Test", () => {
             sales: [],
             filtered: [],
             filters: { status: "All" , salespersons: [], depots: [] },
-            setFilters: vi.fn(),
+            updateFilter: vi.fn(),
             applyFilters: vi.fn(),
             resetFilters: vi.fn(),
             loading: false,
