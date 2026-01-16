@@ -45,3 +45,7 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+// Customize the name of the generated Spring Boot jar file for consistency
+bootJar {
+    archiveFileName = 'app.jar'
+}
