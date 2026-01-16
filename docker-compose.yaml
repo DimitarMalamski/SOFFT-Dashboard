@@ -1,0 +1,55 @@
+services:
+  api:
+    image: ${BACKEND_IMAGE}:${TAG} # download the backend specific version from GitLab
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: api
+    ports:
+      - "8080:8080"
+    networks:
+      default:
+        aliases:
+          - backend
+    restart: unless-stopped
+    environment:
+      - CORS_ALLOWED_ORIGINS=https://app.fontys-heptabytes.nl,http://localhost:5173,http://192.168.189.134
+      - CORS_ALLOWED_METHODS=GET,POST,PUT,PATCH,DELETE,OPTIONS
+      - CORS_ALLOWED_HEADERS=*
+      - CORS_ALLOW_CREDENTIALS=true
+      - SPRING_DATASOURCE_URL
+      - SPRING_DATASOURCE_USERNAME
+      - SPRING_DATASOURCE_PASSWORD
+      - OLLAMA_BASE_URL=http://localhost:11434
+
+ 
+  web:
+    image: ${FRONTEND_IMAGE}:${TAG}  # download the frontend specific version from GitLab
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: https://api.fontys-heptabytes.nl
+    container_name: web
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    pull_policy: always
+    restart: unless-stopped
+ 
+networks:
+  default:
+    name: test-stack
+    driver: bridge
+ 
+volumes:
+  ollama: {} 
